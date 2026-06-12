@@ -1,4 +1,5 @@
 import { appActions, AppInitialState, appReducer, Status } from 'app/slices/appSlice'
+import {CustomThemeMode} from "../App";
 
 let status: Status
 let error: string | null
@@ -9,6 +10,8 @@ let newStatus_1: Status
 let newStatus_2: Status
 let newIsInitialized_1: boolean
 let newIsInitialized_2: boolean
+let newThemeMode_1: CustomThemeMode
+let newThemeMode_2: CustomThemeMode
 let appState: AppInitialState
 
 // We can use tests without beforeEach() because we work with PURE functions
@@ -22,11 +25,14 @@ beforeEach(() => {
   isInitialized = false
   newIsInitialized_1 = true
   newIsInitialized_2 = false
+  newThemeMode_1 = 'light'
+  newThemeMode_2 = 'dark'
 
   appState = {
     status: status,
     error: error,
-    isInitialized: isInitialized
+    isInitialized: isInitialized,
+    themeMode: newThemeMode_1
   }
 })
 
@@ -63,4 +69,15 @@ test('appSlice should SET_INITIALIZED (change isInitialized property)', () => {
   // expectation
   expect(newState_1.isInitialized).toBe(newIsInitialized_1)
   expect(newState_2.isInitialized).toBe(newIsInitialized_2)
+})
+
+// ------------------- 'SET_THEME_MODE' ------------------- //
+
+test('appSlice should SET_THEME_MODE (change themeMode property)', () => {
+  // action
+  const newState_1 = appReducer(appState, appActions.changeThemeMode({ theme: newThemeMode_2 }))
+  const newState_2 = appReducer(appState, appActions.changeThemeMode({ theme: newThemeMode_1 }))
+  // expectation
+  expect(newState_1.themeMode).toBe(newThemeMode_2 )
+  expect(newState_2.themeMode).toBe(newThemeMode_1)
 })

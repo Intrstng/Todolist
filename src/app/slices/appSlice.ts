@@ -3,6 +3,7 @@ import { authApi } from 'api/auth-api';
 import { handleServerAppError, handleServerNetworkError } from 'utils/errorUtils';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authActions } from 'features/Login/slices/authSlice';
+import {CustomThemeMode} from "../App";
 
 const appSlice = createSlice({
   name: 'app',
@@ -10,8 +11,12 @@ const appSlice = createSlice({
     status: 'idle',
     error: null,
     isInitialized: false,
+    themeMode: 'light' as CustomThemeMode,
   } as AppInitialState,
   reducers: {
+    changeThemeMode(state, action: PayloadAction<{ theme: CustomThemeMode }>) {
+      state.themeMode = action.payload.theme;
+    },
     setAppStatus(state, action: PayloadAction<{ status: Status }>) {
       state.status = action.payload.status;
     },
@@ -31,6 +36,7 @@ export type AppInitialState = {
   status: Status;
   error: string | null;
   isInitialized: boolean;
+  themeMode: CustomThemeMode;
 };
 
 // THUNKS

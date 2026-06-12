@@ -8,18 +8,20 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { useAppDispatch, useAppSelector } from './store'
 import LinearProgress from '@mui/material/LinearProgress'
 import { ErrorSnackbar } from 'components/ErrorSnackbar/ErrorSnackBar'
-import { isInitializedSelector, statusSelector } from './selectors/appSelectors'
-import { initializeAppTC, Status } from 'app/slices/appSlice'
+import {isInitializedSelector, statusSelector, themeModeSelector} from './selectors/appSelectors'
+import {appActions, initializeAppTC, Status} from 'app/slices/appSlice'
 import { Outlet } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
+import {getTheme} from "common/theme/theme";
 
-type CustomThemeMode = 'dark' | 'light';
+export type CustomThemeMode = 'dark' | 'light';
 
 const App = () => {
   const dispatch = useAppDispatch()
-  const [customThemeMode, setCustomThemeMode] = useState<CustomThemeMode>('light')
   const appStatus = useAppSelector<Status>(statusSelector)
   const isInitialized = useAppSelector<boolean>(isInitializedSelector)
+  const customThemeMode = useAppSelector(themeModeSelector)
+  const themeMode = useAppSelector(themeModeSelector)
 
   useEffect(() => {
     dispatch(initializeAppTC())
@@ -33,17 +35,11 @@ const App = () => {
     )
   }
 
-  const theme: Theme = createTheme({
-    palette: {
-      mode: customThemeMode === 'light' ? 'light' : 'dark',
-      primary: {
-        main: '#087EA4'
-      }
-    }
-  } as ThemeOptions)
+  const theme: Theme = getTheme(themeMode)
 
   const changeModeHandler = () => {
-    setCustomThemeMode(customThemeMode === 'light' ? 'dark' : 'light')
+    dispatch(appActions.changeThemeMode({theme: customThemeMode === 'light' ? 'dark' : 'light'}))
+    dispatch(initializeAppTC())
   }
 
   const linearProgressStyles = {
