@@ -27,8 +27,8 @@ export const Login = () => {
       const errors: FormikErrors = {};
       if (!values.password) {
         errors.password = 'Required';
-      } else if (values.password.length < 8) {
-        errors.password = 'Must be 8 characters or more';
+      } else if (values.password.length < 4) {
+        errors.password = 'Must be 4 characters or more';
       }
       if (!values.email) {
         errors.email = 'Required';

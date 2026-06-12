@@ -4,7 +4,7 @@ import { TodolistType } from 'features/Todolists/slices';
 export const settings = {
   withCredentials: true,
   headers: {
-    'API-KEY': '70e71a7e-5d1b-4284-82b3-3a6364ed9f2a',
+    'API-KEY': '49c04d35-d285-4efe-9548-92691308d757',
   },
 };
 
@@ -39,3 +39,6 @@ export type ResponseType<D = {}> = {
 export type DataType = {
   title: string;
 };
+
+
+
