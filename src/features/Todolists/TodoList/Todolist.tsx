@@ -2,8 +2,8 @@ import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'reac
 import { TasksList } from './TasksList/TasksList';
 import { Button } from '../../../components/Button';
 import S from './TodoList.module.css';
-import { AddItemForm } from '../../../components/AddItemForm/AddItemForm';
-import { EditableSpan } from '../../../components/EditableSpan/EditableSpan';
+import { AddItemForm } from '../../../components';
+import { EditableSpan } from '../../../components';
 import Paper from '@mui/material/Paper';
 import { useAppDispatch, useAppSelector } from '../../../app/store';
 import { addTaskTC, changeTodoListTitleTC, fetchTasksTC, removeTodoListTC, TodolistDomainType } from '../slices';

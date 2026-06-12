@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
-import { EditableSpan } from 'components/EditableSpan/EditableSpan';
+import { EditableSpan } from 'components';
 import { Button } from 'components/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import S from '../TasksList.module.css';

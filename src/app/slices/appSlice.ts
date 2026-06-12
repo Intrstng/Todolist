@@ -3,7 +3,7 @@ import { authApi } from 'api/auth-api';
 import { handleServerAppError, handleServerNetworkError } from 'utils/errorUtils';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authActions } from 'features/Login/slices/authSlice';
-import {CustomThemeMode} from "../App";
+import {CustomThemeMode} from "common/types";
 
 const appSlice = createSlice({
   name: 'app',

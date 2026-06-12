@@ -1,0 +1,1 @@
+export type CustomThemeMode = 'dark' | 'light';

@@ -20,7 +20,7 @@ type ButtonAppBarProps = {
   changeModeHandler: () => void;
 };
 
-export default function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
+export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
 

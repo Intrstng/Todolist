@@ -1,6 +1,6 @@
 import { AppRootState } from '../store';
 import { Status } from 'app/slices/appSlice';
-import {CustomThemeMode} from "../App";
+import { CustomThemeMode } from "common/types";
 
 export const statusSelector = (state: AppRootState): Status => state.app.status;
 export const errorSelector = (state: AppRootState): string | null => state.app.error;

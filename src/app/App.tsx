@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
-import { Grid } from '@mui/material'
-import ButtonAppBar from '../components/ButtonAppBar/ButtonAppBar'
+import {Grid} from '@mui/material'
 import Container from '@mui/material/Container'
-import { createTheme, Theme, ThemeOptions, ThemeProvider } from '@mui/material/styles'
+import {Theme, ThemeProvider} from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { useAppDispatch, useAppSelector } from './store'
+import {useAppDispatch, useAppSelector} from './store'
 import LinearProgress from '@mui/material/LinearProgress'
-import { ErrorSnackbar } from 'components/ErrorSnackbar/ErrorSnackBar'
+import {ButtonAppBar, ErrorSnackbar} from '../components'
 import {isInitializedSelector, statusSelector, themeModeSelector} from './selectors/appSelectors'
 import {appActions, initializeAppTC, Status} from 'app/slices/appSlice'
-import { Outlet } from 'react-router-dom'
+import {Outlet} from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import {getTheme} from "common/theme/theme";
-
-export type CustomThemeMode = 'dark' | 'light';
 
 const App = () => {
   const dispatch = useAppDispatch()

@@ -1,17 +1,6 @@
 import axios from 'axios';
+import { instance } from "common";
 import { TodolistType } from 'features/Todolists/slices';
-
-export const settings = {
-  withCredentials: true,
-  headers: {
-    'API-KEY': '49c04d35-d285-4efe-9548-92691308d757',
-  },
-};
-
-const instance = axios.create({
-  baseURL: 'https://social-network.samuraijs.com/api/1.1',
-  ...settings,
-});
 
 export const todolistApi = {
   getTodolists() {

@@ -1,5 +1,5 @@
 import { appActions, AppInitialState, appReducer, Status } from 'app/slices/appSlice'
-import {CustomThemeMode} from "../App";
+import {CustomThemeMode} from "common/types";
 
 let status: Status
 let error: string | null

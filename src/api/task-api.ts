@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { Status } from 'app/slices/appSlice';
-import { ResponseType, settings } from './todolist-api';
-
-const instance = axios.create({
-  baseURL: 'https://social-network.samuraijs.com/api/1.1',
-  ...settings,
-});
+import { ResponseType } from './todolist-api';
+import {instance} from "common";
 
 export const taskApi = {
   getAllTasks(todoID: string) {
