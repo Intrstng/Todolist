@@ -37,7 +37,10 @@ const router = createBrowserRouter([
     path: '/error',
     element: <ErrorPage />
   }
-])
+],
+    {
+      basename: process.env.PUBLIC_URL  // This will use the homepage value
+    })
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(

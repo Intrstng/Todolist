@@ -5,8 +5,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import SendIcon from '@mui/icons-material/Send';
 import { Grid } from '@material-ui/core';
 import { useAppSelector } from 'app/store';
-import { statusSelector } from 'app/selectors/appSelectors';
-import { Status } from 'app/slices/appSlice';
+import {Status, statusSelector} from 'app/slices/appSlice';
 
 export type AddItemFormPropsType = {
   addItem: (value: string) => void;

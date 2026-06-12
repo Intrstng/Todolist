@@ -1,4 +1,4 @@
-import { AppThunk } from '../store';
+import {AppRootState, AppThunk} from '../store';
 import { authApi } from 'api/auth-api';
 import { handleServerAppError, handleServerNetworkError } from 'utils/errorUtils';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -13,6 +13,12 @@ const appSlice = createSlice({
     isInitialized: false,
     themeMode: 'light' as CustomThemeMode,
   } as AppInitialState,
+  selectors: {
+    themeModeSelector: (state: AppInitialState): CustomThemeMode => state.themeMode,
+    statusSelector: (state: AppInitialState): Status => state.status,
+    errorSelector: (state: AppInitialState): string | null => state.error,
+    isInitializedSelector: (state: AppInitialState): boolean => state.isInitialized,
+  },
   reducers: {
     changeThemeMode(state, action: PayloadAction<{ theme: CustomThemeMode }>) {
       state.themeMode = action.payload.theme;
@@ -63,3 +69,4 @@ export const initializeAppTC = (): AppThunk => (dispatch) => {
 
 export const appReducer = appSlice.reducer;
 export const appActions = appSlice.actions;
+export const { themeModeSelector, isInitializedSelector, statusSelector, errorSelector } = appSlice.selectors

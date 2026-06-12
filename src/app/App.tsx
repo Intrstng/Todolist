@@ -7,8 +7,14 @@ import CssBaseline from '@mui/material/CssBaseline'
 import {useAppDispatch, useAppSelector} from './store'
 import LinearProgress from '@mui/material/LinearProgress'
 import {ButtonAppBar, ErrorSnackbar} from '../components'
-import {isInitializedSelector, statusSelector, themeModeSelector} from './selectors/appSelectors'
-import {appActions, initializeAppTC, Status} from 'app/slices/appSlice'
+import {
+  appActions,
+  initializeAppTC,
+  isInitializedSelector,
+  Status,
+  statusSelector,
+  themeModeSelector
+} from 'app/slices/appSlice'
 import {Outlet} from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import {getTheme} from "common/theme/theme";
