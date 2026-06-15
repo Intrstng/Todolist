@@ -1,11 +1,11 @@
-import React, { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
-import { Button } from '../../../../../../../common/components/Button';
+import { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
+import { Button } from '@/common/components/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import S from '../TasksList.module.css';
-import { removeTaskTC, TodolistDomainType, updateTaskTC } from '../../../../../model/slices';
-import { TaskDomainType, TaskStatuses } from '../../../../../../../api/task-api';
-import { useAppDispatch } from '../../../../../../../app/store';
-import { EditableSpan } from "common/components";
+import { EditableSpan } from "@/common/components";
+import {removeTaskTC, TodolistDomainType, updateTaskTC} from "@/features/Todolists/model/slices";
+import {TaskDomainType, TaskStatuses} from "@/api/task-api.ts";
+import {useAppDispatch} from "@/app/store.ts";
 
 type Task = {
   todolist: TodolistDomainType;

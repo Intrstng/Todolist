@@ -1,13 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from "react-dom/client"
 import './index.css'
 import { Provider } from 'react-redux'
-import App from './app/App'
-import { store } from 'app/store'
+import App from '@/app/App'
+import { store } from '@/app/store'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-import { Login } from './features/Login/ui/Login'
-import { Todolists } from './features/Todolists/ui/Todolists/Todolists'
-import { ErrorPage } from 'common/pages/ErrorPage/ErrorPage'
+import { Login } from '@/features/Login/ui/Login'
+import { Todolists } from '@/features/Todolists/ui/Todolists/Todolists'
+import { ErrorPage } from '@/common/pages/ErrorPage/ErrorPage'
 
 const router = createBrowserRouter([
   {
@@ -38,13 +37,13 @@ const router = createBrowserRouter([
     element: <ErrorPage />
   }
 ],
-    {
-      basename: process.env.PUBLIC_URL  // This will use the homepage value
-    })
+    // {
+    //   basename: process.env.PUBLIC_URL  // This will use the homepage value
+    // }
+    )
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-root.render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
+createRoot(document.getElementById("root")!).render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
 )

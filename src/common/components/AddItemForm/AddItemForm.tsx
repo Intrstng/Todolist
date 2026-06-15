@@ -1,11 +1,10 @@
-import React, { ChangeEvent, FC, FocusEvent, KeyboardEvent, memo, useCallback, useMemo, useState } from 'react';
-import { Input } from '../Input';
-import { Button } from '../Button';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
+import {ChangeEvent, FC, FocusEvent, KeyboardEvent, memo, useCallback, useMemo, useState} from 'react';
+import {Input} from '../Input';
+import {Button} from '../Button';
 import SendIcon from '@mui/icons-material/Send';
-import { Grid } from '@material-ui/core';
-import { useAppSelector } from 'app/store';
-import {Status, statusSelector} from 'app/slices/appSlice';
+import {Grid} from '@material-ui/core';
+import {useAppSelector} from '@/app/store';
+import {Status, statusSelector} from '@/app/slices/appSlice';
 
 export type AddItemFormPropsType = {
   addItem: (value: string) => void;
@@ -19,7 +18,7 @@ export const AddItemForm: FC<AddItemFormPropsType> = memo(
   ({ addItem, className, label, titleBtn, disabled = false }) => {
     const [inputTitle, setInputTitle] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const [textRef] = useAutoAnimate<HTMLParagraphElement>();
+    // const [_textRef] = useAutoAnimate<HTMLParagraphElement>();
 
     const appStatus = useAppSelector<Status>(statusSelector);
 

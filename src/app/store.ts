@@ -1,21 +1,23 @@
-import { UnknownAction } from 'redux'
-import { tasksReducer, todoListsReducer } from '../features/Todolists/model/slices'
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { tasksReducer, todoListsReducer } from '@/features/Todolists/model/slices'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { appReducer } from 'app/slices/appSlice'
 import { authReducer } from '../features/Login/model/slices/authSlice'
-import { configureStore } from '@reduxjs/toolkit'
+
+import { configureStore, UnknownAction, ThunkAction, ThunkDispatch } from '@reduxjs/toolkit'
+import { setupListeners } from "@reduxjs/toolkit/query"
+import { appReducer } from "./slices/appSlice"
 
 export const store = configureStore({
   reducer: {
+    app: appReducer,
     todolists: todoListsReducer,
     tasks: tasksReducer,
-    app: appReducer,
     auth: authReducer,
   },
 });
 
-export type AppRootState = ReturnType<typeof store.getState>;
+setupListeners(store.dispatch)
+
+export type AppRootState = ReturnType<typeof store.getState>
 export type AppDispatch = ThunkDispatch<AppRootState, unknown, UnknownAction>;
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootState, unknown, UnknownAction>;
 

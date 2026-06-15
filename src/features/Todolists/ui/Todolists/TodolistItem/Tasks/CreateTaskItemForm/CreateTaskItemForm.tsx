@@ -1,7 +1,7 @@
-import React, {FC, useCallback} from 'react';
-import {addTaskTC, TodolistDomainType} from "../../../../../model/slices";
-import {useAppDispatch} from "../../../../../../../app/store";
-import { AddItemForm } from "common/components";
+import {FC, useCallback} from 'react';
+import {useAppDispatch} from "@/app/store";
+import { AddItemForm } from "@/common/components";
+import {addTaskTC, TodolistDomainType} from "@/features/Todolists/model/slices";
 
 type CreateTaskItemFormProps = {
     todolist: TodolistDomainType;

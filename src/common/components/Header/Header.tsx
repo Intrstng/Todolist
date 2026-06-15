@@ -1,10 +1,9 @@
-import React from 'react';
 import LinearProgress from "@mui/material/LinearProgress";
 import {Theme} from "@mui/material/styles";
-import {getTheme} from "common/theme/theme";
-import {useAppDispatch, useAppSelector} from "../../../app/store";
-import {appActions, initializeAppTC, Status, statusSelector, themeModeSelector} from "../../../app/slices/appSlice";
-import {ButtonAppBar} from "common/components";
+import {getTheme} from "@/common/theme/theme";
+import {useAppDispatch, useAppSelector} from "@/app/store";
+import {appActions, initializeAppTC, Status, statusSelector, themeModeSelector} from "@/app/slices/appSlice";
+import {ButtonAppBar} from "@/common/components";
 
 export const Header = () => {
     const dispatch = useAppDispatch()

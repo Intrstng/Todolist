@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { useAppDispatch, useAppSelector } from 'app/store';
-import {appActions, errorSelector} from 'app/slices/appSlice';
+import { useAppDispatch, useAppSelector } from '@/app/store';
+import {appActions, errorSelector} from '@/app/slices/appSlice';
 
 export const ErrorSnackbar = () => {
   const error = useAppSelector<string | null>(errorSelector);
   const dispatch = useAppDispatch();
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }

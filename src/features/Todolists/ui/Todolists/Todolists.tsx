@@ -1,4 +1,4 @@
-import React, {memo, useEffect} from 'react';
+import {memo, useEffect} from 'react';
 import {Grid} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import {Todolist} from './TodolistItem/Todolist';
@@ -31,7 +31,7 @@ export const Todolists = memo(() => {
     <>
       <CreateItemForm/>
       {todoLists.map((tl) => (
-        <Grid item key={tl.id}>
+        <Grid key={tl.id}>
           <Paper elevation={3}>
             <Todolist todolist={tl} />
           </Paper>

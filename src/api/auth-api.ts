@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { ResponseType } from './todolist-api';
-import {instance} from "common";
+import {ResponseType} from './todolist-api';
+import {instance} from "@/common";
 
 export const authApi = {
   login(params: LoginParamsType) {

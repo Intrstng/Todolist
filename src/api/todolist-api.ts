@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { instance } from "common";
-import { TodolistType } from '../features/Todolists/model/slices';
+import {instance} from "@/common";
+import {TodolistType} from '@/features/Todolists/model/slices';
 
 export const todolistApi = {
   getTodolists() {

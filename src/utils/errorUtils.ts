@@ -1,8 +1,8 @@
-import { AppDispatch } from '../app/store';
-import { ResponseType } from '../api/todolist-api';
+import { AppDispatch } from '@/app/store';
+import { ResponseType } from '@/api/todolist-api';
 import { AxiosError } from 'axios';
-import { ErrorType } from '../features/Todolists/model/slices';
-import { appActions } from 'app/slices/appSlice';
+import { ErrorType } from '@/features/Todolists/model/slices';
+import { appActions } from '@/app/slices/appSlice';
 
 export const handleServerAppError = <D>(dispatch: AppDispatch, data: ResponseType<D>) => {
   if (data.messages.length) {

@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { Status } from 'app/slices/appSlice';
-import { ResponseType } from './todolist-api';
-import {instance} from "common";
+import {Status} from '@/app/slices/appSlice';
+import {ResponseType} from './todolist-api';
+import {instance} from "@/common";
 
 export const taskApi = {
   getAllTasks(todoID: string) {

@@ -1,4 +1,3 @@
-import React from 'react';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -10,7 +9,7 @@ import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import S from './Login.module.css';
 import { loginTC } from '../model/slices/authSlice';
-import { useAppDispatch, useAppSelector } from '../../../app/store';
+import { useAppDispatch, useAppSelector } from '@/app/store';
 import { authIsLoggedInSelector } from '../model/selectors/authSelector';
 import { Navigate } from 'react-router-dom';
 
@@ -50,7 +49,7 @@ export const Login = () => {
 
   return (
     <Grid container justifyContent={'center'}>
-      <Grid item justifyContent={'center'}>
+      <Grid justifyContent={'center'}>
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
             <FormLabel>
