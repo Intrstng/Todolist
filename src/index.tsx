@@ -5,9 +5,9 @@ import { Provider } from 'react-redux'
 import App from './app/App'
 import { store } from 'app/store'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-import { Login } from 'features/Login/Login'
-import { Todolists } from 'features/Todolists/Todolists'
-import { ErrorPage } from 'features/ErrorPage/ErrorPage'
+import { Login } from './features/Login/ui/Login'
+import { Todolists } from './features/Todolists/ui/Todolists/Todolists'
+import { ErrorPage } from 'common/pages/ErrorPage/ErrorPage'
 
 const router = createBrowserRouter([
   {

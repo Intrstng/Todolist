@@ -2,7 +2,7 @@ import React, { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import { todolistApi, ResponseType } from '../api/todolist-api';
 import { taskApi } from '../api/task-api';
-import { TodolistType } from 'features/Todolists/slices/todoListsSlice';
+import { TodolistType } from '../features/Todolists/model/slices/todoListsSlice';
 
 export default {
   title: 'API',

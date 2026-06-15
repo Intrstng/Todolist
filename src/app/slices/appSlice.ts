@@ -2,7 +2,7 @@ import {AppRootState, AppThunk} from '../store';
 import { authApi } from 'api/auth-api';
 import { handleServerAppError, handleServerNetworkError } from 'utils/errorUtils';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authActions } from 'features/Login/slices/authSlice';
+import { authActions } from '../../features/Login/model/slices/authSlice';
 import {CustomThemeMode} from "common/types";
 
 const appSlice = createSlice({
