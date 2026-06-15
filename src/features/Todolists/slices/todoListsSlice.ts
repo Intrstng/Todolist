@@ -13,21 +13,19 @@ const initialTodoListState: TodolistDomainType[] = [
 
 const todoListsSlice = createSlice({
   name: 'todolists',
-  initialState: {
-    todolists: [] as TodolistDomainType[],
-  },
+  initialState: [] as TodolistDomainType[],
   reducers: {
     addTodolist(state, action: PayloadAction<{ newTodolistData: TodolistType }>) {
-      state.todolists.push({
+      state.push({
         ...action.payload.newTodolistData,
         filter: 'all',
         entityStatus: 'idle',
       });
     },
     removeTodolist(state, action: PayloadAction<{ todolistID: string }>) {
-      const idx = state.todolists.findIndex((tl) => tl.id === action.payload.todolistID);
+      const idx = state.findIndex((tl) => tl.id === action.payload.todolistID);
       if (idx !== -1) {
-        state.todolists.splice(idx, 1);
+        state.splice(idx, 1);
       }
     },
     setTodoLists(state, action: PayloadAction<{ todolists: TodolistType[] }>) {
@@ -37,29 +35,29 @@ const todoListsSlice = createSlice({
       //   entityStatus: 'idle',
       // }));
       action.payload.todolists.forEach(tl => {
-        state.todolists.push({...tl, filter: 'all', entityStatus: 'idle'})
+        state.push({...tl, filter: 'all', entityStatus: 'idle'})
       })
     },
     changeFilter(state, action: PayloadAction<{ todolistID: string; value: FilterValuesType }>) {
-      const idx = state.todolists.findIndex((tl) => tl.id === action.payload.todolistID);
+      const idx = state.findIndex((tl) => tl.id === action.payload.todolistID);
       if (idx !== -1) {
-        state.todolists[idx].filter = action.payload.value;
+        state[idx].filter = action.payload.value;
       }
     },
     updateTodolist(state, action: PayloadAction<{ todolistID: string; newTitle: string }>) {
-      const idx = state.todolists.findIndex((tl) => tl.id === action.payload.todolistID);
+      const idx = state.findIndex((tl) => tl.id === action.payload.todolistID);
       if (idx !== -1) {
-        state.todolists[idx].title = action.payload.newTitle;
+        state[idx].title = action.payload.newTitle;
       }
     },
     changeTodoListsEntityStatus(state, action: PayloadAction<{ todolistID: string; entityStatus: Status }>) {
-      const idx = state.todolists.findIndex((tl) => tl.id === action.payload.todolistID);
+      const idx = state.findIndex((tl) => tl.id === action.payload.todolistID);
       if (idx !== -1) {
-        state.todolists[idx].entityStatus = action.payload.entityStatus;
+        state[idx].entityStatus = action.payload.entityStatus;
       }
     },
     clearTodosData(state) {
-      state.todolists = [];
+      state = [];
       return state;
       // // Or:
       // return [];
