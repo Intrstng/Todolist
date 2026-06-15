@@ -6,7 +6,7 @@ import { Status } from '../../../../app/slices/appSlice';
 let todolistID_1: string;
 let todolistID_2: string;
 let startTasksState: { tasks: TasksType };
-let startTodoListsState: { todolists: TodolistDomainType[] };
+let startTodoListsState: TodolistDomainType[];
 let newTodoListTitle: string;
 let entityStatus: Status;
 
@@ -102,8 +102,7 @@ beforeEach(() => {
       ],
     }
   };
-  startTodoListsState = {
-    todolists: [
+  startTodoListsState = [
     {
       id: todolistID_1,
       title: 'Main tasks',
@@ -120,7 +119,7 @@ beforeEach(() => {
       addedDate: new Date(),
       order: 0,
     },
-  ]};
+  ];
   newTodoListTitle = 'New TODO`s title';
 });
 
@@ -139,7 +138,7 @@ test('reducer taskList should ADD-NEW-TASKS-LIST (new empty array for tasks shou
   const endTodoListsState = todoListsReducer(startTodoListsState, action);
   const keys = Object.keys(endTasksState);
   const idFromTasks = keys[0];
-  const idFromTodoLists = endTodoListsState.todolists[endTodoListsState.todolists.length - 1].id;
+  const idFromTodoLists = endTodoListsState[endTodoListsState.length - 1].id;
   expect(idFromTasks).toBe(action.payload.newTodolistData.id);
   expect(idFromTodoLists).toBe(action.payload.newTodolistData.id);
 });
