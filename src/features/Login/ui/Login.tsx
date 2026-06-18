@@ -8,10 +8,11 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import S from './Login.module.css';
-import { loginTC } from '../model/slices/authSlice';
-import { useAppDispatch, useAppSelector } from '@/app/store';
-import { authIsLoggedInSelector } from '../model/selectors/authSelector';
+import {authIsLoggedInSelector, authThunks} from '../model/slices/authSlice';
+import { useAppSelector } from '@/app/store';
 import { Navigate } from 'react-router-dom';
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {LoginParamsType} from "@/api/auth-api.ts";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -36,8 +37,8 @@ export const Login = () => {
       }
       return errors;
     },
-    onSubmit: (values) => {
-      dispatch(loginTC(values));
+    onSubmit: (values: LoginParamsType) => {
+      dispatch(authThunks.loginTC(values));
       formik.resetForm(); // в then dispatch( )loadingTC) если success
     },
   });
@@ -48,7 +49,7 @@ export const Login = () => {
   // Добавить эти редиректы нужно непосредственно перед return, то есть после всех хуков, которые используются внутри компонент, иначе будет нарушено правило работы с хуками, говорящее, что нельзя использовать хуки внутри компоненты в условной логике.
 
   return (
-    <Grid container justifyContent={'center'}>
+    <Grid container justifyContent={'center'} sx={{width: '100%'}}>
       <Grid justifyContent={'center'}>
         <form onSubmit={formik.handleSubmit}>
           <FormControl>
@@ -113,8 +114,4 @@ export const Login = () => {
 };
 
 // TYPES
-type FormikErrors = {
-  email?: string;
-  password?: string;
-  rememberMe?: boolean;
-};
+type FormikErrors = Partial<LoginParamsType>;

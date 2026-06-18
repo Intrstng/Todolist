@@ -1,7 +1,7 @@
 import React from 'react';
 import S from "../../Todolist.module.css";
 import Box from "@mui/material/Box";
-import {TaskDomainType} from "../../../../../../../api/task-api";
+import {TaskDomainType} from "../../../../../api/taskApi.ts";
 
 type TasksCounterProps = {
     tasksQuantity: number;

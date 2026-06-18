@@ -8,9 +8,9 @@ import {MenuButton} from '@/common/components';
 import {Theme} from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import {logOutTC} from '@/features/Login/model/slices/authSlice';
-import {useAppDispatch, useAppSelector} from '@/app/store';
-import {authIsLoggedInSelector} from '@/features/Login/model/selectors/authSelector';
+import {authIsLoggedInSelector, authThunks} from '@/features/Login/model/slices/authSlice';
+import {useAppSelector} from '@/app/store';
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
 type ButtonAppBarProps = {
   theme: Theme;
@@ -39,7 +39,7 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   // }, [])
 
   const logOutHandler = () => {
-    dispatch(logOutTC());
+    dispatch(authThunks.logOutTC());
   };
 
   return (

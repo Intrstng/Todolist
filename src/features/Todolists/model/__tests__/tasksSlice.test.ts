@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeEach } from 'vitest'
 import { v4 } from 'uuid'
-import { TaskDomainType, TaskPriorities, TaskStatuses } from '@/api/task-api'
+import { TaskDomainType, TaskPriorities, TaskStatuses } from '@/features/Todolists/api/taskApi.ts'
 import { Status } from '@/app/slices/appSlice'
 import {tasksActions, tasksReducer, TasksType, UpdateTaskDomainModelType} from "@/features/Todolists/model/slices"
 

@@ -2,12 +2,12 @@ import {memo, useEffect} from 'react';
 import {Grid} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import {Todolist} from './TodolistItem/Todolist';
-import {useAppDispatch, useAppSelector} from '../../../../app/store';
-import {fetchTodoListsTC, TodolistDomainType} from '../../model/slices';
-import {todoListsSelector} from '../../model/selectors';
-import {authIsLoggedInSelector} from '../../../Login/model/selectors/authSelector';
+import {useAppSelector} from '@/app/store';
 import {Navigate} from 'react-router-dom';
-import {CreateItemForm} from "../../../../common/components";
+import {CreateItemForm} from "@/common/components";
+import {TodolistDomainType, todoListsSelector, todolistsThunks} from "@/features/Todolists/model/slices";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {authIsLoggedInSelector} from "@/features/Login/model/slices/authSlice.ts";
 
 export const Todolists = memo(() => {
   const dispatch = useAppDispatch();
@@ -18,7 +18,7 @@ export const Todolists = memo(() => {
     if (!isLoggedIn) {
       return;
     }
-    dispatch(fetchTodoListsTC());
+    dispatch(todolistsThunks.fetchTodoListsTC());
   }, []);
 
   if (!isLoggedIn) {

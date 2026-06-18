@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 import axios from 'axios';
-import { todolistApi, ResponseType } from '../api/todolist-api';
-import { taskApi } from '../api/task-api';
+import { todolistApi, ResponseType } from '../features/Todolists/api/todolistApi.ts';
+import { taskApi } from '../features/Todolists/api/taskApi.ts';
 import { TodolistType } from '../features/Todolists/model/slices/todoListsSlice';
 
 export default {
@@ -77,7 +77,7 @@ export const UpdateTodolistTitle = () => {
       title: todoTitle,
     };
     todolistApi
-      .updateTodolistTitle(todoID, data)
+      .updateTodolist(todoID, data)
       .then((response) => setState(response.data))
       .catch((err) => console.log(err.message));
     setTodoID('');

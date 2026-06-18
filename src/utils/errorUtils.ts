@@ -1,5 +1,5 @@
 import { AppDispatch } from '@/app/store';
-import { ResponseType } from '@/api/todolist-api';
+import { ResponseType } from '@/features/Todolists/api/todolistApi.ts';
 import { AxiosError } from 'axios';
 import { ErrorType } from '@/features/Todolists/model/slices';
 import { appActions } from '@/app/slices/appSlice';

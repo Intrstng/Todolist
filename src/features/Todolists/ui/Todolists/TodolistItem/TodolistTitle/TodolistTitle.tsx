@@ -1,8 +1,8 @@
-import React, {FC, useCallback, useMemo} from 'react';
+import {FC, useCallback, useMemo} from 'react';
 import S from "../Todolist.module.css";
-import {EditableSpan} from "../../../../../../common/components";
-import {changeTodoListTitleTC, TodolistDomainType} from "../../../../model/slices";
-import {useAppDispatch} from "../../../../../../app/store";
+import {EditableSpan} from "@/common/components";
+import {TodolistDomainType, todolistsThunks} from "@/features/Todolists/model/slices";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
 type TodolistTitleProps = {
     todolist: TodolistDomainType;
@@ -24,7 +24,7 @@ export const TodolistTitle: FC<TodolistTitleProps> = ({todolist}) => {
 
     const updateTodolist = useCallback(
         (newTitle: string) => {
-            dispatch(changeTodoListTitleTC(todolist.id, newTitle));
+            dispatch(todolistsThunks.changeTodoListTitleTC({id: todolist.id, title: newTitle}));
         },
         [dispatch, todolist.id],
     );

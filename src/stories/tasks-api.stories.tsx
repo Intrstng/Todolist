@@ -1,8 +1,8 @@
 import React, { useEffect, useState, FocusEvent, ChangeEvent } from 'react';
 import axios from 'axios';
-import { todolistApi } from '../api/todolist-api';
-import { ResponseGetTasksType, taskApi, TaskType } from '../api/task-api';
-import { ResponseType } from '../api/todolist-api';
+import { todolistApi } from '../features/Todolists/api/todolistApi.ts';
+import { ResponseGetTasksType, taskApi, TaskType } from '../features/Todolists/api/taskApi.ts';
+import { ResponseType } from '../features/Todolists/api/todolistApi.ts';
 
 export default {
   title: 'API',

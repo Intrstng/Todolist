@@ -1,9 +1,11 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import {Theme} from "@mui/material/styles";
 import {getTheme} from "@/common/theme/theme";
-import {useAppDispatch, useAppSelector} from "@/app/store";
-import {appActions, initializeAppTC, Status, statusSelector, themeModeSelector} from "@/app/slices/appSlice";
+import {useAppSelector} from "@/app/store";
+import {appActions, statusSelector, themeModeSelector} from "@/app/slices/appSlice";
 import {ButtonAppBar} from "@/common/components";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {Status} from "@/app/slices/appSlice.types.ts";
 
 export const Header = () => {
     const dispatch = useAppDispatch()
@@ -14,7 +16,7 @@ export const Header = () => {
 
     const changeModeHandler = () => {
         dispatch(appActions.changeThemeMode({theme: customThemeMode === 'light' ? 'dark' : 'light'}))
-        dispatch(initializeAppTC())
+        // dispatch(initializeAppTC())
     }
 
     const linearProgressStyles = {

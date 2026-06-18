@@ -1,7 +1,7 @@
 import {FC, useCallback} from 'react';
-import {useAppDispatch} from "@/app/store";
 import { AddItemForm } from "@/common/components";
-import {addTaskTC, TodolistDomainType} from "@/features/Todolists/model/slices";
+import {tasksThunks, TodolistDomainType} from "@/features/Todolists/model/slices";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
 type CreateTaskItemFormProps = {
     todolist: TodolistDomainType;
@@ -13,7 +13,7 @@ export const CreateTaskItemForm: FC<CreateTaskItemFormProps> = ({ todolist, togg
 
     const addTask = useCallback(
         (title: string) => {
-            dispatch(addTaskTC(todolist.id, title));
+            dispatch(tasksThunks.addTaskTC({todolistID: todolist.id, title}));
             toggleTaskListCollapsed();
         },
         [dispatch, toggleTaskListCollapsed, todolist.id],

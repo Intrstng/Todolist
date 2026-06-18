@@ -2,14 +2,15 @@ import {useEffect} from 'react'
 import './App.css'
 import {Theme, ThemeProvider} from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import {initializeAppTC, isInitializedSelector, themeModeSelector} from '@/app/slices/appSlice'
+import {isInitializedSelector, themeModeSelector} from '@/app/slices/appSlice'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import {getTheme} from "@/common/theme/theme";
 import {Header} from "@/common/components/Header/Header";
 import {ErrorSnackbar} from "@/common/components";
 import {Main} from "@/common/components/Main";
-import {useAppDispatch, useAppSelector} from "@/app/store.ts";
-
+import {useAppSelector} from "@/app/store.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {authThunks} from "@/features/Login/model/slices/authSlice.ts";
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -17,7 +18,7 @@ const App = () => {
   const themeMode = useAppSelector(themeModeSelector)
 
   useEffect(() => {
-    dispatch(initializeAppTC())
+    dispatch(authThunks.initializeAppTC())
   }, [])
 
   if (!isInitialized) {

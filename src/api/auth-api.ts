@@ -1,15 +1,14 @@
-import {ResponseType} from './todolist-api';
-import {instance} from "@/common";
+import {BaseResponse, instance} from "@/common";
 
 export const authApi = {
   login(params: LoginParamsType) {
-    return instance.post<ResponseType<{ userId?: number }>>('/auth/login', params);
+    return instance.post<BaseResponse<LoginResponse>>('/auth/login', params);
   },
   logout() {
-    return instance.delete<ResponseType>('/auth/login');
+    return instance.delete<BaseResponse>('/auth/login');
   },
   me() {
-    return instance.get<ResponseType<AuthMeResponse>>('/auth/me');
+    return instance.get<BaseResponse<AuthMeResponse>>('/auth/me');
   },
 };
 
@@ -26,3 +25,7 @@ type AuthMeResponse = {
   email: string;
   login: string;
 };
+
+export type LoginResponse = {
+  userId?: number
+}

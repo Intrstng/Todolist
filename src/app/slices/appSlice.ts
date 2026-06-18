@@ -1,14 +1,12 @@
-import {AppThunk} from '@/app/store';
-import {authApi} from '@/api/auth-api';
-import {handleServerAppError, handleServerNetworkError} from '@/utils/errorUtils';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {authActions} from '@/features/Login/model/slices/authSlice';
-import {CustomThemeMode} from "@/common/types";
+import {createSlice, isFulfilled, isPending, isRejected, PayloadAction} from '@reduxjs/toolkit';
+import {CustomThemeMode, RejectActionError} from "@/common/types";
+import {AppInitialState, Status} from "@/app/slices/appSlice.types.ts";
+import axios from "axios";
 
 const appSlice = createSlice({
   name: 'app',
   initialState: {
-    status: 'idle',
+    status: 'idle' as RequestStatusType,
     error: null,
     isInitialized: false,
     themeMode: 'light' as CustomThemeMode,
@@ -33,40 +31,60 @@ const appSlice = createSlice({
       state.isInitialized = action.payload.isInitialized;
     },
   },
+  extraReducers: (builder) => {
+    builder
+        .addMatcher(isPending, (state) => {
+          state.status = "loading"
+        })
+        .addMatcher(isFulfilled, (state) => {
+          state.status = "succeeded"
+        })
+        .addMatcher(isRejected, (state) => {
+          state.status = "failed"
+        })
+        .addMatcher(
+            (action): action is PayloadAction<RejectActionError> => {
+              return isRejected(action) && action.payload
+            },
+            (state, action: PayloadAction<RejectActionError>) => {
+              const defaultMessage = "Some error occurred"
+
+              // if (action.type === todolistsThunks.addTodolist.fulfilled.type) return
+
+              switch (action.payload.type) {
+                case "appError": {
+                  const error = action.payload.error
+                  state.error = error.messages.length ? error.messages[0] : defaultMessage
+                  break
+                }
+
+                case "catchError": {
+                  const error = action.payload.error
+                  if (axios.isAxiosError(error)) {
+                    state.error = error.response?.data?.message || error?.message || defaultMessage
+                  } else if (error instanceof Error) {
+                    state.error = `Native error: ${error.message}`
+                  } else {
+                    state.error = JSON.stringify(error)
+                  }
+                  break
+                }
+
+                default:
+                  state.error = defaultMessage
+              }
+            },
+        )
+        .addDefaultCase((_state, action) => {
+          console.log(action)
+        })
+  },
 });
 
-// TYPES
-export type Status = 'idle' | 'loading' | 'succeeded' | 'failed';
-
-export type AppInitialState = {
-  status: Status;
-  error: string | null;
-  isInitialized: boolean;
-  themeMode: CustomThemeMode;
-};
-
-// THUNKS
-export const initializeAppTC = (): AppThunk => (dispatch) => {
-  dispatch(appActions.setAppStatus({ status: 'loading' }));
-  authApi
-    .me()
-    .then((response) => {
-      if (response.data.resultCode === 0) {
-        // Success
-        dispatch(authActions.setIsLoggedIn({ isLoggedIn: true }));
-        dispatch(appActions.setAppInitialized({ isInitialized: true }));
-        dispatch(appActions.setAppStatus({ status: 'succeeded' }));
-      } else {
-        dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-        handleServerAppError(dispatch, response.data);
-      }
-      dispatch(appActions.setAppInitialized({ isInitialized: true }));
-    })
-    .catch((error) => {
-      handleServerNetworkError(dispatch, error);
-    });
-};
 
 export const appReducer = appSlice.reducer;
 export const appActions = appSlice.actions;
 export const { themeModeSelector, isInitializedSelector, statusSelector, errorSelector } = appSlice.selectors
+export const appPath = appSlice.reducerPath
+
+export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"

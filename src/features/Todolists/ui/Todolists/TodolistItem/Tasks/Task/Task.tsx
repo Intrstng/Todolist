@@ -3,9 +3,10 @@ import { Button } from '@/common/components/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import S from '../TasksList.module.css';
 import { EditableSpan } from "@/common/components";
-import {removeTaskTC, TodolistDomainType, updateTaskTC} from "@/features/Todolists/model/slices";
-import {TaskDomainType, TaskStatuses} from "@/api/task-api.ts";
-import {useAppDispatch} from "@/app/store.ts";
+import {tasksThunks, TodolistDomainType} from "@/features/Todolists/model/slices";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {TaskStatuses} from "@/common/enums/enums.ts";
+import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 
 type Task = {
   todolist: TodolistDomainType;
@@ -18,7 +19,11 @@ export const Task: FC<Task> = memo(({ todolist, task }) => {
 
   const onBlur = useCallback(
     (title: string) => {
-      dispatch(updateTaskTC(todolist.id, task.id, { title }));
+      dispatch(tasksThunks.updateTaskTC({
+          todolistID: todolist.id,
+          taskID: task.id,
+          model: { title }
+      }));
     },
     [dispatch, todolist.id, task.id],
   );
@@ -26,10 +31,14 @@ export const Task: FC<Task> = memo(({ todolist, task }) => {
   const onChangeInputStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const newStatusValueFlag = e.currentTarget.checked;
     const statusValue: TaskStatuses = newStatusValueFlag ? TaskStatuses.Completed : TaskStatuses.New;
-    dispatch(updateTaskTC(todolist.id, task.id, { status: statusValue }));
+    dispatch(tasksThunks.updateTaskTC({
+        todolistID: todolist.id,
+        taskID: task.id,
+        model: { status: statusValue }
+    }));
   };
   const onclickBtnRemoveTask = () => {
-    dispatch(removeTaskTC(todolist.id, task.id));
+    dispatch(tasksThunks.removeTaskTC({todolistID: todolist.id, taskID: task.id}));
   };
 
   const inputFieldStyle = useMemo(

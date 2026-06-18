@@ -2,7 +2,7 @@ import { describe, test, expect, beforeEach } from 'vitest'
 import { TasksType, TodolistDomainType, todoListsActions, tasksReducer, todoListsReducer } from '../slices';
 import { v4 } from 'uuid';
 import { Status } from '@/app/slices/appSlice';
-import { TaskPriorities, TaskStatuses } from "@/api/task-api.ts";
+import { TaskPriorities, TaskStatuses } from "@/features/Todolists/api/taskApi.ts";
 
 let todolistID_1: string;
 let todolistID_2: string;

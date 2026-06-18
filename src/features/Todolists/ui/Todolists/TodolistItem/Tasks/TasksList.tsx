@@ -1,21 +1,30 @@
-import React, {FC, memo, useMemo} from 'react';
+import {FC, JSX, memo, useEffect, useMemo} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react';
 import S from './TasksList.module.css';
-import {useAppSelector} from '../../../../../../app/store';
+import {useAppSelector} from '@/app/store';
 import {Task} from './Task/Task';
-import {TaskDomainType, TaskStatuses} from '../../../../../../api/task-api';
-import {TodolistDomainType} from '../../../../model/slices'
 import Paper from "@mui/material/Paper";
 import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
 import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
+import {tasksThunks, TodolistDomainType, todolistTasksSelector} from "@/features/Todolists/model/slices";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
+import {TaskStatuses} from "@/common/enums/enums.ts";
 
 type TasksListProps = {
     todolist: TodolistDomainType;
 };
 
 export const TasksList: FC<TasksListProps> = memo(({todolist}) => {
-    const tasks = useAppSelector<TaskDomainType[]>((state) => state.tasks.tasks[todolist.id]);
+   // const tasks = useAppSelector<TaskDomainType[]>((state) => state.tasks[todolist.id]);
+    const tasks = useAppSelector<TaskDomainType[]>((state) => todolistTasksSelector(state, todolist.id));
     const [listRef] = useAutoAnimate<HTMLUListElement>();
+    const dispatch = useAppDispatch()
+
+    // Check!
+    useEffect(() => {
+        dispatch(tasksThunks.fetchTasksTC(todolist.id))
+    }, [])
 
     let tasksForTodoList: TaskDomainType[] = tasks;
 

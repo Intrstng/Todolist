@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import S from "../TasksList.module.css";
-import {TaskDomainType} from "../../../../../../../api/task-api";
+import {TaskDomainType} from "../../../../../api/taskApi.ts";
 
 type FilteredTasksCounterProps = {
     allTasksQuantity: number;
