@@ -5,4 +5,7 @@
 3. RTK 2.0 has a new way to write thunks [inside a slice](https://redux.js.org/usage/migrations/migrating-rtk-2#createslicereducers-callback-syntax-and-thunk-support) using the [create.asyncThunk API](https://redux-toolkit.js.org/api/createSlice#createasyncthunk).
    THUNKS created with **createAppAsyncThunk** moved inside the slices with usinng of *RTK 2.0* **buildCreateSlice**
    was done in commit: "feat: move THUNKS created with createAppAsyncThunk inside the slices - RTK 2.0"
+4. Refactored Global loading and error handling to straightforward setting of loading status and errors from thunks.
+   Just another implementation option since option **3** is more advanced.
+   These changes are done in the commit: "feat: change global loading and error handling to straightforward variant from thunks"
     
