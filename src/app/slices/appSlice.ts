@@ -3,7 +3,7 @@ import {CustomThemeMode, RejectActionError} from "@/common/types";
 import {AppInitialState, Status} from "@/app/slices/appSlice.types.ts";
 import axios from "axios";
 
-const appSlice = createSlice({
+export const appSlice = createSlice({
   name: 'app',
   initialState: {
     status: 'idle' as RequestStatusType,
@@ -85,6 +85,5 @@ const appSlice = createSlice({
 export const appReducer = appSlice.reducer;
 export const appActions = appSlice.actions;
 export const { themeModeSelector, isInitializedSelector, statusSelector, errorSelector } = appSlice.selectors
-export const appPath = appSlice.reducerPath
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"

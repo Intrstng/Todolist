@@ -9,7 +9,7 @@ import {CreateTaskItemForm} from "./Tasks/CreateTaskItemForm";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {TasksCounter} from "./Tasks/TasksCounter/TasksCounter";
-import {TodolistDomainType, todolistsThunks, todolistTasksSelector} from "@/features/Todolists/model/slices";
+import {TodolistDomainType, todoListsActions, todolistTasksSelector} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 
@@ -24,7 +24,7 @@ export const Todolist: FC<TodolistPropsType> = memo(({ todolist }) => {
     const tasks = useAppSelector<TaskDomainType[]>((state) => todolistTasksSelector(state, todolist.id));
 
   const onClickRemoveTodolist = useCallback(() => {
-    dispatch(todolistsThunks.removeTodoListTC({id: todolist.id}));
+    dispatch(todoListsActions.removeTodoList({id: todolist.id}));
   }, [dispatch, todolist.id]);
 
   const onClickTasksListCollapseToggle = useCallback(() => {

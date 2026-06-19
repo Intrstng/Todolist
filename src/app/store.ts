@@ -1,17 +1,16 @@
-import {tasksReducer, tasksSlicePath, todolistsPath, todoListsReducer} from '@/features/Todolists/model/slices'
-import { TypedUseSelectorHook, useSelector } from 'react-redux'
-import {authPath, authReducer} from '../features/Login/model/slices/authSlice'
-
-import { configureStore, UnknownAction, ThunkAction, ThunkDispatch } from '@reduxjs/toolkit'
-import { setupListeners } from "@reduxjs/toolkit/query"
-import {appPath, appReducer} from "./slices/appSlice"
+import {tasksReducer, tasksSlice, todoListsReducer, todoListsSlice} from '@/features/Todolists/model/slices'
+import {TypedUseSelectorHook, useSelector} from 'react-redux'
+import {authReducer, authSlice} from '../features/Login/model/slices/authSlice'
+import {configureStore, ThunkAction, ThunkDispatch, UnknownAction} from '@reduxjs/toolkit'
+import {setupListeners} from "@reduxjs/toolkit/query"
+import {appReducer, appSlice} from "./slices/appSlice"
 
 export const store = configureStore({
   reducer: {
-    [appPath]: appReducer,
-    [todolistsPath]: todoListsReducer,
-    [tasksSlicePath]: tasksReducer,
-    [authPath]: authReducer,
+    [appSlice.name]: appReducer,
+    [todoListsSlice.name]: todoListsReducer,
+    [tasksSlice.name]: tasksReducer,
+    [authSlice.name]: authReducer,
   },
 });
 

@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {todolistsThunks} from "@/features/Todolists/model/slices";
+import {todoListsActions} from "@/features/Todolists/model/slices";
 import {AddItemForm} from "@/common/components";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
@@ -13,7 +13,7 @@ export const CreateItemForm = () => {
             // dispatchTodolists(action); // we cannot use dispatchTodolists(removeTodolistAC(id)) here
             // dispatchTasks(action); // we cannot use dispatchTodolists((removeTodolistAC(id)) here
             //dispatch(addTodolistAC(newTitle));  // !!!!!!! один dispatch и action
-            dispatch(todolistsThunks.addTodoListTC({title: newTitle}));
+            dispatch(todoListsActions.addTodoList({title: newTitle}));
         },
         [dispatch],
     ); // we can remove dispatch from deps

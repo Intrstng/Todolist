@@ -6,7 +6,7 @@ import {Task} from './Task/Task';
 import Paper from "@mui/material/Paper";
 import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
 import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
-import {tasksThunks, TodolistDomainType, todolistTasksSelector} from "@/features/Todolists/model/slices";
+import {tasksActions, TodolistDomainType, todolistTasksSelector} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
@@ -23,7 +23,7 @@ export const TasksList: FC<TasksListProps> = memo(({todolist}) => {
 
     // Check!
     useEffect(() => {
-        dispatch(tasksThunks.fetchTasksTC(todolist.id))
+        dispatch(tasksActions.fetchTasks(todolist.id))
     }, [])
 
     let tasksForTodoList: TaskDomainType[] = tasks;

@@ -3,7 +3,7 @@ import { Button } from '@/common/components/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import S from '../TasksList.module.css';
 import { EditableSpan } from "@/common/components";
-import {tasksThunks, TodolistDomainType} from "@/features/Todolists/model/slices";
+import {tasksActions, TodolistDomainType} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
@@ -19,7 +19,7 @@ export const Task: FC<Task> = memo(({ todolist, task }) => {
 
   const onBlur = useCallback(
     (title: string) => {
-      dispatch(tasksThunks.updateTaskTC({
+      dispatch(tasksActions.updateTask({
           todolistID: todolist.id,
           taskID: task.id,
           model: { title }
@@ -31,14 +31,14 @@ export const Task: FC<Task> = memo(({ todolist, task }) => {
   const onChangeInputStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const newStatusValueFlag = e.currentTarget.checked;
     const statusValue: TaskStatuses = newStatusValueFlag ? TaskStatuses.Completed : TaskStatuses.New;
-    dispatch(tasksThunks.updateTaskTC({
+    dispatch(tasksActions.updateTask({
         todolistID: todolist.id,
         taskID: task.id,
         model: { status: statusValue }
     }));
   };
   const onclickBtnRemoveTask = () => {
-    dispatch(tasksThunks.removeTaskTC({todolistID: todolist.id, taskID: task.id}));
+    dispatch(tasksActions.removeTask({todolistID: todolist.id, taskID: task.id}));
   };
 
   const inputFieldStyle = useMemo(

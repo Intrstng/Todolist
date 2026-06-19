@@ -1,7 +1,7 @@
 import {FC, useCallback, useMemo} from 'react';
 import S from "../Todolist.module.css";
 import {EditableSpan} from "@/common/components";
-import {TodolistDomainType, todolistsThunks} from "@/features/Todolists/model/slices";
+import {TodolistDomainType, todoListsActions} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
 type TodolistTitleProps = {
@@ -24,7 +24,7 @@ export const TodolistTitle: FC<TodolistTitleProps> = ({todolist}) => {
 
     const updateTodolist = useCallback(
         (newTitle: string) => {
-            dispatch(todolistsThunks.changeTodoListTitleTC({id: todolist.id, title: newTitle}));
+            dispatch(todoListsActions.changeTodoListTitle({id: todolist.id, title: newTitle}));
         },
         [dispatch, todolist.id],
     );

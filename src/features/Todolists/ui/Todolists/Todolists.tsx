@@ -5,7 +5,11 @@ import {Todolist} from './TodolistItem/Todolist';
 import {useAppSelector} from '@/app/store';
 import {Navigate} from 'react-router-dom';
 import {CreateItemForm} from "@/common/components";
-import {TodolistDomainType, todoListsSelector, todolistsThunks} from "@/features/Todolists/model/slices";
+import {
+  TodolistDomainType,
+  todoListsActions,
+  todoListsSelector
+} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {authIsLoggedInSelector} from "@/features/Login/model/slices/authSlice.ts";
 
@@ -18,7 +22,7 @@ export const Todolists = memo(() => {
     if (!isLoggedIn) {
       return;
     }
-    dispatch(todolistsThunks.fetchTodoListsTC());
+    dispatch(todoListsActions.fetchTodolists());
   }, []);
 
   if (!isLoggedIn) {

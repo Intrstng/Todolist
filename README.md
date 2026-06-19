@@ -2,3 +2,7 @@
 
 1. Vite added in commit: "refactor:change_CRA-to-VITE"
 2. Creation of THUNKS changed to **createAppAsyncThunk** in commit: "feat: Creation of THUNKS changed to createAppAsyncThunk"
+3. RTK 2.0 has a new way to write thunks [inside a slice](https://redux.js.org/usage/migrations/migrating-rtk-2#createslicereducers-callback-syntax-and-thunk-support) using the [create.asyncThunk API](https://redux-toolkit.js.org/api/createSlice#createasyncthunk).
+   THUNKS created with **createAppAsyncThunk** moved inside the slices with usinng of *RTK 2.0* **buildCreateSlice**
+   was done in commit: "feat: move THUNKS created with createAppAsyncThunk inside the slices - RTK 2.0"
+    

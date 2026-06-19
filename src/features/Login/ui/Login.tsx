@@ -8,7 +8,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import S from './Login.module.css';
-import {authIsLoggedInSelector, authThunks} from '../model/slices/authSlice';
+import {authActions, authIsLoggedInSelector} from '../model/slices/authSlice';
 import { useAppSelector } from '@/app/store';
 import { Navigate } from 'react-router-dom';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
@@ -38,7 +38,7 @@ export const Login = () => {
       return errors;
     },
     onSubmit: (values: LoginParamsType) => {
-      dispatch(authThunks.loginTC(values));
+      dispatch(authActions.login(values));
       formik.resetForm(); // в then dispatch( )loadingTC) если success
     },
   });
