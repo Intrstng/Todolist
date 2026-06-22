@@ -13,6 +13,7 @@ import { useAppSelector } from '@/app/store';
 import { Navigate } from 'react-router-dom';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {LoginParamsType} from "@/api/auth-api.ts";
+import {PATH} from "@/common/constants";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
@@ -44,7 +45,7 @@ export const Login = () => {
   });
 
   if (isLoggedIn) {
-    return <Navigate to={'/'} />;
+    return <Navigate to={PATH.ROOT} />;
   }
   // Добавить эти редиректы нужно непосредственно перед return, то есть после всех хуков, которые используются внутри компонент, иначе будет нарушено правило работы с хуками, говорящее, что нельзя использовать хуки внутри компоненты в условной логике.
 
