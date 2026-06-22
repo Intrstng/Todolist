@@ -10,6 +10,7 @@ export const loginSchema = z.object({
                 )
                 .min(8, 'Password must be at least 8 characters long'),
     rememberMe: z.boolean(),
+    captcha: z.string().optional(),
 })
 
 export type LoginInputs = z.infer<typeof loginSchema>

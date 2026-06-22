@@ -1,10 +1,11 @@
-import {authApi, LoginParamsType} from '@/api/auth-api';
+import {authApi} from '@/features/auth/api/auth-api';
 import {isFulfilled, PayloadAction} from '@reduxjs/toolkit';
 import {appActions} from '@/app/slices/appSlice';
 import {clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
 import {RESULT_CODE} from "@/features/Todolists/model/slices";
 import {createAppSlice} from "@/common/utils";
 import {handleServerAppError, handleServerNetworkError} from "@/utils/errorUtils.ts";
+import {LoginParamsType} from "@/features/auth/api/authApi.types.ts";
 
 export const authSlice = createAppSlice({
   name: 'auth',

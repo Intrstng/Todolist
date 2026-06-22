@@ -1,4 +1,5 @@
 import {BaseResponse, instance} from "@/common";
+import {AuthMeResponse, LoginParamsType, LoginResponse} from "@/features/auth/api/authApi.types.ts";
 
 export const authApi = {
   login(params: LoginParamsType) {
@@ -11,21 +12,3 @@ export const authApi = {
     return instance.get<BaseResponse<AuthMeResponse>>('/auth/me');
   },
 };
-
-// TYPES
-export type LoginParamsType = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-  captcha?: string; // boolean
-};
-
-type AuthMeResponse = {
-  id: number;
-  email: string;
-  login: string;
-};
-
-export type LoginResponse = {
-  userId?: number
-}
