@@ -1,17 +1,23 @@
 import {authApi} from '@/features/auth/api/auth-api';
 import {isFulfilled, PayloadAction} from '@reduxjs/toolkit';
 import {appActions} from '@/app/slices/appSlice';
-import {clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
+import {clearDataAC, clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
 import {RESULT_CODE} from "@/features/Todolists/model/slices";
 import {createAppSlice} from "@/common/utils";
 import {handleServerAppError, handleServerNetworkError} from "@/utils/errorUtils.ts";
 import {LoginParamsType} from "@/features/auth/api/authApi.types.ts";
+import {AUTH_TOKEN} from "@/common/constants";
 
 export const authSlice = createAppSlice({
   name: 'auth',
   initialState: {
     isLoggedIn: false,
+    loginName: '',
   } as LoginState,
+    selectors: {
+        authIsLoggedInSelector: (state: LoginState): boolean => state.isLoggedIn,
+        selectLoginName: (state: LoginState): string | undefined => state.loginName,
+    },
     reducers: create => ({
         login: create.asyncThunk<LoginState, LoginParamsType>(
             async (params, thunkAPI) => {
@@ -22,6 +28,12 @@ export const authSlice = createAppSlice({
 
                   if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                       dispatch(appActions.setAppStatus({status: "succeeded"}))
+
+                      localStorage.setItem(AUTH_TOKEN, res.data.data.token)
+                      // dispatch(meTC()) - Вариант для отображения имени пользователя в Header при логине
+                      // (когда meTC выполнился если пользователь был не залогинен) - нужно для первой отрисовки
+                      // (до перезагрузки страницы, т.к. потом выполнится уже meTC и подтвердит что пользователь залогинен)
+
                       return { isLoggedIn: true }
                   } else {
                       handleServerAppError(res.data, dispatch)
@@ -49,7 +61,10 @@ export const authSlice = createAppSlice({
                    dispatch(clearTasksAndTodolists());
                    dispatch(appActions.setAppStatus({status: "succeeded"}))
 
-                   return { isLoggedIn: false }  // logout (kill cookie)
+                   localStorage.removeItem(AUTH_TOKEN)
+                   dispatch(clearDataAC()) // Check
+
+                   return { isLoggedIn: false, loginName: '' }  // logout (kill cookie)
                } else {
                    handleServerAppError(res.data, dispatch)
                    return rejectWithValue(null)
@@ -62,6 +77,7 @@ export const authSlice = createAppSlice({
             {
                 // fulfilled: (state, action) => { // or action: PayloadAction<{ todolists: TodolistType[] }>
                 //     state.isLoggedIn = action.payload.isLoggedIn
+                //     state.loginName = action.payload.loginName
                 // },
             }
         ),
@@ -75,7 +91,7 @@ export const authSlice = createAppSlice({
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                         dispatch(appActions.setAppStatus({status: "succeeded"}))
 
-                        return {isLoggedIn: true}
+                        return { isLoggedIn: true, loginName: res.data.data.login }
                     } else {
                         handleServerAppError(res.data, dispatch)
                         return rejectWithValue(null)
@@ -90,25 +106,32 @@ export const authSlice = createAppSlice({
             {
                 // fulfilled: (state, action) => { // or action: PayloadAction<{ todolists: TodolistType[] }>
                 //     state.isLoggedIn = action.payload.isLoggedIn
+                //     state.loginName = action.payload.loginName
                 // },
             }
         ),
     }),
     extraReducers: (builder) => {
-        builder.addMatcher(
-            isFulfilled(
-                authSlice.actions.login,
-                authSlice.actions.logOut,
-                authSlice.actions.initializeApp
-            ),
-            (state, action: PayloadAction<LoginState>) => {
-                state.isLoggedIn = action.payload.isLoggedIn
-            }
-        )
+        builder
+            .addMatcher(
+                isFulfilled(
+                    authSlice.actions.login,
+                ),
+                (state, action: PayloadAction<LoginState>) => {
+                    state.isLoggedIn = action.payload.isLoggedIn
+                }
+            )
+            .addMatcher(
+                isFulfilled(
+                    authSlice.actions.logOut,
+                    authSlice.actions.initializeApp
+                ),
+                (state, action: PayloadAction<LoginState>) => {
+                    state.isLoggedIn = action.payload.isLoggedIn
+                    state.loginName = action.payload.loginName
+                }
+            )
     },
-    selectors: {
-        authIsLoggedInSelector: (state: LoginState): boolean => state.isLoggedIn
-    }
 });
 
 // THUNKS
@@ -130,8 +153,9 @@ export const authSlice = createAppSlice({
 
 export type LoginState = {
   isLoggedIn: boolean;
+  loginName?: string;
 };
 
 export const authReducer = authSlice.reducer;
 export const authActions = authSlice.actions;
-export const {authIsLoggedInSelector} =  authSlice.selectors
+export const {authIsLoggedInSelector, selectLoginName} =  authSlice.selectors

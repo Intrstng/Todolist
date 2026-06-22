@@ -12,5 +12,6 @@ export type AuthMeResponse = {
 };
 
 export type LoginResponse = {
-    userId?: number
+    userId: number
+    token: string
 }

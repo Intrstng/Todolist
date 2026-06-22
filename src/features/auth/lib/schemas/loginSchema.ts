@@ -9,7 +9,7 @@ export const loginSchema = z.object({
                     'Password must have at least one letter, one digit, one special character'
                 )
                 .min(8, 'Password must be at least 8 characters long'),
-    rememberMe: z.boolean(),
+    rememberMe: z.boolean().optional(),
     captcha: z.string().optional(),
 })
 
