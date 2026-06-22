@@ -1,12 +1,12 @@
 import { describe, test, expect, beforeEach } from 'vitest'
 import { TasksType, TodolistDomainType, todoListsActions, tasksReducer, todoListsReducer } from '../slices';
 import { v4 } from 'uuid';
-import { Status } from '@/app/slices/appSlice';
-import { TaskPriorities, TaskStatuses } from "@/features/Todolists/api/taskApi.ts";
+import {Status} from "@/app/slices/appSlice.types.ts";
+import {TaskPriorities, TaskStatuses} from "@/common/enums/enums.ts";
 
 let todolistID_1: string;
 let todolistID_2: string;
-let startTasksState: { tasks: TasksType };
+let startTasksState: TasksType;
 let startTodoListsState: TodolistDomainType[];
 let newTodoListTitle: string;
 let entityStatus: Status;
@@ -16,9 +16,9 @@ describe('tasks reducer integration with todoLists', () => {
     todolistID_1 = v4();
     todolistID_2 = v4();
     entityStatus = 'idle';
+    newTodoListTitle = 'newTodoList';
 
     startTasksState = {
-      tasks: {
         [todolistID_1]: [
           {
             id: v4(),
@@ -101,7 +101,6 @@ describe('tasks reducer integration with todoLists', () => {
             entityStatus,
           },
         ],
-      }
     };
 
     startTodoListsState = [
@@ -126,31 +125,34 @@ describe('tasks reducer integration with todoLists', () => {
       });
 
     test('reducer taskList should ADD-NEW-TASKS-LIST (new empty array for tasks should be added when new todolist is added)', () => {
+      const newTodoListId = v4();
+
       const newTodoList = {
-        id: todolistID_1,
-        title: 'newTodoList',
+        id: newTodoListId,
+        title: newTodoListTitle,
         filter: 'all',
         addedDate: new Date(),
         order: 0,
       };
-      const action = todoListsActions.addTodolist({ newTodolistData: newTodoList });
+      const action = todoListsActions.addTodoList.fulfilled({ todolist: newTodoList }, 'requestId', { title: newTodoListTitle })
       const endTasksState = tasksReducer(startTasksState, action);
       const endTodoListsState = todoListsReducer(startTodoListsState, action);
-      const keys = Object.keys(endTasksState.tasks);
-      const idFromTasks = keys[0];
-      const idFromTodoLists = endTodoListsState[endTodoListsState.length - 1].id;
+      const newTodoListFromState = endTodoListsState.find(tl => tl.id === newTodoListId);
 
-      expect(idFromTasks).toBe(action.payload.newTodolistData.id);
-      expect(idFromTodoLists).toBe(action.payload.newTodolistData.id);
+      // Check that the new tasks array exists with the correct ID
+      expect(endTasksState[newTodoListId]).toBeDefined();
+      expect(endTasksState[newTodoListId]).toEqual([]);
+      expect(newTodoListFromState).toBeDefined();
     });
 
     test('reducer taskList should DELETE-TASKS-LIST (delete array of tasks with ID of deleted todoList)', () => {
-      const action = todoListsActions.removeTodolist({ todolistID: todolistID_2 });
+      const action = todoListsActions.removeTodoList.fulfilled({ id: todolistID_2 }, 'requestId', { id: todolistID_2 })
+
       const endState = tasksReducer(startTasksState, action);
-      const keys = Object.keys(endState.tasks);
+      const keys = Object.keys(endState);
 
       expect(keys.length).toBe(1);
-      expect(endState.tasks[todolistID_2]).not.toBeDefined();
+      expect(endState[todolistID_2]).not.toBeDefined();
     });
 
     test('reducer taskList should ADD-TASKS-LIST WHEN TODOLISTS-ADDED (when todolists loaded from Rest API)', () => {
@@ -171,13 +173,14 @@ describe('tasks reducer integration with todoLists', () => {
         },
       ];
 
-      const action = todoListsActions.setTodoLists({ todolists: state });
-      const endState = tasksReducer({ tasks: {} }, action);
+      const action = todoListsActions.fetchTodolists.fulfilled({ todolists: state }, 'requestId', undefined);
 
-      const keys = Object.keys(endState.tasks);
+      const endState = tasksReducer({}, action);
+
+      const keys = Object.keys(endState);
 
       expect(keys.length).toBe(2);
-      expect(endState.tasks[todolistID_1]).toStrictEqual([]);
-      expect(endState.tasks[todolistID_2]).toStrictEqual([]);
+      expect(endState[todolistID_1]).toStrictEqual([]);
+      expect(endState[todolistID_2]).toStrictEqual([]);
     });
   });

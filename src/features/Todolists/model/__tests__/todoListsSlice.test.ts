@@ -1,7 +1,7 @@
-import { describe, test, expect, beforeEach } from 'vitest'
-import { todoListsActions, FilterValuesType, TodolistDomainType, todoListsReducer } from '../slices';
-import { v4 } from 'uuid';
-import { Status } from '@/app/slices/appSlice';
+import {beforeEach, describe, expect, test} from 'vitest'
+import {FilterValuesType, TodolistDomainType, todoListsActions, todoListsReducer} from '../slices';
+import {v4} from 'uuid';
+import {Status} from "@/app/slices/appSlice.types.ts";
 
 let todolistID_1: string;
 let todolistID_2: string;
@@ -12,6 +12,7 @@ let newFilter_1: FilterValuesType;
 let newFilter_2: FilterValuesType;
 let entityStatus_1: Status;
 let entityStatus_2: Status;
+let newTodoListTitle: string;
 
 describe('todoLists reducer', () => {
   beforeEach(() => {
@@ -23,6 +24,8 @@ describe('todoLists reducer', () => {
     entityStatus = 'idle';
     entityStatus_1 = 'loading';
     entityStatus_2 = 'succeeded';
+    newTodoListTitle = 'newTodoList';
+
     state = [
       {
         id: todolistID_1,
@@ -63,24 +66,23 @@ describe('todoLists reducer', () => {
   test('reducer todoLists should ADD-TODOLIST', () => {
     const newTodoList = {
       id: todolistID_1,
-      title: 'newTodoList',
+      title: newTodoListTitle,
       filter: 'all',
       addedDate: new Date(),
       order: 0,
     };
-    const newState = todoListsReducer(state, todoListsActions.addTodolist({ newTodolistData: newTodoList }));
+    const newState = todoListsReducer(state, todoListsActions.addTodoList.fulfilled({ todolist: newTodoList }, 'requestId', {title: newTodoListTitle}));
 
     expect(state.length).toBe(2);
     expect(newState.length).toBe(3);
-    expect(newState[2].id).toBeDefined();
-    expect(newState[2].title).toBe(newTodoList.title);
-    expect(newState[2].filter).toBe('all');
+    expect(newState[0].id).toBeDefined();
+    expect(newState[0].title).toBe(newTodoList.title);
+    expect(newState[0].filter).toBe('all');
   });
 
   test('reducer todoLists should REMOVE-TODOLIST', () => {
-    const newState_1 = todoListsReducer(state, todoListsActions.removeTodolist({ todolistID: todolistID_1 }));
-    const newState_2 = todoListsReducer(state, todoListsActions.removeTodolist({ todolistID: todolistID_2 }));
-
+    const newState_1 = todoListsReducer(state, todoListsActions.removeTodoList.fulfilled({ id: todolistID_1 }, 'requestId', { id: todolistID_1 }))
+    const newState_2 = todoListsReducer(state, todoListsActions.removeTodoList.fulfilled({ id: todolistID_2 }, 'requestId', { id: todolistID_2 }))
     expect(state.length).toBe(2);
     expect(newState_1.length).toBe(1);
     expect(newState_2.length).toBe(1);
@@ -92,11 +94,11 @@ describe('todoLists reducer', () => {
   test('reducer todoLists should UPDATE-TODOLIST (change todoLists title)', () => {
     const newState_1 = todoListsReducer(
         state,
-        todoListsActions.updateTodolist({ todolistID: todolistID_1, newTitle: todolistTitle }),
+        todoListsActions.changeTodoListTitle.fulfilled({ id: todolistID_1, title: todolistTitle}, 'requestId', { id: todolistID_1, title: todolistTitle })
     );
     const newState_2 = todoListsReducer(
         state,
-        todoListsActions.updateTodolist({ todolistID: todolistID_2, newTitle: todolistTitle }),
+        todoListsActions.changeTodoListTitle.fulfilled({ id: todolistID_2, title: todolistTitle}, 'requestId', { id: todolistID_2, title: todolistTitle })
     );
 
     expect(state[0].title).toBe('Main tasks');
@@ -107,7 +109,7 @@ describe('todoLists reducer', () => {
   });
 
   test('reducer todoLists should SET-TODOLISTS to the state (action creator for REST API request)', () => {
-    const newState = todoListsReducer([], todoListsActions.setTodoLists({ todolists: state }));
+    const newState = todoListsReducer([], todoListsActions.fetchTodolists.fulfilled({ todolists: state }, 'requestId', undefined))
 
     expect(newState.length).toBe(2);
     expect(newState[0].title).toBe('Main tasks');

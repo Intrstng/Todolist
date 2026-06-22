@@ -1,12 +1,13 @@
 import { describe, test, expect, beforeEach } from 'vitest'
 import { v4 } from 'uuid'
-import { TaskDomainType, TaskPriorities, TaskStatuses } from '@/features/Todolists/api/taskApi.ts'
-import { Status } from '@/app/slices/appSlice'
 import {tasksActions, tasksReducer, TasksType, UpdateTaskDomainModelType} from "@/features/Todolists/model/slices"
+import { Status } from "@/app/slices/appSlice.types";
+import {TaskPriorities, TaskStatuses} from "@/common/enums/enums.ts";
+import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 
 let todolistID_1: string;
 let todolistID_2: string;
-let tasksState: {tasks: TasksType};
+let tasksState: TasksType;
 let newTitle_1: string;
 let newTitle_2: string;
 let taskID_1: string;
@@ -26,7 +27,6 @@ describe('tasks reducer', () => {
     entityStatus = 'idle';
 
     tasksState = {
-      tasks: {
         [todolistID_1]: [
           {
             id: '1',
@@ -109,35 +109,35 @@ describe('tasks reducer', () => {
             entityStatus,
           },
         ],
-      }
     };
   });
 
   test('reducer taskList should ADD-TASK', () => {
-    const newState_1 = tasksReducer(tasksState, tasksActions.addTask({ newTaskData: tasksState.tasks[todolistID_1][0] }));
-    const newState_2 = tasksReducer(tasksState, tasksActions.addTask({ newTaskData: tasksState.tasks[todolistID_2][0] }));
+    const newState_1 = tasksReducer(tasksState, tasksActions.addTask.fulfilled({ task: tasksState[todolistID_1][0] }, 'requestId', { todolistID: todolistID_1, title: newTitle_1 }))
+    const newState_2 = tasksReducer(tasksState, tasksActions.addTask.fulfilled({ task: tasksState[todolistID_2][0] }, 'requestId', { todolistID: todolistID_2, title: newTitle_2 }))
 
-    expect(tasksState.tasks[todolistID_1].length).toBe(3);
-    expect(tasksState.tasks[todolistID_2].length).toBe(3);
-    expect(newState_1.tasks[todolistID_1].length).toBe(4);
-    expect(newState_2.tasks[todolistID_2].length).toBe(4);
-    expect(newState_1.tasks[todolistID_1][0].id).toBeDefined();
-    expect(newState_2.tasks[todolistID_2][0].id).toBeDefined();
-    expect(newState_1.tasks[todolistID_1][0].title).toBe(tasksState.tasks[todolistID_1][0].title);
-    expect(newState_2.tasks[todolistID_2][0].title).toBe(tasksState.tasks[todolistID_2][0].title);
-    expect(newState_1.tasks[todolistID_1][0].status).toBe(TaskStatuses.New);
-    expect(newState_2.tasks[todolistID_2][0].status).toBe(TaskStatuses.Completed);
+    expect(tasksState[todolistID_1].length).toBe(3);
+    expect(tasksState[todolistID_2].length).toBe(3);
+    expect(newState_1[todolistID_1].length).toBe(4);
+    expect(newState_2[todolistID_2].length).toBe(4);
+    expect(newState_1[todolistID_1][0].id).toBeDefined();
+    expect(newState_2[todolistID_2][0].id).toBeDefined();
+    expect(newState_1[todolistID_1][0].title).toBe(tasksState[todolistID_1][0].title);
+    expect(newState_2[todolistID_2][0].title).toBe(tasksState[todolistID_2][0].title);
+    expect(newState_1[todolistID_1][0].status).toBe(TaskStatuses.New);
+    expect(newState_2[todolistID_2][0].status).toBe(TaskStatuses.Completed);
   });
 
   test('reducer taskList should REMOVE-TASK', () => {
     // action
-    const newState_1 = tasksReducer(tasksState, tasksActions.removeTask({ todolistID: todolistID_1, taskID: taskID_1 }));
-    const newState_2 = tasksReducer(tasksState, tasksActions.removeTask({ todolistID: todolistID_2, taskID: taskID_2 }));
+    const newState_1 = tasksReducer(tasksState, tasksActions.removeTask.fulfilled({ todolistID: todolistID_1, taskID: taskID_1 }, 'requestId', { todolistID: todolistID_1, taskID: taskID_1 }))
+    const newState_2 = tasksReducer(tasksState, tasksActions.removeTask.fulfilled({ todolistID: todolistID_2, taskID: taskID_2 }, 'requestId', { todolistID: todolistID_2, taskID: taskID_2 }))
 
     // expectation
-    expect(tasksState.tasks[todolistID_1].length).toBe(3);
-    expect(tasksState.tasks[todolistID_2].length).toBe(3);
-    expect(newState_1.tasks).toEqual({
+    expect(newState_1[todolistID_1].length).toBe(2); // Should be 2 after removal
+    expect(newState_1[todolistID_2].length).toBe(3); // Should still be 3
+
+    expect(newState_1).toEqual({
       [todolistID_1]: [
         {
           id: '2',
@@ -208,7 +208,11 @@ describe('tasks reducer', () => {
         },
       ],
     });
-    expect(newState_2.tasks).toEqual({
+
+    expect(newState_2[todolistID_1].length).toBe(3); // Should still be 3
+    expect(newState_2[todolistID_2].length).toBe(2); // Should be 2 after removal
+
+    expect(newState_2).toEqual({
       [todolistID_1]: [
         {
           id: '1',
@@ -291,25 +295,34 @@ describe('tasks reducer', () => {
 
     const newState_1 = tasksReducer(
         tasksState,
-        tasksActions.updateTask({
+        tasksActions.updateTask.fulfilled({
           todolistID: todolistID_1,
           taskID: taskID_1,
           model: newTaskModel_1,
-        }),
+        }, 'requestId', {
+          todolistID: todolistID_1,
+          taskID: taskID_1,
+          model: newTaskModel_1,
+        })
     );
+
     const newState_2 = tasksReducer(
         tasksState,
-        tasksActions.updateTask({
+        tasksActions.updateTask.fulfilled({
           todolistID: todolistID_2,
           taskID: taskID_2,
           model: newTaskModel_2,
-        }),
+        }, 'requestId', {
+          todolistID: todolistID_2,
+          taskID: taskID_2,
+          model: newTaskModel_2,
+        })
     );
 
-    expect(tasksState.tasks[todolistID_1].find((t) => t.id === taskID_1)?.status).toBe(TaskStatuses.New);
-    expect(newState_1.tasks[todolistID_1].find((t) => t.id === taskID_1)?.status).toBe(TaskStatuses.Completed);
-    expect(tasksState.tasks[todolistID_2].find((t) => t.id === taskID_2)?.status).toBe(TaskStatuses.Completed);
-    expect(newState_2.tasks[todolistID_2].find((t) => t.id === taskID_2)?.status).toBe(TaskStatuses.New);
+    expect(tasksState[todolistID_1].find((t) => t.id === taskID_1)?.status).toBe(TaskStatuses.New);
+    expect(newState_1[todolistID_1].find((t) => t.id === taskID_1)?.status).toBe(TaskStatuses.Completed);
+    expect(tasksState[todolistID_2].find((t) => t.id === taskID_2)?.status).toBe(TaskStatuses.Completed);
+    expect(newState_2[todolistID_2].find((t) => t.id === taskID_2)?.status).toBe(TaskStatuses.New);
   });
 
   test('reducer taskList should UPDATE-TASK title', () => {
@@ -322,25 +335,34 @@ describe('tasks reducer', () => {
 
     const newState_1 = tasksReducer(
         tasksState,
-        tasksActions.updateTask({
+        tasksActions.updateTask.fulfilled({
           todolistID: todolistID_1,
           taskID: taskID_1,
           model: newTaskModel_1,
-        }),
+        }, 'requestId', {
+          todolistID: todolistID_1,
+          taskID: taskID_1,
+          model: newTaskModel_1,
+        })
     );
+
     const newState_2 = tasksReducer(
         tasksState,
-        tasksActions.updateTask({
+        tasksActions.updateTask.fulfilled({
           todolistID: todolistID_2,
           taskID: taskID_2,
           model: newTaskModel_2,
-        }),
+        }, 'requestId', {
+          todolistID: todolistID_2,
+          taskID: taskID_2,
+          model: newTaskModel_2,
+        })
     );
 
-    expect(tasksState.tasks[todolistID_1].find((t) => t.id === taskID_1)?.title).toBe('HTML&CSS');
-    expect(newState_1.tasks[todolistID_1].find((t) => t.id === taskID_1)?.title).toBe(newTitle_1);
-    expect(tasksState.tasks[todolistID_2].find((t) => t.id === taskID_2)?.title).toBe('Age');
-    expect(newState_2.tasks[todolistID_2].find((t) => t.id === taskID_2)?.title).toBe(newTitle_2);
+    expect(tasksState[todolistID_1].find((t) => t.id === taskID_1)?.title).toBe('HTML&CSS');
+    expect(newState_1[todolistID_1].find((t) => t.id === taskID_1)?.title).toBe(newTitle_1);
+    expect(tasksState[todolistID_2].find((t) => t.id === taskID_2)?.title).toBe('Age');
+    expect(newState_2[todolistID_2].find((t) => t.id === taskID_2)?.title).toBe(newTitle_2);
   });
 
   test('reducer taskList should SET-TASKS (FROM REST API)', () => {
@@ -414,12 +436,12 @@ describe('tasks reducer', () => {
       },
     ];
 
-    const newState_1 = tasksReducer(tasksState, tasksActions.setTasks({ todolistID: todolistID_1, tasks: newTasks_1 }));
-    const newState_2 = tasksReducer(tasksState, tasksActions.setTasks({ todolistID: todolistID_2, tasks: newTasks_2 }));
+    const newState_1 = tasksReducer(tasksState, tasksActions.fetchTasks.fulfilled({ todolistID: todolistID_1, tasks: newTasks_1 }, 'requestId', todolistID_1))
+    const newState_2 = tasksReducer(tasksState, tasksActions.fetchTasks.fulfilled({ todolistID: todolistID_2, tasks: newTasks_2 }, 'requestId', todolistID_2))
 
-    expect(tasksState.tasks[todolistID_1].length).toBe(3);
-    expect(tasksState.tasks[todolistID_2].length).toBe(3);
-    expect(newState_1.tasks[todolistID_1].length).toBe(2);
-    expect(newState_2.tasks[todolistID_2].length).toBe(3);
+    expect(tasksState[todolistID_1].length).toBe(3);
+    expect(tasksState[todolistID_2].length).toBe(3);
+    expect(newState_1[todolistID_1].length).toBe(2);
+    expect(newState_2[todolistID_2].length).toBe(3);
   });
 });
