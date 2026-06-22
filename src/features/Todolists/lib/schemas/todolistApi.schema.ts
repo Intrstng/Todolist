@@ -4,7 +4,7 @@ import {statusSchema} from "@/app/lib/schemas/appSchema.ts";
 
 export const todolistSchema = z.object({
     id: z.string(),
-    addedDate: z.coerce.date(),
+    addedDate: z.iso.datetime({ local: true }),
     order: z.number(),
     title: z.string(),
 });

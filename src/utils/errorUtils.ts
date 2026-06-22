@@ -1,8 +1,8 @@
+import {z} from "zod/v4"
 import axios from 'axios';
 import {appActions} from '@/app/slices/appSlice';
 import {FieldError} from "@/common";
 import {Dispatch} from "@reduxjs/toolkit";
-import {isZodError} from "@/utils/IsZodError.ts";
 
 export const handleServerAppError = <D>(data: BaseResponseError<D>, dispatch: Dispatch) => {
   if (data.messages.length) {
@@ -34,8 +34,8 @@ export const handleServerNetworkError = (error: unknown, dispatch: Dispatch) => 
 
   if (axios.isAxiosError(error)) {
     errorMessage = error.response?.data?.message || error.message
-  } else if (isZodError(error)) {
-    console.log(error.issues)
+  } else if (error instanceof z.ZodError) {
+    console.table(error.issues)
     errorMessage = `Zod Error - see console`
   } else if (error instanceof Error) {
     errorMessage = `Native error: ${error.message}`

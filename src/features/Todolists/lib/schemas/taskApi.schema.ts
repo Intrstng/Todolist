@@ -7,12 +7,12 @@ export const taskSchema = z.object({
     title: z.string(),
     status: z.enum(TaskStatuses),
     priority: z.enum(TaskPriorities),
-    startDate: z.coerce.date(),
-    deadline: z.coerce.date(),
+    startDate: z.iso.datetime({ local: true }).nullish(),
+    deadline: z.iso.datetime({ local: true }).nullish(),
     id: z.string(),
     todoListId: z.string(),
     order: z.number(),
-    addedDate: z.coerce.date(),
+    addedDate: z.iso.datetime({ local: true }).nullish(),
 });
 
 export const responseGetTasksSchema = z.object({
@@ -26,8 +26,8 @@ export const updateTaskTypeSchema = z.object({
     description: z.string().nullish(),
     status: z.enum(TaskStatuses).optional(),
     priority: z.enum(TaskPriorities).optional(),
-    startDate: z.coerce.date().optional(),
-    deadline: z.coerce.date().optional(),
+    startDate: z.iso.datetime({ local: true }).nullish(),
+    deadline: z.iso.datetime({ local: true }).nullish(),
 });
 
 export const taskDomainSchema = taskSchema.extend({
