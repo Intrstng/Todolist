@@ -164,7 +164,7 @@ export const Login = () => {
 
   if (isLoggedIn) {
     return <Navigate to={PATH.ROOT} />;
-  }
+  } // Protected routes are used instead of this
 
   return (
       <Grid container justifyContent={"center"} sx={{width: '100%'}}>

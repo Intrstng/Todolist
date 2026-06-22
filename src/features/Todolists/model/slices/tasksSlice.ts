@@ -1,7 +1,7 @@
 import {taskApi} from '@/features/Todolists/api/taskApi.ts'
 import {AppRootState} from '@/app/store'
 import {PayloadAction} from '@reduxjs/toolkit'
-import {RESULT_CODE, todoListsActions, TodolistType} from './todoListsSlice'
+import {todoListsActions} from './todoListsSlice'
 import {clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
 import {
     AddTaskArg,
@@ -12,10 +12,18 @@ import {
     UpdateTaskType
 } from "@/features/Todolists/api/taskApi.types.ts";
 import {Status} from "@/app/slices/appSlice.types.ts";
-import {TaskPriorities, TaskStatuses} from "@/common/enums/enums.ts";
 import {createAppSlice} from "@/common/utils";
 import {appActions} from "@/app/slices/appSlice.ts";
 import {handleServerAppError, handleServerNetworkError} from "@/utils/errorUtils.ts";
+import {RESULT_CODE} from "@/common/enums/enums.ts";
+import {TasksType} from "@/features/Todolists/model/slices/tasksSlice.types.ts";
+import {TodolistType} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
+import {defaultResponseSchema} from "@/common/schemas/schemas.ts";
+import {
+    createTaskResponseSchema,
+    responseGetTasksSchema,
+    updateTaskResponseSchema
+} from "@/features/Todolists/lib/schemas/taskApi.schema.ts";
 
 // const tasksInit: TasksType = {
 //   // [todolistID_1]: [
@@ -38,6 +46,8 @@ export const tasksSlice = createAppSlice({
                 try {
                     dispatch(appActions.setAppStatus({status: "loading"}))
                     const res = await taskApi.getAllTasks(todolistID)
+                    responseGetTasksSchema.parse(res.data) // 💎 ZOD
+
                     const tasks = res.data.items
                     dispatch(appActions.setAppStatus({status: "succeeded"}))
                     return {tasks, todolistID}
@@ -63,6 +73,7 @@ export const tasksSlice = createAppSlice({
                     dispatch(appActions.setAppStatus({status: "loading"}))
                     dispatch(todoListsActions.changeTodoListsEntityStatus({todolistID, entityStatus: 'loading'}));
                     const res = await taskApi.createTask(todolistID, {title})
+                    createTaskResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                         const task = res.data.data.item
@@ -115,6 +126,7 @@ export const tasksSlice = createAppSlice({
                         })
                     );
                     const res = await taskApi.deleteTask(todolistID, taskID)
+                    defaultResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                         // Success
@@ -179,6 +191,7 @@ export const tasksSlice = createAppSlice({
                     };
 
                     const res = await taskApi.updateTask(todolistID, taskID, apiModel);
+                    updateTaskResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                         const task = res.data.data.item;
@@ -277,21 +290,6 @@ export const tasksSlice = createAppSlice({
 //         })
 //     },
 // )
-
-// TYPES
-export type TasksType = {
-    [key: string]: TaskDomainType[];
-};
-
-export type UpdateTaskDomainModelType = {
-    title?: string;
-    description?: string;
-    status?: TaskStatuses;
-    priority?: TaskPriorities;
-    startDate?: Date;
-    deadline?: Date;
-};
-
 
 export const tasksReducer = tasksSlice.reducer;
 export const tasksActions = tasksSlice.actions;

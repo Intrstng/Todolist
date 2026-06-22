@@ -1,6 +1,6 @@
-import {FC, memo, useCallback, useState} from 'react';
+import {memo, useCallback, useState} from 'react';
 import {TasksList} from './Tasks';
-import {Button} from '@/common/components/Button';
+import {Button} from '@/common/components/Button/Button.tsx';
 import S from './Todolist.module.css';
 import {useAppSelector} from '@/app/store';
 import Box from "@mui/material/Box";
@@ -13,11 +13,11 @@ import {TodolistDomainType, todoListsActions, todolistTasksSelector} from "@/fea
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 
-type TodolistPropsType = {
+type TodolistProps = {
   todolist: TodolistDomainType;
 };
 
-export const Todolist: FC<TodolistPropsType> = memo(({ todolist }) => {
+export const Todolist = memo(({ todolist }: TodolistProps) => {
   const [isTaskListCollapsed, setTaskListCollapsed] = useState<boolean>(true);
   const dispatch = useAppDispatch();
  // const tasks = useAppSelector<TaskType[]>((state) => state.tasks[todolist.id]);

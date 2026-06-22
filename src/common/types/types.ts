@@ -1,28 +1,19 @@
-export type CustomThemeMode = 'dark' | 'light';
+import {z} from "zod/v4"
+import {
+    customThemeModeSchema,
+    defaultResponseSchema,
+    fieldErrorSchema,
+    rejectActionErrorSchema,
+    rejectAppErrorSchema,
+    rejectCatchErrorSchema
+} from "@/common/schemas/schemas.ts";
 
-type FieldErrorType = {
-    error: string
-    field: string
-}
 
-export type BaseResponse<D = {}> = {
-    resultCode: number
-    messages: string[]
-    data: D
-    fieldsErrors: FieldErrorType[]
-}
+export type BaseResponse = z.infer<typeof defaultResponseSchema>
 
+export type CustomThemeMode = z.infer<typeof customThemeModeSchema>;
+export type FieldError = z.infer<typeof fieldErrorSchema>;
 export type ActionForTests<T extends (...args: any) => any> = Omit<ReturnType<T>, "meta">
-
-export type RejectAppError = {
-    error: BaseResponse
-    type: "appError"
-}
-
-export type RejectCatchError = {
-    error: unknown
-    type: "catchError"
-}
-
-
-export type RejectActionError = RejectAppError | RejectCatchError
+export type RejectAppError = z.infer<typeof rejectAppErrorSchema>;
+export type RejectCatchError = z.infer<typeof rejectCatchErrorSchema>;
+export type RejectActionError = z.infer<typeof rejectActionErrorSchema>;

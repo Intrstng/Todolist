@@ -1,9 +1,10 @@
 import { describe, test, expect, beforeEach } from 'vitest'
 import { v4 } from 'uuid'
-import {tasksActions, tasksReducer, TasksType, UpdateTaskDomainModelType} from "@/features/Todolists/model/slices"
+import {tasksActions, tasksReducer} from "@/features/Todolists/model/slices"
 import { Status } from "@/app/slices/appSlice.types";
 import {TaskPriorities, TaskStatuses} from "@/common/enums/enums.ts";
-import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
+import {TaskDomainType, UpdateTaskType} from "@/features/Todolists/api/taskApi.types.ts";
+import { TasksType } from "../slices/tasksSlice.types";
 
 let todolistID_1: string;
 let todolistID_2: string;
@@ -286,10 +287,10 @@ describe('tasks reducer', () => {
   });
 
   test('reducer taskList should UPDATE-TASK status', () => {
-    const newTaskModel_1: UpdateTaskDomainModelType = {
+    const newTaskModel_1: UpdateTaskType = {
       status: TaskStatuses.Completed,
     };
-    const newTaskModel_2: UpdateTaskDomainModelType = {
+    const newTaskModel_2: UpdateTaskType = {
       status: TaskStatuses.New,
     };
 
@@ -326,10 +327,10 @@ describe('tasks reducer', () => {
   });
 
   test('reducer taskList should UPDATE-TASK title', () => {
-    const newTaskModel_1: UpdateTaskDomainModelType = {
+    const newTaskModel_1: UpdateTaskType = {
       title: newTitle_1,
     };
-    const newTaskModel_2: UpdateTaskDomainModelType = {
+    const newTaskModel_2: UpdateTaskType = {
       title: newTitle_2,
     };
 

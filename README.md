@@ -11,5 +11,6 @@
 5. Refactored from Formik to React Hook Form with Zod validation in commit: "feat: change Formik to React Hook Form wit Zod validation"
 6. Refactor Bearer token via Cookies using with "withCredentials: true" in axios instance to Bearer token with instance.interceptors
    and saving Bearer token to localStorage in commit: "feat: set and get Bearer token to localStorage using instance.interceptors"
+7. Add Zod validation for API responses in commit: "feat: add Zod validation for API responses"
 
     

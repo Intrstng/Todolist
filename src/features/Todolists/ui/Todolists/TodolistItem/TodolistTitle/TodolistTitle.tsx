@@ -1,4 +1,4 @@
-import {FC, useCallback, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import S from "../Todolist.module.css";
 import {EditableSpan} from "@/common/components";
 import {TodolistDomainType, todoListsActions} from "@/features/Todolists/model/slices";
@@ -8,7 +8,7 @@ type TodolistTitleProps = {
     todolist: TodolistDomainType;
 };
 
-export const TodolistTitle: FC<TodolistTitleProps> = ({todolist}) => {
+export const TodolistTitle = ({todolist}: TodolistTitleProps) => {
     const dispatch = useAppDispatch();
 
     const inputFieldStyle = useMemo(

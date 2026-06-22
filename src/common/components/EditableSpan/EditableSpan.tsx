@@ -1,18 +1,9 @@
-import React, { ChangeEvent, FC, memo, useState } from 'react';
+import {ChangeEvent, memo, useState} from 'react';
 import TextField from '@mui/material/TextField';
-import { StyleObject } from '../Button';
+import {EditableSpanType} from "@/common/components/EditableSpan/EditableSpan.types.ts";
 
-export type EditableSpanType = {
-  oldTitle: string;
-  style?: StyleObject;
-  onBlurCallBack: (value: string) => void;
-  size?: 'small' | 'medium';
-  className?: string;
-  disabled?: boolean;
-};
-
-export const EditableSpan: FC<EditableSpanType> = memo(
-  ({ oldTitle, style, onBlurCallBack, size, className, disabled = false }) => {
+export const EditableSpan = memo(
+  ({ oldTitle, style, onBlurCallBack, size, className, disabled = false }: EditableSpanType) => {
     const [edit, setEdit] = useState<boolean>(false);
     const [newTitle, setNewTitle] = useState<string>(oldTitle);
     const activateEdit = () => {

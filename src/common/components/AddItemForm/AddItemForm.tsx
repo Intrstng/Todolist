@@ -1,21 +1,15 @@
-import {ChangeEvent, FC, FocusEvent, KeyboardEvent, memo, useCallback, useMemo, useState} from 'react';
-import {Input} from '../Input';
-import {Button} from '../Button';
+import {ChangeEvent, FocusEvent, KeyboardEvent, memo, useCallback, useMemo, useState} from 'react';
+import {Input} from '../Input/Input.tsx';
+import {Button} from '../Button/Button.tsx';
 import SendIcon from '@mui/icons-material/Send';
 import {Grid} from '@material-ui/core';
 import {useAppSelector} from '@/app/store';
-import {Status, statusSelector} from '@/app/slices/appSlice';
+import {statusSelector} from '@/app/slices/appSlice';
+import {Status} from "@/app/slices/appSlice.types";
+import {AddItemFormProps} from "@/common/components/AddItemForm/AddItemForm.types.ts";
 
-export type AddItemFormPropsType = {
-  addItem: (value: string) => void;
-  className?: string;
-  label?: string;
-  titleBtn: string;
-  disabled?: boolean;
-};
-
-export const AddItemForm: FC<AddItemFormPropsType> = memo(
-  ({ addItem, className, label, titleBtn, disabled = false }) => {
+export const AddItemForm = memo(
+  ({ addItem, className, label, titleBtn, disabled = false }: AddItemFormProps) => {
     const [inputTitle, setInputTitle] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     // const [_textRef] = useAutoAnimate<HTMLParagraphElement>();

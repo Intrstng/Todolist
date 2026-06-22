@@ -1,7 +1,5 @@
-import React from 'react';
-import S from "../../Todolist.module.css";
+import s from "../../Todolist.module.css";
 import Box from "@mui/material/Box";
-import {TaskDomainType} from "../../../../../api/taskApi.ts";
 
 type TasksCounterProps = {
     tasksQuantity: number;
@@ -9,9 +7,9 @@ type TasksCounterProps = {
 
 export const TasksCounter = ({tasksQuantity = 0}: TasksCounterProps) => {
     return (
-        <Box className={S.counterWrapper}>
+        <Box className={s.counterWrapper}>
             <span>All tasks:</span>
-            <Box className={S.counter}>
+            <Box className={s.counter}>
                 <span>{tasksQuantity}</span>
             </Box>
         </Box>

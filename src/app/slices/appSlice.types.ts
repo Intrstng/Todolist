@@ -1,10 +1,5 @@
-import {CustomThemeMode} from "@/common";
+import {z} from "zod/v4"
+import {appInitialStateSchema, statusSchema} from "@/app/lib/schemas/appSchema.ts";
 
-export type Status = 'idle' | 'loading' | 'succeeded' | 'failed';
-
-export type AppInitialState = {
-    status: Status;
-    error: string | null;
-    isInitialized: boolean;
-    themeMode: CustomThemeMode;
-};
+export type AppInitialState = z.infer<typeof appInitialStateSchema>;
+export type Status = z.infer<typeof statusSchema>;

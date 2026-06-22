@@ -38,3 +38,45 @@ export const router = createBrowserRouter([
 //   basename: process.env.PUBLIC_URL  // This will use the homepage value
 // }
 )
+
+// const publicRoutes: RouteObject[] = [
+//     {
+//         path: PATH.LOGIN,
+//         element: <Login />,
+//     },
+//     {
+//         path: PATH.ERROR,
+//         element: <ErrorPage />,
+//     },
+// ];
+//
+// const privateRoutes: RouteObject[] = [
+//     {
+//         path: PATH.TODO,
+//         element: <Todolists />,
+//     },
+// ];
+
+
+// export const router = createBrowserRouter([
+//     {
+//         path: PATH.ROOT,
+//         element: <App />,
+//         errorElement: <Navigate to={PATH.ERROR} />,
+//         children: [
+//             {
+//                 index: true, // to pass to the main page automatically when root url '/' is entered
+//                 element: <Navigate to={PATH.TODO} />
+//             },
+//             {
+//                 element: <PrivateRoutes/>,
+//                 children: privateRoutes,
+//             },
+//             ...publicRoutes,
+//             // {
+//             //     path: PATH.CATCH_ALL,
+//             //     element: <Error404 />,
+//             // },
+//         ],
+//     },
+// ]);

@@ -5,17 +5,12 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {MenuButton} from '@/common/components';
-import {Theme} from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {useAppSelector} from '@/app/store';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {authActions, authIsLoggedInSelector, selectLoginName} from "@/features/auth/model/slices/authSlice.ts";
-
-type ButtonAppBarProps = {
-  theme: Theme;
-  changeModeHandler: () => void;
-};
+import {ButtonAppBarProps} from "@/common/components/ButtonAppBar/ButtonAppBar.types.ts";
 
 export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   const dispatch = useAppDispatch();

@@ -1,17 +1,14 @@
-export type LoginParamsType = {
-    email: string;
-    password: string;
-    rememberMe?: boolean;
-    captcha?: string; // boolean
-};
+import {z} from "zod/v4"
+import {
+    AuthLoginResponseSchema, AuthMeResponseSchema,
+    LoginParamsSchema,
+    LoginResponseSchema,
+    MeDataResponseSchema
+} from "@/features/auth/lib/schemas/auth.schema.ts";
 
-export type AuthMeResponse = {
-    id: number;
-    email: string;
-    login: string;
-};
+export type LoginParamsType = z.infer<typeof LoginParamsSchema>;
+export type AuthMeDataResponse = z.infer<typeof MeDataResponseSchema>;
+export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 
-export type LoginResponse = {
-    userId: number
-    token: string
-}
+export type AuthLoginResponse = z.infer<typeof AuthLoginResponseSchema>;
+export type AuthMeResponse = z.infer<typeof AuthMeResponseSchema>;

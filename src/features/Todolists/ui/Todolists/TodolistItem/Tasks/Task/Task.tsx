@@ -1,19 +1,19 @@
-import { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
-import { Button } from '@/common/components/Button';
+import {ChangeEvent, memo, useCallback, useMemo} from 'react';
+import {Button} from '@/common/components/Button/Button.tsx';
 import DeleteIcon from '@mui/icons-material/Delete';
 import S from '../TasksList.module.css';
-import { EditableSpan } from "@/common/components";
+import {EditableSpan} from "@/common/components";
 import {tasksActions, TodolistDomainType} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 
-type Task = {
+type TaskProps = {
   todolist: TodolistDomainType;
   task: TaskDomainType;
 };
 
-export const Task: FC<Task> = memo(({ todolist, task }) => {
+export const Task = memo(({ todolist, task }: TaskProps) => {
   const dispatch = useAppDispatch();
   const finalTaskItemClassList = `${S.taskItem} ${task.status === TaskStatuses.Completed ? S.completed : ''}`;
 

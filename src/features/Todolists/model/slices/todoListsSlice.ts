@@ -1,11 +1,22 @@
 import {todolistApi} from '@/features/Todolists/api/todolistApi.ts';
 import {thunkTryCatch} from "@/utils/thunkTryCatch.ts";
-import {AddTodolistArg, DeleteTodolistArg, UpdateTodolistArg} from "@/features/Todolists/api/todolistsApi.types.ts";
+import {AddTodolistArg, DeleteTodolistArg, UpdateTodolistArg} from "@/features/Todolists/api/todolistApi.types.ts";
 import {clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
 import {Status} from "@/app/slices/appSlice.types.ts";
 import {createAppSlice} from "@/common/utils";
 import {handleServerAppError, handleServerNetworkError} from "@/utils/errorUtils.ts";
 import {appActions} from "@/app/slices/appSlice.ts";
+import {RESULT_CODE} from "@/common/enums/enums.ts";
+import {
+    FilterValuesType,
+    TodolistDomainType,
+    TodolistType
+} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
+import {
+    createTodolistResponseSchema,
+    getTodolistsResponseSchema
+} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
+import {defaultResponseSchema} from "@/common/schemas/schemas.ts";
 
 // const initialTodoListState: TodolistDomainType[] = [
 //     // {id: todolistID_1, title: 'What to do', filter: 'all', entityStatus: 'idle', addedDate: new Date(), order: 0},
@@ -41,6 +52,9 @@ export const todoListsSlice = createAppSlice({
                      // res.data.forEach(tl => {
                      //     dispatch(tasksActions.fetchTasks(tl.id));
                      // });
+
+                     getTodolistsResponseSchema.parse(res.data) // 💎 ZOD
+
                      dispatch(appActions.setAppStatus({ status: "succeeded" }))
                      return {todolists: res.data}
                  } catch (error) {
@@ -61,6 +75,7 @@ export const todoListsSlice = createAppSlice({
                 try {
                     dispatch(appActions.setAppStatus({ status: "loading" }))
                     const res = await todolistApi.createTodolist({title: arg.title})
+                    createTodolistResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                         dispatch(appActions.setAppStatus({ status: "succeeded" }))
@@ -94,6 +109,7 @@ export const todoListsSlice = createAppSlice({
                         dispatch(appActions.setAppStatus({ status: "loading" }))
                         dispatch(todoListsActions.changeTodoListsEntityStatus({todolistID: id, entityStatus: 'loading'})); // Set entityStatus
                         const res = await todolistApi.deleteTodolist(id)
+                        defaultResponseSchema.parse(res.data) // 💎 ZOD
 
                         if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                             dispatch(appActions.setAppStatus({ status: "succeeded" }))
@@ -129,6 +145,7 @@ export const todoListsSlice = createAppSlice({
                     try {
                         dispatch(appActions.setAppStatus({ status: "loading" }))
                         const res = await todolistApi.updateTodolist(arg.id, {title: arg.title})
+                        defaultResponseSchema.parse(res.data) // 💎 ZOD
 
                         if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
                             dispatch(appActions.setAppStatus({ status: "succeeded" }))
@@ -205,39 +222,6 @@ export const todoListsSlice = createAppSlice({
 //     },
 // )
 
-
-// TYPES
-export type FilterValuesType = 'all' | 'active' | 'completed';
-
-export type TodolistType = {
-    id: string;
-    addedDate: Date;
-    order: number;
-    title: string;
-};
-
-export type TodolistDomainType = TodolistType & {
-    filter: FilterValuesType;
-    entityStatus: Status;
-};
-
-export type ErrorType = {
-    // 400 Error
-    statusCode: number;
-    messages: [ErrorMessageItem, string];
-    error: string;
-};
-
-type ErrorMessageItem = {
-    message: string;
-    field: string;
-};
-
-export enum RESULT_CODE {
-    SUCCEDED = 0,
-    INVALID = 1,
-    INVALID_CAPTCHA_REQUIRED = 10,
-}
 
 export const todoListsReducer = todoListsSlice.reducer;
 export const todoListsActions = todoListsSlice.actions;

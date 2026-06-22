@@ -1,21 +1,8 @@
-import React, { ChangeEvent, KeyboardEvent, FocusEvent, FC } from 'react';
+import { ChangeEvent, KeyboardEvent, FocusEvent } from 'react';
 import TextField from '@mui/material/TextField';
-import { StyleObject } from './Button';
+import { InputProps } from "./Input.types";
 
-type InputPropsType = {
-  value: string;
-  label?: string;
-  className?: string;
-  onChangeCallback: (e: ChangeEvent<HTMLInputElement>) => void;
-  onKeyDownCallback: (e: KeyboardEvent<HTMLInputElement>) => void;
-  onBlurCallback?: (e: FocusEvent<HTMLInputElement, Element>) => void;
-  style?: StyleObject;
-  size?: 'small' | 'medium';
-  error: boolean;
-  disabled: boolean;
-};
-
-export const Input: FC<InputPropsType> = (props) => {
+export const Input = (props: InputProps) => {
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => props.onChangeCallback(e);
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => props.onKeyDownCallback(e);
   const onBlurHandler = (e: FocusEvent<HTMLInputElement, Element>) => props.onBlurCallback && props.onBlurCallback(e);

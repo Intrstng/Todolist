@@ -1,5 +1,5 @@
-import { createTheme, Theme, ThemeOptions, ThemeProvider } from '@mui/material/styles'
-import {CustomThemeMode} from "common/types";
+import {createTheme} from '@mui/material/styles'
+import {CustomThemeMode} from "@/common";
 
 export const getTheme = (themeMode: CustomThemeMode) => {
     return createTheme({

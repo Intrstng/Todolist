@@ -1,7 +1,7 @@
 import {useCallback} from 'react';
 import Box from "@mui/material/Box";
 import S from "../TasksList.module.css";
-import {Button} from "@/common/components/Button";
+import {Button} from "@/common/components/Button/Button.tsx";
 import {FilterValuesType, TodolistDomainType, todoListsActions} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 

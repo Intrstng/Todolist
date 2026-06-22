@@ -1,13 +1,13 @@
 import {BaseResponse, instance} from "@/common";
-import {TodolistType} from '@/features/Todolists/model/slices';
-import {DataType} from "@/features/Todolists/api/todolistsApi.types.ts";
+import {CreateTodolistResponse, DataType, GetTodolistsResponse} from "@/features/Todolists/api/todolistApi.types.ts";
 
 export const todolistApi = {
   getTodolists() {
-    return instance.get<TodolistType[]>('/todo-lists');
+    return instance.get<GetTodolistsResponse>('/todo-lists');
   },
   createTodolist(data: DataType) {
-    return instance.post<BaseResponse<{ item: TodolistType }>>('/todo-lists', data);
+    // return instance.post<BaseResponse<{ item: TodolistType }>>('/todo-lists', data);
+    return instance.post<CreateTodolistResponse>('/todo-lists', data);
   },
   updateTodolist(todoID: string, data: DataType) {
     return instance.put<BaseResponse>(`/todo-lists/${todoID}`, data);

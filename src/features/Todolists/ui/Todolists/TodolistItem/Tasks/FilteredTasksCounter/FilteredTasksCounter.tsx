@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
-import S from "../TasksList.module.css";
-import {TaskDomainType} from "../../../../../api/taskApi.ts";
+import s from "../TasksList.module.css";
 
 type FilteredTasksCounterProps = {
     allTasksQuantity: number;
@@ -17,9 +16,9 @@ export const FilteredTasksCounter = ({allTasksQuantity = 0, filteredTasksQuantit
 
     return (
         filteredTasksQuantity !== 0 ? (
-            <Box className={S.counterWrapper}>
+            <Box className={s.counterWrapper}>
                 <span>Showed tasks: </span>
-                <span className={S.counter}>{currentTasksQuantityToShow}</span>
+                <span className={s.counter}>{currentTasksQuantityToShow}</span>
             </Box>
         ) : null
     );

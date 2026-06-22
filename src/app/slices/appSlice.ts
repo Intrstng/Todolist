@@ -5,7 +5,7 @@ import {AppInitialState, Status} from "@/app/slices/appSlice.types.ts";
 export const appSlice = createSlice({
   name: 'app',
   initialState: {
-    status: 'idle' as RequestStatusType,
+    status: 'idle' as Status,
     error: null,
     isInitialized: false,
     themeMode: 'light' as CustomThemeMode,
@@ -32,9 +32,6 @@ export const appSlice = createSlice({
   },
 });
 
-
 export const appReducer = appSlice.reducer;
 export const appActions = appSlice.actions;
 export const { themeModeSelector, isInitializedSelector, statusSelector, errorSelector } = appSlice.selectors
-
-export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"

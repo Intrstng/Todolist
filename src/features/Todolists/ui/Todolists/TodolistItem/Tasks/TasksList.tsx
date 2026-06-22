@@ -1,4 +1,4 @@
-import {FC, JSX, memo, useEffect, useMemo} from 'react';
+import {JSX, memo, useEffect, useMemo} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react';
 import S from './TasksList.module.css';
 import {useAppSelector} from '@/app/store';
@@ -15,7 +15,7 @@ type TasksListProps = {
     todolist: TodolistDomainType;
 };
 
-export const TasksList: FC<TasksListProps> = memo(({todolist}) => {
+export const TasksList = memo(({todolist}: TasksListProps) => {
    // const tasks = useAppSelector<TaskDomainType[]>((state) => state.tasks[todolist.id]);
     const tasks = useAppSelector<TaskDomainType[]>((state) => todolistTasksSelector(state, todolist.id));
     const [listRef] = useAutoAnimate<HTMLUListElement>();
