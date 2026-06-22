@@ -1,7 +1,7 @@
 import {authApi} from '@/features/auth/api/auth-api';
 import {isFulfilled, PayloadAction} from '@reduxjs/toolkit';
 import {appActions} from '@/app/slices/appSlice';
-import {clearDataAC, clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
+import {clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
 import {RESULT_CODE} from "@/features/Todolists/model/slices";
 import {createAppSlice} from "@/common/utils";
 import {handleServerAppError, handleServerNetworkError} from "@/utils/errorUtils.ts";
@@ -30,8 +30,9 @@ export const authSlice = createAppSlice({
                       dispatch(appActions.setAppStatus({status: "succeeded"}))
 
                       localStorage.setItem(AUTH_TOKEN, res.data.data.token)
-                      // dispatch(meTC()) - Вариант для отображения имени пользователя в Header при логине
-                      // (когда meTC выполнился если пользователь был не залогинен) - нужно для первой отрисовки
+
+                      // dispatch(authActions.initializeApp()) // Вариант для отображения имени пользователя в Header сразу при логине
+                      // (когда initializeApp выполнился если пользователь был не залогинен) - нужно для первой отрисовки
                       // (до перезагрузки страницы, т.к. потом выполнится уже meTC и подтвердит что пользователь залогинен)
 
                       return { isLoggedIn: true }
@@ -58,11 +59,10 @@ export const authSlice = createAppSlice({
                dispatch(appActions.setAppStatus({status: "loading"}))
                const res = await authApi.logout()
                if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
-                   dispatch(clearTasksAndTodolists());
                    dispatch(appActions.setAppStatus({status: "succeeded"}))
 
                    localStorage.removeItem(AUTH_TOKEN)
-                   dispatch(clearDataAC()) // Check
+                   dispatch(clearTasksAndTodolists()) // Check
 
                    return { isLoggedIn: false, loginName: '' }  // logout (kill cookie)
                } else {

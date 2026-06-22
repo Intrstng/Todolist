@@ -10,7 +10,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {useAppSelector} from '@/app/store';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {authActions, authIsLoggedInSelector} from "@/features/auth/model/slices/authSlice.ts";
+import {authActions, authIsLoggedInSelector, selectLoginName} from "@/features/auth/model/slices/authSlice.ts";
 
 type ButtonAppBarProps = {
   theme: Theme;
@@ -20,6 +20,7 @@ type ButtonAppBarProps = {
 export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+  const loginName = useAppSelector(selectLoginName)
 
   const boxStyles = {
     flexGrow: 1,
@@ -52,21 +53,24 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
           <Typography variant="h6" component="div" sx={typographyStyles}>
             TODO
           </Typography>
-          {/*{!isLoggedIn && <MenuButton color='inherit'*/}
-          {/*            theme={theme}*/}
-          {/*            background={'#0275f8'}>Login</MenuButton>}*/}
-          {/*Or use:*/}
-          {/*<LogInMUIButton isLoggedIn={isLoggedIn} theme={theme}/>*/}
-          <MenuButton color="inherit" onClick={logOutHandler} disabled={!isLoggedIn}>
-            Logout
-          </MenuButton>
-          <MenuButton color="inherit" customtheme={theme} background={theme.palette.primary.dark}>
-            Faq
-          </MenuButton>
-          {/*Day & night*/}
-          <IconButton sx={{ ml: 1 }} onClick={changeModeHandler} color="inherit">
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+          <Box>
+            <i>{loginName}</i>
+            {/*{!isLoggedIn && <MenuButton color='inherit'*/}
+            {/*            theme={theme}*/}
+            {/*            background={'#0275f8'}>Login</MenuButton>}*/}
+            {/*Or use:*/}
+            {/*<LogInMUIButton isLoggedIn={isLoggedIn} theme={theme}/>*/}
+            {isLoggedIn &&<MenuButton color="inherit" onClick={logOutHandler} disabled={!isLoggedIn}>
+              Logout
+            </MenuButton>}
+            <MenuButton color="inherit" customtheme={theme} background={theme.palette.primary.dark}>
+              Faq
+            </MenuButton>
+            {/*Day & night*/}
+            <IconButton sx={{ ml: 1 }} onClick={changeModeHandler} color="inherit">
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
