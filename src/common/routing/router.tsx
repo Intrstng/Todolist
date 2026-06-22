@@ -1,9 +1,9 @@
 import App from '@/app/App'
 import {createBrowserRouter, Navigate} from 'react-router-dom'
-import {Login} from '@/features/Login/ui/Login'
 import {Todolists} from '@/features/Todolists/ui/Todolists/Todolists'
 import {ErrorPage} from '@/common/pages/ErrorPage/ErrorPage'
 import {PATH} from "@/common/constants";
+import {Login} from "@/features/auth/ui/Login.tsx";
 
 export const router = createBrowserRouter([
     {

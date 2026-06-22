@@ -1,5 +1,5 @@
 import {beforeEach, describe, expect, it} from 'vitest'
-import {authActions, authReducer, LoginState} from './authSlice'
+import {authActions, authReducer, LoginState} from '../slices/authSlice.ts'
 
 describe('authReducer', () => {
   let isLoggedIn: boolean

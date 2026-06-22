@@ -8,4 +8,5 @@
 4. Refactored Global loading and error handling to straightforward setting of loading status and errors from thunks.
    Just another implementation option since option **3** is more advanced.
    These changes are done in the commit: "feat: change global loading and error handling to straightforward variant from thunks"
+5. Refactored from Formik to React Hook Form with Zod validation in commit: "feat: change Formik to React Hook Form wit Zod validation"
     

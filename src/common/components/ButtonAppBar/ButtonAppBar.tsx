@@ -8,9 +8,9 @@ import {MenuButton} from '@/common/components';
 import {Theme} from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import {authActions, authIsLoggedInSelector} from '@/features/Login/model/slices/authSlice';
 import {useAppSelector} from '@/app/store';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {authActions, authIsLoggedInSelector} from "@/features/auth/model/slices/authSlice.ts";
 
 type ButtonAppBarProps = {
   theme: Theme;

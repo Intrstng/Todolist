@@ -11,7 +11,7 @@ import {
   todoListsSelector
 } from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {authIsLoggedInSelector} from "@/features/Login/model/slices/authSlice.ts";
+import {authIsLoggedInSelector} from "@/features/auth/model/slices/authSlice.ts";
 
 export const Todolists = memo(() => {
   const dispatch = useAppDispatch();

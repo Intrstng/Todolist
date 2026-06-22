@@ -10,7 +10,7 @@ import {ErrorSnackbar} from "@/common/components";
 import {Main} from "@/common/components/Main";
 import {useAppSelector} from "@/app/store.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {authActions} from "@/features/Login/model/slices/authSlice.ts";
+import {authActions} from "@/features/auth/model/slices/authSlice.ts";
 
 const App = () => {
   const dispatch = useAppDispatch()
