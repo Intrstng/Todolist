@@ -84,7 +84,7 @@ export const Task = memo(({ todolist, task }: TaskProps) => {
   );
   // Or just `task.entityStatus === 'loading'` (then change in props todolist to todolistID)
   const isLoading = todolist.entityStatus === 'loading' || task.entityStatus === 'loading';
-console.log(task.entityStatus)
+
   return (
     <li className={finalTaskItemClassList}>
       <input

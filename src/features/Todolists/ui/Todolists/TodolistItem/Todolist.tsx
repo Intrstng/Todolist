@@ -44,7 +44,16 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
     <Box className={S.todolist}>
       <Box className={S.todolist__titleContent}>
         <TodolistTitle todolist={todolist}/>
-        <IconButton aria-label='delete' onClick={onClickRemoveTodolist} disabled={todolist.entityStatus === 'loading'}>
+        <IconButton aria-label='delete'
+                    onClick={onClickRemoveTodolist}
+                    disabled={todolist.entityStatus === 'loading'}
+                    sx={{
+                      '&.Mui-disabled': {
+                        opacity: 0.3,
+                        cursor: 'not-allowed',
+                      }
+                    }}
+        >
             <ClearIcon fontSize='medium' color='error'/>
         </IconButton>
       </Box>
