@@ -5,18 +5,18 @@ import {Todolist} from './TodolistItem/Todolist';
 import {useAppSelector} from '@/app/store';
 import {Navigate} from 'react-router-dom';
 import {CreateItemForm} from "@/common/components";
-import {
-  TodolistDomainType,
-  todoListsActions,
-  todoListsSelector
-} from "@/features/Todolists/model/slices";
+import {todoListsActions} from "@/features/Todolists/model/slices";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {authIsLoggedInSelector} from "@/features/auth/model/slices/authSlice.ts";
+import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
+import {useGetTodolistsQuery} from "@/features/Todolists/api/_todolistApi.ts";
 
 export const Todolists = memo(() => {
   const dispatch = useAppDispatch();
-  const todoLists = useAppSelector<TodolistDomainType[]>(todoListsSelector);
+  // const todoLists = useAppSelector<TodolistDomainType[]>(todoListsSelector);
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
+
+  // const { data: todoLists, refetch } = useGetTodolistsQuery()
+  const { data: todoLists } = useGetTodolistsQuery()
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -34,7 +34,7 @@ export const Todolists = memo(() => {
   return (
     <>
       <CreateItemForm/>
-      {todoLists.map((tl) => (
+      {todoLists?.map((tl) => (
         <Grid key={tl.id}>
           <Paper elevation={3}>
             <Todolist todolist={tl} />

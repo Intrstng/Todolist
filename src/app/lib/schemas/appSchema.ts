@@ -8,6 +8,7 @@ export const appInitialStateSchema = z.object({
     error: z.string().nullable(),
     isInitialized: z.boolean(),
     themeMode: z.custom<CustomThemeMode>(),
+    isLoggedIn: z.boolean(),
 });
 
 

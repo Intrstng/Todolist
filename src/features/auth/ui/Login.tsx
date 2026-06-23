@@ -118,7 +118,6 @@
 // type FormikErrors = Partial<LoginParamsType>;
 
 
-
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
 import FormControl from "@mui/material/FormControl"
@@ -126,25 +125,26 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import {Controller, SubmitHandler, useForm} from "react-hook-form"
 import s from "./Login.module.css"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { LoginInputs, loginSchema } from "@/features/auth/lib/schemas"
+import {zodResolver} from "@hookform/resolvers/zod"
+import {LoginInputs, loginSchema} from "@/features/auth/lib/schemas"
 import Grid from "@mui/material/Grid"
 import {getTheme} from "@/common";
 import {useAppSelector} from "@/app/store.ts";
-import {themeModeSelector} from "@/app/slices/appSlice.ts";
+import {appActions, authIsLoggedInSelector, themeModeSelector} from "@/app/slices/appSlice.ts";
 import {Navigate} from "react-router-dom";
-import {PATH} from "@/common/constants";
+import {AUTH_TOKEN, PATH} from "@/common/constants";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {authActions, authIsLoggedInSelector} from "@/features/auth/model/slices/authSlice.ts";
+import {useLoginMutation} from "@/features/auth/api/_auth-api.ts";
+import {RESULT_CODE} from "@/common/enums/enums.ts";
 
 export const Login = () => {
   const themeMode = useAppSelector(themeModeSelector)
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
   const dispatch = useAppDispatch();
-
   const theme = getTheme(themeMode)
+  const [login] = useLoginMutation()
 
   const {
     // register,
@@ -158,8 +158,17 @@ export const Login = () => {
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(authActions.login(data));
-    reset()
+    // dispatch(authActions.login(data));
+    login(data)
+        .unwrap()
+        .then((data) => {
+          if (data.resultCode === RESULT_CODE.SUCCEDED) {
+            localStorage.setItem(AUTH_TOKEN, data.data.token)
+            dispatch(appActions.setIsLoggedIn({ isLoggedIn: true }))
+            reset()
+          }
+        })
+    // reset()
   }
 
   if (isLoggedIn) {

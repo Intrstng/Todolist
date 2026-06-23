@@ -1,4 +1,4 @@
-import {taskApi} from '@/features/Todolists/api/taskApi.ts'
+import {_taskApi} from '@/features/Todolists/api/_taskApi.ts'
 import {AppRootState} from '@/app/store'
 import {PayloadAction} from '@reduxjs/toolkit'
 import {todoListsActions} from './todoListsSlice'
@@ -45,7 +45,7 @@ export const tasksSlice = createAppSlice({
                 const {dispatch, rejectWithValue} = thunkAPI
                 try {
                     dispatch(appActions.setAppStatus({status: "loading"}))
-                    const res = await taskApi.getAllTasks(todolistID)
+                    const res = await _taskApi.getAllTasks(todolistID)
                     responseGetTasksSchema.parse(res.data) // 💎 ZOD
 
                     const tasks = res.data.items
@@ -72,7 +72,7 @@ export const tasksSlice = createAppSlice({
                 try {
                     dispatch(appActions.setAppStatus({status: "loading"}))
                     dispatch(todoListsActions.changeTodoListsEntityStatus({todolistID, entityStatus: 'loading'}));
-                    const res = await taskApi.createTask(todolistID, {title})
+                    const res = await _taskApi.createTask(todolistID, {title})
                     createTaskResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -125,7 +125,7 @@ export const tasksSlice = createAppSlice({
                             entityStatus: 'loading',
                         })
                     );
-                    const res = await taskApi.deleteTask(todolistID, taskID)
+                    const res = await _taskApi.deleteTask(todolistID, taskID)
                     defaultResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -190,7 +190,7 @@ export const tasksSlice = createAppSlice({
                         ...model,
                     };
 
-                    const res = await taskApi.updateTask(todolistID, taskID, apiModel);
+                    const res = await _taskApi.updateTask(todolistID, taskID, apiModel);
                     updateTaskResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {

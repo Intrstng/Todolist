@@ -9,13 +9,18 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {useAppSelector} from '@/app/store';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {authActions, authIsLoggedInSelector, selectLoginName} from "@/features/auth/model/slices/authSlice.ts";
 import {ButtonAppBarProps} from "@/common/components/ButtonAppBar/ButtonAppBar.types.ts";
+import {useLogoutMutation} from "@/features/auth/api/_auth-api.ts";
+import {RESULT_CODE} from "@/common/enums/enums.ts";
+import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
+import {AUTH_TOKEN} from "@/common/constants";
+import {baseApi} from "@/app/baseApi.ts";
 
 export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
-  const loginName = useAppSelector(selectLoginName)
+  // const loginName = useAppSelector(selectLoginName)
+  const [logout] = useLogoutMutation()
 
   const boxStyles = {
     flexGrow: 1,
@@ -35,7 +40,28 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   // }, [])
 
   const logOutHandler = () => {
-    dispatch(authActions.logOut());
+    // dispatch(authActions.logOut());
+
+    // // Variant 1 - Clear all state
+    logout().unwrap().then((data) => {
+      if (data.resultCode === RESULT_CODE.SUCCEDED) {
+        dispatch(appActions.setIsLoggedIn({ isLoggedIn: false }))
+        localStorage.removeItem(AUTH_TOKEN)
+        dispatch(baseApi.util.resetApiState())
+      }
+    })
+
+    // Variant 2 - Clear all cash for 'Todolist', 'Task'
+    // logout()
+    //     .then(res => {
+    //       if (res.data?.resultCode === RESULT_CODE.SUCCEDED) {
+    //         dispatch(appActions.setIsLoggedIn({ isLoggedIn: false }))
+    //         localStorage.removeItem(AUTH_TOKEN)
+    //       }
+    //     })
+    //     .then(() => {
+    //       dispatch(baseApi.util.invalidateTags(['Todolist', 'Task']))
+    //     })
   };
 
   return (
@@ -49,7 +75,8 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
             TODO
           </Typography>
           <Box>
-            <i>{loginName}</i>
+            {/*<i>{loginName}</i>*/}
+
             {/*{!isLoggedIn && <MenuButton color='inherit'*/}
             {/*            theme={theme}*/}
             {/*            background={'#0275f8'}>Login</MenuButton>}*/}

@@ -1,12 +1,12 @@
-import {ChangeEvent, memo, useCallback, useMemo} from 'react';
+import {ChangeEvent, memo, useMemo} from 'react';
 import {Button} from '@/common/components/Button/Button.tsx';
 import DeleteIcon from '@mui/icons-material/Delete';
 import S from '../TasksList.module.css';
 import {EditableSpan} from "@/common/components";
-import {tasksActions, TodolistDomainType} from "@/features/Todolists/model/slices";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
+import {useDeleteTaskMutation, useUpdateTaskMutation} from "@/features/Todolists/api/_taskApi.ts";
+import {TodolistDomainType} from "@/features/Todolists/model/slices/todoListsSlice.types";
 
 type TaskProps = {
   todolist: TodolistDomainType;
@@ -14,31 +14,49 @@ type TaskProps = {
 };
 
 export const Task = memo(({ todolist, task }: TaskProps) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const finalTaskItemClassList = `${S.taskItem} ${task.status === TaskStatuses.Completed ? S.completed : ''}`;
+    const [updateTask] = useUpdateTaskMutation()
+    const [deleteTask] = useDeleteTaskMutation()
 
-  const onBlur = useCallback(
-    (title: string) => {
-      dispatch(tasksActions.updateTask({
-          todolistID: todolist.id,
-          taskID: task.id,
-          model: { title }
-      }));
-    },
-    [dispatch, todolist.id, task.id],
-  );
+  const onBlur = (title: string) => {
+      // dispatch(tasksActions.updateTask({
+      //     todolistID: todolist.id,
+      //     taskID: task.id,
+      //     model: { title }
+      // }));
+        updateTask({data: {
+                todolistID: todolist.id,
+                taskID: task.id,
+                model: { title }
+            }})
+    }
 
   const onChangeInputStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const newStatusValueFlag = e.currentTarget.checked;
     const statusValue: TaskStatuses = newStatusValueFlag ? TaskStatuses.Completed : TaskStatuses.New;
-    dispatch(tasksActions.updateTask({
-        todolistID: todolist.id,
-        taskID: task.id,
-        model: { status: statusValue }
-    }));
+    // dispatch(tasksActions.updateTask({
+    //     todolistID: todolist.id,
+    //     taskID: task.id,
+    //     model: { status: statusValue }
+    // }));
+
+      updateTask({data: {
+          todolistID: todolist.id,
+          taskID: task.id,
+              model: {
+                  status: statusValue,
+                  title: task.title // Backend needs this field
+              }
+      }})
   };
   const onclickBtnRemoveTask = () => {
-    dispatch(tasksActions.removeTask({todolistID: todolist.id, taskID: task.id}));
+    // dispatch(tasksActions.removeTask({todolistID: todolist.id, taskID: task.id}));
+    deleteTask({data: {
+        todolistID: todolist.id,
+        taskID: task.id,
+        }
+    })
   };
 
   const inputFieldStyle = useMemo(
@@ -66,7 +84,7 @@ export const Task = memo(({ todolist, task }: TaskProps) => {
   );
   // Or just `task.entityStatus === 'loading'` (then change in props todolist to todolistID)
   const isLoading = todolist.entityStatus === 'loading' || task.entityStatus === 'loading';
-
+console.log(task.entityStatus)
   return (
     <li className={finalTaskItemClassList}>
       <input

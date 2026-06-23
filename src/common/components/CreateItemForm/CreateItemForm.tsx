@@ -1,22 +1,16 @@
-import {useCallback} from 'react';
-import {todoListsActions} from "@/features/Todolists/model/slices";
 import {AddItemForm} from "@/common/components";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {useAddTodolistMutation} from "@/features/Todolists/api/_todolistApi.ts";
 
 export const CreateItemForm = () => {
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
-    const addTodolist = useCallback(
-        (newTitle: string) => {
-            // // For useReducer():
-            // const action = removeTodolistAC(id); // !!!!!!!!!!!
-            // dispatchTodolists(action); // we cannot use dispatchTodolists(removeTodolistAC(id)) here
-            // dispatchTasks(action); // we cannot use dispatchTodolists((removeTodolistAC(id)) here
-            //dispatch(addTodolistAC(newTitle));  // !!!!!!! один dispatch и action
-            dispatch(todoListsActions.addTodoList({title: newTitle}));
-        },
-        [dispatch],
-    ); // we can remove dispatch from deps
+    // const [addTodolist, { data, isLoading, error }] = useAddTodolistMutation()
+    const [addTodolist] = useAddTodolistMutation()
 
-    return <AddItemForm addItem={addTodolist} className={'inputForm'} titleBtn={'Add todolist'} label={'Create TODO'} />;
+    const addTodolistHandler = (newTitle: string) => {
+        // dispatch(todoListsActions.addTodoList({title: newTitle}));
+        addTodolist({title: newTitle})
+    }
+
+    return <AddItemForm addItem={addTodolistHandler} className={'inputForm'} titleBtn={'Add todolist'} label={'Create TODO'} />;
 };

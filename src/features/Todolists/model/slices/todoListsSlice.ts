@@ -1,4 +1,4 @@
-import {todolistApi} from '@/features/Todolists/api/todolistApi.ts';
+import {_todolistApi} from '@/features/Todolists/api/_todolistApi.ts';
 import {thunkTryCatch} from "@/utils/thunkTryCatch.ts";
 import {AddTodolistArg, DeleteTodolistArg, UpdateTodolistArg} from "@/features/Todolists/api/todolistApi.types.ts";
 import {clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
@@ -46,7 +46,7 @@ export const todoListsSlice = createAppSlice({
                 const {dispatch, rejectWithValue} = thunkAPI
                  try {
                      dispatch(appActions.setAppStatus({ status: "loading" }))
-                     const res = await todolistApi.getTodolists()
+                     const res = await _todolistApi.getTodolists()
                      // Instead of the next code we fetchTasks in useEffect in TasksList
                      // and see todoListsActions.fetchTodolists.fulfilled in tasksSlice extraReducer
                      // res.data.forEach(tl => {
@@ -74,7 +74,7 @@ export const todoListsSlice = createAppSlice({
                 const {dispatch, rejectWithValue} = thunkAPI
                 try {
                     dispatch(appActions.setAppStatus({ status: "loading" }))
-                    const res = await todolistApi.createTodolist({title: arg.title})
+                    const res = await _todolistApi.createTodolist({title: arg.title})
                     createTodolistResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -108,7 +108,7 @@ export const todoListsSlice = createAppSlice({
                     try {
                         dispatch(appActions.setAppStatus({ status: "loading" }))
                         dispatch(todoListsActions.changeTodoListsEntityStatus({todolistID: id, entityStatus: 'loading'})); // Set entityStatus
-                        const res = await todolistApi.deleteTodolist(id)
+                        const res = await _todolistApi.deleteTodolist(id)
                         defaultResponseSchema.parse(res.data) // 💎 ZOD
 
                         if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -144,7 +144,7 @@ export const todoListsSlice = createAppSlice({
                     const {dispatch, rejectWithValue} = thunkAPI
                     try {
                         dispatch(appActions.setAppStatus({ status: "loading" }))
-                        const res = await todolistApi.updateTodolist(arg.id, {title: arg.title})
+                        const res = await _todolistApi.updateTodolist(arg.id, {title: arg.title})
                         defaultResponseSchema.parse(res.data) // 💎 ZOD
 
                         if (res.data.resultCode === RESULT_CODE.SUCCEDED) {

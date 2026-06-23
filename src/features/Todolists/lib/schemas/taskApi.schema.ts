@@ -15,12 +15,6 @@ export const taskSchema = z.object({
     addedDate: z.iso.datetime({ local: true }).nullish(),
 });
 
-export const responseGetTasksSchema = z.object({
-    items: z.array(taskSchema),
-    totalCount: z.number().optional(),
-    error: z.string().nullish(),
-});
-
 export const updateTaskTypeSchema = z.object({
     title: z.string().optional(),
     description: z.string().nullish(),
@@ -30,8 +24,16 @@ export const updateTaskTypeSchema = z.object({
     deadline: z.iso.datetime({ local: true }).nullish(),
 });
 
+export const StatusSchema = z.enum(['idle', 'loading', 'succeeded', 'failed']);
+
 export const taskDomainSchema = taskSchema.extend({
-    entityStatus: z.string(), // replace with StatusSchema if Status is an enum
+    entityStatus: StatusSchema.optional(),
+});
+
+export const responseGetTasksSchema = z.object({
+    items: z.array(taskDomainSchema),
+    totalCount: z.number().optional(),
+    error: z.string().nullish(),
 });
 
 export const addTaskArgSchema = z.object({

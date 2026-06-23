@@ -4,6 +4,7 @@ import {configureStore, ThunkDispatch, UnknownAction} from '@reduxjs/toolkit'
 import {setupListeners} from "@reduxjs/toolkit/query"
 import {appReducer, appSlice} from "./slices/appSlice"
 import {authReducer, authSlice} from "@/features/auth/model/slices/authSlice.ts";
+import {baseApi} from "@/app/baseApi.ts";
 
 export const store = configureStore({
   reducer: {
@@ -11,10 +12,13 @@ export const store = configureStore({
     [todoListsSlice.name]: todoListsReducer,
     [tasksSlice.name]: tasksReducer,
     [authSlice.name]: authReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
+  // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(_todolistsApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 });
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch) // Add for RTK query cash, invalidation, pooling, refetchOnFocus, refetchOnReconnect
 
 export type AppRootState = ReturnType<typeof store.getState>
 export type AppDispatch = ThunkDispatch<AppRootState, unknown, UnknownAction>;

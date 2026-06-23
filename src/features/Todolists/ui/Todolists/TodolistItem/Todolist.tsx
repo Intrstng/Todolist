@@ -9,9 +9,10 @@ import {CreateTaskItemForm} from "./Tasks/CreateTaskItemForm";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {TasksCounter} from "./Tasks/TasksCounter/TasksCounter";
-import {TodolistDomainType, todoListsActions, todolistTasksSelector} from "@/features/Todolists/model/slices";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {todolistTasksSelector} from "@/features/Todolists/model/slices";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
+import {TodolistDomainType} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
+import {useDeleteTodolistMutation} from "@/features/Todolists/api/_todolistApi.ts";
 
 type TodolistProps = {
   todolist: TodolistDomainType;
@@ -19,13 +20,15 @@ type TodolistProps = {
 
 export const Todolist = memo(({ todolist }: TodolistProps) => {
   const [isTaskListCollapsed, setTaskListCollapsed] = useState<boolean>(true);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const [deleteTodolist] = useDeleteTodolistMutation()
  // const tasks = useAppSelector<TaskType[]>((state) => state.tasks[todolist.id]);
     const tasks = useAppSelector<TaskDomainType[]>((state) => todolistTasksSelector(state, todolist.id));
 
   const onClickRemoveTodolist = useCallback(() => {
-    dispatch(todoListsActions.removeTodoList({id: todolist.id}));
-  }, [dispatch, todolist.id]);
+    // dispatch(todoListsActions.removeTodoList({id: todolist.id}));
+    deleteTodolist(todolist.id)
+  }, [todolist.id]);
 
   const onClickTasksListCollapseToggle = useCallback(() => {
     setTaskListCollapsed(!isTaskListCollapsed);
@@ -34,7 +37,6 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
   const unCollapseTasksList = useCallback(() => {
     setTaskListCollapsed(true);
   }, [setTaskListCollapsed]);
-
 
   const toggleShowTasksListBtnName = isTaskListCollapsed ? 'Hide tasks list' : 'Show tasks list';
 

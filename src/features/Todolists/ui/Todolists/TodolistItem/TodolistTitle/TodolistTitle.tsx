@@ -1,15 +1,16 @@
 import {useCallback, useMemo} from 'react';
-import S from "../Todolist.module.css";
+import s from "../Todolist.module.css";
 import {EditableSpan} from "@/common/components";
-import {TodolistDomainType, todoListsActions} from "@/features/Todolists/model/slices";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {useChangeTodolistTitleMutation} from "@/features/Todolists/api/_todolistApi.ts";
+import {TodolistDomainType} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
 
 type TodolistTitleProps = {
     todolist: TodolistDomainType;
 };
 
 export const TodolistTitle = ({todolist}: TodolistTitleProps) => {
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
+    const [changeTodolistTitle] = useChangeTodolistTitleMutation()
 
     const inputFieldStyle = useMemo(
         () => ({
@@ -24,13 +25,14 @@ export const TodolistTitle = ({todolist}: TodolistTitleProps) => {
 
     const updateTodolist = useCallback(
         (newTitle: string) => {
-            dispatch(todoListsActions.changeTodoListTitle({id: todolist.id, title: newTitle}));
+            // dispatch(todoListsActions.changeTodoListTitle({id: todolist.id, title: newTitle}));
+            changeTodolistTitle({ id: todolist.id, data: { title: newTitle } })
         },
-        [dispatch, todolist.id],
+        [todolist.id],
     );
 
     return (
-        <h2 className={S.todolist__title}>
+        <h2 className={s.todolist__title}>
             <EditableSpan
                 oldTitle={todolist.title}
                 style={inputFieldStyle}

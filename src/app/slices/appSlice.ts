@@ -9,12 +9,14 @@ export const appSlice = createSlice({
     error: null,
     isInitialized: false,
     themeMode: 'light' as CustomThemeMode,
+    isLoggedIn: false,
   } as AppInitialState,
   selectors: {
     themeModeSelector: (state: AppInitialState): CustomThemeMode => state.themeMode,
     statusSelector: (state: AppInitialState): Status => state.status,
     errorSelector: (state: AppInitialState): string | null => state.error,
     isInitializedSelector: (state: AppInitialState): boolean => state.isInitialized,
+    authIsLoggedInSelector: (state: AppInitialState): boolean => state.isLoggedIn,
   },
   reducers: {
     changeThemeMode(state, action: PayloadAction<{ theme: CustomThemeMode }>) {
@@ -29,9 +31,14 @@ export const appSlice = createSlice({
     setAppInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
       state.isInitialized = action.payload.isInitialized;
     },
+
+    // From auth-slice
+    setIsLoggedIn(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+      state.isLoggedIn = action.payload.isLoggedIn
+    },
   },
 });
 
 export const appReducer = appSlice.reducer;
 export const appActions = appSlice.actions;
-export const { themeModeSelector, isInitializedSelector, statusSelector, errorSelector } = appSlice.selectors
+export const { themeModeSelector, isInitializedSelector, statusSelector, errorSelector, authIsLoggedInSelector } = appSlice.selectors

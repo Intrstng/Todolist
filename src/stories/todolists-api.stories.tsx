@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 import axios from 'axios';
-import { todolistApi, ResponseType } from '../features/Todolists/api/todolistApi.ts';
-import { taskApi } from '../features/Todolists/api/taskApi.ts';
+import { _todolistApi, ResponseType } from '../features/Todolists/api/_todolistApi.ts';
+import { _taskApi } from '../features/Todolists/api/_taskApi.ts';
 import { TodolistType } from '../features/Todolists/model/slices/todoListsSlice';
 
 export default {
@@ -11,7 +11,7 @@ export default {
 export const GetTodolists = () => {
   const [state, setState] = useState<TodolistType[] | null>(null);
   useEffect(() => {
-    todolistApi.getTodolists().then((response) => setState(response.data));
+    _todolistApi.getTodolists().then((response) => setState(response.data));
   }, []);
   return <div>{JSON.stringify(state)}</div>;
 };
@@ -37,7 +37,7 @@ export const CreateTodolist = () => {
     const data = {
       title: todoTitle,
     };
-    todolistApi.createTodolist(data).then((response) => setState(response.data));
+    _todolistApi.createTodolist(data).then((response) => setState(response.data));
     setTodoTitle('');
   };
 
@@ -76,7 +76,7 @@ export const UpdateTodolistTitle = () => {
     const data = {
       title: todoTitle,
     };
-    todolistApi
+    _todolistApi
       .updateTodolist(todoID, data)
       .then((response) => setState(response.data))
       .catch((err) => console.log(err.message));
@@ -114,7 +114,7 @@ export const DeleteTodolist = () => {
   };
 
   const onClickDeleteTodoHandler = () => {
-    todolistApi
+    _todolistApi
       .deleteTodolist(todoID)
       .then((response) => setState(response.data))
       .catch((err) => console.log(err.message));

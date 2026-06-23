@@ -1,4 +1,4 @@
-import {authApi} from '@/features/auth/api/auth-api';
+import {_authApi} from '@/features/auth/api/_auth-api.ts';
 import {isFulfilled, PayloadAction} from '@reduxjs/toolkit';
 import {appActions} from '@/app/slices/appSlice';
 import {clearTasksAndTodolists} from "@/common/actions/common.actions.ts";
@@ -27,7 +27,7 @@ export const authSlice = createAppSlice({
                 const {dispatch, rejectWithValue} = thunkAPI;
                 try {
                     dispatch(appActions.setAppStatus({status: "loading"}))
-                    const res = await authApi.login(params)
+                    const res = await _authApi.login(params)
                     authLoginResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -61,7 +61,7 @@ export const authSlice = createAppSlice({
                 const {dispatch, rejectWithValue} = thunkAPI;
                 try {
                     dispatch(appActions.setAppStatus({status: "loading"}))
-                    const res = await authApi.logout()
+                    const res = await _authApi.logout()
                     defaultResponseSchema.parse(res.data) // 💎 ZOD
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -93,7 +93,7 @@ export const authSlice = createAppSlice({
                 const {dispatch, rejectWithValue} = thunkAPI;
                 try {
                     dispatch(appActions.setAppStatus({status: "loading"}))
-                    const res = await authApi.me()
+                    const res = await _authApi.me()
                     authMeResponseSchema.parse(res.data) // 💎 ZOD - CHECK
 
                     if (res.data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -160,4 +160,4 @@ export const authSlice = createAppSlice({
 
 export const authReducer = authSlice.reducer;
 export const authActions = authSlice.actions;
-export const {authIsLoggedInSelector, selectLoginName} = authSlice.selectors
+// export const {authIsLoggedInSelector, selectLoginName} = authSlice.selectors
