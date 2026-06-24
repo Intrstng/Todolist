@@ -15,6 +15,8 @@
 8. Refactor RTK 2.0 - THUNKS created with **createAppAsyncThunk** inside the slices to **RTK query** *Server State*
    in commit: "feat: change from THUNKS created with createAppAsyncThunk inside the slices (RTK 2.0) to RTK query"
 9. Version 8 without unused slices and comments after refactoring to RTK query in commit: "refactor: delete comments and unused slices after refactoring to RTK query"
+9. Add isLoading for global LinearProgress and Todolists/Tasks Query Loading State to show TodolistSkeleton/TasksSkeleton
+   in commit: "feat: add global isLoading and Todolists/Tasks Query Loading State to show TodolistSkeleton/TasksSkeleton"
    
 
     

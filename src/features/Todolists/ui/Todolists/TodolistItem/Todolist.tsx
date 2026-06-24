@@ -66,7 +66,7 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
             </Button>
             {tasks && <TasksCounter tasksQuantity={tasks.length}/>}
           </Box>
-          {isTaskListCollapsed ? <TasksList todolist={todolist} tasks={tasks}/> : null}
+          {isTaskListCollapsed ? <TasksList todolist={todolist} /> : null}
     </Box>
   );
 });

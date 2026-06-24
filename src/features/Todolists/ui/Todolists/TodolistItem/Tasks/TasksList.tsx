@@ -8,15 +8,19 @@ import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter"
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
 import { TodolistDomainType } from "@/features/Todolists/lib/schemas/todolistApi.schema";
+import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";
+import {TasksSkeleton} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksSkeleton/TasksSkeleton.tsx";
 
 type TasksListProps = {
     todolist: TodolistDomainType;
-    tasks: TaskDomainType[] | undefined;
 };
 
-export const TasksList = memo(({todolist, tasks}: TasksListProps) => {
+export const TasksList = memo(({todolist}: TasksListProps) => {
     const [listRef] = useAutoAnimate<HTMLUListElement>();
-    let tasksForTodoList: TaskDomainType[] | undefined = tasks;
+    const { data, isLoading } = useGetTasksQuery(todolist.id)
+
+    const tasks = data?.items
+    let tasksForTodoList: TaskDomainType[] | undefined = data?.items;
 
     tasksForTodoList = useMemo(() => {
         return todolist.filter === 'active'
@@ -36,6 +40,10 @@ export const TasksList = memo(({todolist, tasks}: TasksListProps) => {
                 })}
             </ul>
         );
+
+    if (isLoading) {
+        return <TasksSkeleton />
+    }
 
     return (
         <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>

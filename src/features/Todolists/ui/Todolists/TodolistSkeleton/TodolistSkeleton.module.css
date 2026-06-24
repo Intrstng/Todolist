@@ -1,0 +1,44 @@
+.common {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    width: 305px;
+    padding: 10px 20px;
+}
+
+.title {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.createItemForm {
+    composes: common;
+    align-items: center;
+}
+
+.hideTasks {
+    composes: common;
+    align-items: center;
+}
+
+.showedTasks {
+    composes: common;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.controls {
+    composes: common;
+    align-items: center;
+}
+
+.tasks {
+    composes: common;
+    align-items: center;
+    gap: 15px;
+}

@@ -7,3 +7,5 @@ export const PATH = {
     ERROR: "/error",
     NOT_FOUND: "*",
 } as const
+
+export const SKELETON_GALLERY = 3
