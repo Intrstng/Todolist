@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {MenuButton} from '@/common/components';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import {useAppSelector} from '@/app/store';
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {ButtonAppBarProps} from "@/common/components/ButtonAppBar/ButtonAppBar.types.ts";
 import {useLogoutMutation} from "@/features/auth/api/authApi.ts";

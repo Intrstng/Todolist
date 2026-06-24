@@ -2,7 +2,6 @@ import {memo} from 'react';
 import {Grid} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import {Todolist} from './TodolistItem/Todolist';
-import {useAppSelector} from '@/app/store';
 import {Navigate} from 'react-router-dom';
 import {CreateItemForm} from "@/common/components";
 import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
@@ -10,6 +9,7 @@ import {useGetTodolistsQuery} from "@/features/Todolists/api/todolistApi.ts";
 import {TodolistSkeleton} from "@/features/Todolists/ui/Todolists/TodolistSkeleton/TodolistSkeleton.tsx";
 import Box from "@mui/material/Box";
 import {SKELETON_GALLERY} from "@/common/constants";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 
 export const Todolists = memo(() => {
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);

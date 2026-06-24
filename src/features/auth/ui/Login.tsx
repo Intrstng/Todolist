@@ -11,13 +11,13 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import {LoginInputs, loginSchema} from "@/features/auth/lib/schemas"
 import Grid from "@mui/material/Grid"
 import {getTheme} from "@/common";
-import {useAppSelector} from "@/app/store.ts";
 import {appActions, authIsLoggedInSelector, themeModeSelector} from "@/app/slices/appSlice.ts";
 import {Navigate} from "react-router-dom";
 import {AUTH_TOKEN, PATH} from "@/common/constants";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {useLoginMutation} from "@/features/auth/api/authApi.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 
 export const Login = () => {
   const themeMode = useAppSelector(themeModeSelector)

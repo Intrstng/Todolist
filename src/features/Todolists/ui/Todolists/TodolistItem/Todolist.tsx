@@ -8,7 +8,7 @@ import {CreateTaskItemForm} from "./Tasks/CreateTaskItemForm";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {TasksCounter} from "./Tasks/TasksCounter/TasksCounter";
-import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
+import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {useDeleteTodolistMutation} from "@/features/Todolists/api/todolistApi.ts";
 import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";
 import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";

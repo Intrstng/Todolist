@@ -1,9 +1,9 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import {Theme} from "@mui/material/styles";
 import {getTheme} from "@/common/theme/theme";
-import {useAppSelector} from "@/app/store";
 import {appActions, statusSelector, themeModeSelector} from "@/app/slices/appSlice";
 import {ButtonAppBar} from "@/common/components";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {Status} from "@/app/slices/appSlice.types.ts";
 

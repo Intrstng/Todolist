@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import s from '../TasksList.module.css';
 import {EditableSpan} from "@/common/components";
 import {TaskStatuses} from "@/common/enums/enums.ts";
-import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
+import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {useDeleteTaskMutation, useUpdateTaskMutation} from "@/features/Todolists/api/taskApi.ts";
 import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 

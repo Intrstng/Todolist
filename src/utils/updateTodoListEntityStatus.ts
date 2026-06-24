@@ -1,6 +1,6 @@
 import { AppDispatch } from "@/app/store";
 import {todolistsApi} from "@/features/Todolists/api/todolistApi.ts";
-import {EntityStatus} from "@/features/Todolists/api/taskApi.types.ts";
+import {EntityStatus} from "@/features/Todolists/lib/types/taskApi.types.ts";
 
 export const updateTodoListEntityStatus = (
     dispatch: AppDispatch,

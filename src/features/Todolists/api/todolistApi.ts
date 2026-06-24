@@ -1,5 +1,5 @@
 import {BaseResponse} from "@/common";
-import {CreateTodolistResponse, DataType} from "@/features/Todolists/api/todolistApi.types.ts";
+import {CreateTodolistResponse, DataType} from "@/features/Todolists/lib/types/todolistApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
 import {TodolistDomainType, TodolistType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";

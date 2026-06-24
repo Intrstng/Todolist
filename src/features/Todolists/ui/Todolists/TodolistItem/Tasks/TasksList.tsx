@@ -5,7 +5,7 @@ import {Task} from './Task/Task';
 import Paper from "@mui/material/Paper";
 import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
 import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
-import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
+import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
 import { TodolistDomainType } from "@/features/Todolists/lib/schemas/todolistApi.schema";
 import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";

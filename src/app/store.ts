@@ -1,4 +1,3 @@
-import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import {configureStore, ThunkDispatch, UnknownAction} from '@reduxjs/toolkit'
 import {setupListeners} from "@reduxjs/toolkit/query"
 import {appReducer, appSlice} from "./slices/appSlice"
@@ -17,5 +16,3 @@ setupListeners(store.dispatch) // Add for RTK query cash, invalidation, pooling,
 
 export type AppRootState = ReturnType<typeof store.getState>
 export type AppDispatch = ThunkDispatch<AppRootState, unknown, UnknownAction>;
-
-export const useAppSelector: TypedUseSelectorHook<AppRootState> = useSelector;

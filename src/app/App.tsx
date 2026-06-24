@@ -8,7 +8,7 @@ import {getTheme} from "@/common/theme/theme";
 import {Header} from "@/common/components/Header/Header";
 import {ErrorSnackbar} from "@/common/components";
 import {Main} from "@/common/components/Main";
-import {useAppSelector} from "@/app/store.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {useMeQuery} from "@/features/auth/api/authApi.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";

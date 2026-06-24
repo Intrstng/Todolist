@@ -6,7 +6,7 @@ import {
   ResponseGetTasksType,
   UpdateTaskArg,
   UpdateTaskResponse
-} from "@/features/Todolists/api/taskApi.types.ts";
+} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
 import {updateTaskStatus} from "@/utils/updateTaskStatus";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";

@@ -3,10 +3,10 @@ import {Input} from '../Input/Input.tsx';
 import {Button} from '../Button/Button.tsx';
 import SendIcon from '@mui/icons-material/Send';
 import {Grid} from '@material-ui/core';
-import {useAppSelector} from '@/app/store';
 import {statusSelector} from '@/app/slices/appSlice';
 import {Status} from "@/app/slices/appSlice.types";
 import {AddItemFormProps} from "@/common/components/AddItemForm/AddItemForm.types.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 
 export const AddItemForm = memo(
   ({ addItem, className, label, titleBtn, disabled = false }: AddItemFormProps) => {

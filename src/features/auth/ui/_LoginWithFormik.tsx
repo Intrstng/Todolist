@@ -7,11 +7,10 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
-import S from './Login.module.css';
-import {useAppSelector} from '@/app/store';
+import s from './Login.module.css';
 import {Navigate} from 'react-router-dom';
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-
 import {AUTH_TOKEN, PATH} from "@/common/constants";
 import {LoginParamsType} from "../api/authApi.types";
 import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
@@ -95,7 +94,7 @@ export const Login = () => {
               {/*    rememberMe: false,*/}
               {/*},*/}
               {formik.touched.email && formik.errors.email ? (
-                <div className={S.error}>{formik.errors.email}</div>
+                <div className={s.error}>{formik.errors.email}</div>
               ) : null}
               <TextField
                 type="password"
@@ -105,7 +104,7 @@ export const Login = () => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.password && formik.errors.password ? (
-                <div className={S.error}>{formik.errors.password}</div>
+                <div className={s.error}>{formik.errors.password}</div>
               ) : null}
               <FormControlLabel
                 label={'Remember me'}
