@@ -1,33 +1,22 @@
 import {JSX, memo, useMemo} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react';
-import S from './TasksList.module.css';
+import s from './TasksList.module.css';
 import {Task} from './Task/Task';
 import Paper from "@mui/material/Paper";
 import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
 import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
-import {TodolistDomainType} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
-import {useGetTasksQuery} from "@/features/Todolists/api/_taskApi.ts";
+import { TodolistDomainType } from "@/features/Todolists/lib/schemas/todolistApi.schema";
 
 type TasksListProps = {
     todolist: TodolistDomainType;
+    tasks: TaskDomainType[] | undefined;
 };
 
-export const TasksList = memo(({todolist}: TasksListProps) => {
-   // const tasks = useAppSelector<TaskDomainType[]>((state) => state.tasks[todolist.id]);
-    // const tasks = useAppSelector<TaskDomainType[]>((state) => todolistTasksSelector(state, todolist.id));
+export const TasksList = memo(({todolist, tasks}: TasksListProps) => {
     const [listRef] = useAutoAnimate<HTMLUListElement>();
-    // const dispatch = useAppDispatch()
-    const { data } = useGetTasksQuery(todolist.id)
-
-    // Check!
-    // useEffect(() => {
-    //     dispatch(tasksActions.fetchTasks(todolist.id))
-    // }, [])
-
-    const tasks: TaskDomainType[] | undefined = data?.items
-    let tasksForTodoList: TaskDomainType[] | undefined = data?.items;
+    let tasksForTodoList: TaskDomainType[] | undefined = tasks;
 
     tasksForTodoList = useMemo(() => {
         return todolist.filter === 'active'
@@ -39,7 +28,7 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
 
     const listItems: JSX.Element =
         tasksForTodoList?.length === 0 ? (
-            <span className={S.errorMessage}>No tasks in list. Add new task...</span>
+            <span className={s.errorMessage}>No tasks in list. Add new task...</span>
         ) : (
             <ul ref={listRef}>
                 {tasksForTodoList?.map((task) => {
@@ -49,7 +38,7 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
         );
 
     return (
-        <Paper className={S.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
+        <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
             {listItems}
             <FilteredTasksCounter allTasksQuantity={tasks?.length || 0} filteredTasksQuantity={tasksForTodoList?.length || 0}/>
             {tasks?.length !== 0 && <TasksFilterControls todolist={todolist}/>}

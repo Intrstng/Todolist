@@ -8,7 +8,6 @@ export const EditableSpan = memo(
     const [newTitle, setNewTitle] = useState<string>(oldTitle);
     const activateEdit = () => {
       if (newTitle) {
-        // !!!!!!!!!!!!!!! //
         setEdit(!edit);
         onBlurCallBack(newTitle);
       }
@@ -33,7 +32,7 @@ export const EditableSpan = memo(
         value={newTitle}
         onChange={onChangeHandler}
         onBlur={activateEdit}
-        placeholder={!newTitle ? 'Enter title...' : ''} // !!!!!!!!!//
+        placeholder={!newTitle ? 'Enter title...' : ''}
         size={size || 'small'}
         autoFocus
         color={'info'}

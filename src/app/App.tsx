@@ -10,7 +10,7 @@ import {ErrorSnackbar} from "@/common/components";
 import {Main} from "@/common/components/Main";
 import {useAppSelector} from "@/app/store.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {useMeQuery} from "@/features/auth/api/_auth-api.ts";
+import {useMeQuery} from "@/features/auth/api/authApi.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";
 
 const App = () => {
@@ -18,10 +18,6 @@ const App = () => {
   const isInitialized = useAppSelector<boolean>(isInitializedSelector)
   const themeMode = useAppSelector(themeModeSelector)
   const { data, isLoading } = useMeQuery()
-
-  // useEffect(() => {
-  //   dispatch(authActions.initializeApp())
-  // }, [])
 
   useEffect(() => {
     if (isLoading) return

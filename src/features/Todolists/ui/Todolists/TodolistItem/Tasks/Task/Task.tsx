@@ -1,12 +1,12 @@
 import {ChangeEvent, memo, useMemo} from 'react';
 import {Button} from '@/common/components/Button/Button.tsx';
 import DeleteIcon from '@mui/icons-material/Delete';
-import S from '../TasksList.module.css';
+import s from '../TasksList.module.css';
 import {EditableSpan} from "@/common/components";
 import {TaskStatuses} from "@/common/enums/enums.ts";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
-import {useDeleteTaskMutation, useUpdateTaskMutation} from "@/features/Todolists/api/_taskApi.ts";
-import {TodolistDomainType} from "@/features/Todolists/model/slices/todoListsSlice.types";
+import {useDeleteTaskMutation, useUpdateTaskMutation} from "@/features/Todolists/api/taskApi.ts";
+import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 
 type TaskProps = {
   todolist: TodolistDomainType;
@@ -14,17 +14,11 @@ type TaskProps = {
 };
 
 export const Task = memo(({ todolist, task }: TaskProps) => {
-  // const dispatch = useAppDispatch();
-  const finalTaskItemClassList = `${S.taskItem} ${task.status === TaskStatuses.Completed ? S.completed : ''}`;
+  const finalTaskItemClassList = `${s.taskItem} ${task.status === TaskStatuses.Completed ? s.completed : ''}`;
     const [updateTask] = useUpdateTaskMutation()
     const [deleteTask] = useDeleteTaskMutation()
 
   const onBlur = (title: string) => {
-      // dispatch(tasksActions.updateTask({
-      //     todolistID: todolist.id,
-      //     taskID: task.id,
-      //     model: { title }
-      // }));
         updateTask({data: {
                 todolistID: todolist.id,
                 taskID: task.id,
@@ -35,12 +29,6 @@ export const Task = memo(({ todolist, task }: TaskProps) => {
   const onChangeInputStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const newStatusValueFlag = e.currentTarget.checked;
     const statusValue: TaskStatuses = newStatusValueFlag ? TaskStatuses.Completed : TaskStatuses.New;
-    // dispatch(tasksActions.updateTask({
-    //     todolistID: todolist.id,
-    //     taskID: task.id,
-    //     model: { status: statusValue }
-    // }));
-
       updateTask({data: {
           todolistID: todolist.id,
           taskID: task.id,
@@ -51,7 +39,6 @@ export const Task = memo(({ todolist, task }: TaskProps) => {
       }})
   };
   const onclickBtnRemoveTask = () => {
-    // dispatch(tasksActions.removeTask({todolistID: todolist.id, taskID: task.id}));
     deleteTask({data: {
         todolistID: todolist.id,
         taskID: task.id,

@@ -10,7 +10,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {useAppSelector} from '@/app/store';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {ButtonAppBarProps} from "@/common/components/ButtonAppBar/ButtonAppBar.types.ts";
-import {useLogoutMutation} from "@/features/auth/api/_auth-api.ts";
+import {useLogoutMutation} from "@/features/auth/api/authApi.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";
 import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
 import {AUTH_TOKEN} from "@/common/constants";
@@ -19,12 +19,10 @@ import {baseApi} from "@/app/baseApi.ts";
 export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
-  // const loginName = useAppSelector(selectLoginName)
   const [logout] = useLogoutMutation()
 
   const boxStyles = {
     flexGrow: 1,
-    // marginBottom: '40px'
   };
 
   const iconStyles = {
@@ -35,13 +33,7 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
     flexGrow: 1,
   };
 
-  // const logOutHandler = useCallback(() => {
-  //   dispatch(logOutTC());
-  // }, [])
-
   const logOutHandler = () => {
-    // dispatch(authActions.logOut());
-
     // // Variant 1 - Clear all state
     logout().unwrap().then((data) => {
       if (data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -75,13 +67,6 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
             TODO
           </Typography>
           <Box>
-            {/*<i>{loginName}</i>*/}
-
-            {/*{!isLoggedIn && <MenuButton color='inherit'*/}
-            {/*            theme={theme}*/}
-            {/*            background={'#0275f8'}>Login</MenuButton>}*/}
-            {/*Or use:*/}
-            {/*<LogInMUIButton isLoggedIn={isLoggedIn} theme={theme}/>*/}
             {isLoggedIn &&<MenuButton color="inherit" onClick={logOutHandler} disabled={!isLoggedIn}>
               Logout
             </MenuButton>}

@@ -16,7 +16,6 @@ export const Header = () => {
 
     const changeModeHandler = () => {
         dispatch(appActions.changeThemeMode({theme: customThemeMode === 'light' ? 'dark' : 'light'}))
-        // dispatch(initializeAppTC())
     }
 
     const linearProgressStyles = {

@@ -1,21 +1,17 @@
-import {FC} from 'react';
 import {AddItemForm} from "@/common/components";
-import {useCreateTaskMutation} from "@/features/Todolists/api/_taskApi.ts";
-import {TodolistDomainType} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
+import {useCreateTaskMutation} from "@/features/Todolists/api/taskApi.ts";
+import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 
 type CreateTaskItemFormProps = {
     todolist: TodolistDomainType;
     toggleTaskListCollapsed: () => void;
 }
 
-export const CreateTaskItemForm: FC<CreateTaskItemFormProps> = ({ todolist, toggleTaskListCollapsed}) => {
-    // const dispatch = useAppDispatch();
+export const CreateTaskItemForm = ({ todolist, toggleTaskListCollapsed}: CreateTaskItemFormProps) => {
     const [createTask] = useCreateTaskMutation()
 
     const addTask = (title: string) => {
-        // dispatch(tasksActions.addTask({todolistID: todolist.id, title}));
         createTask({data: {todolistID: todolist.id, title}})
-
         toggleTaskListCollapsed();
     }
 

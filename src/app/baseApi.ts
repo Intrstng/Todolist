@@ -9,7 +9,7 @@ export const baseApi = createApi({
     baseQuery: async (args, api, extraOptions) => {
         const result = await fetchBaseQuery({
             baseUrl: import.meta.env.VITE_BASE_URL,
-            // credentials: "include",
+            // credentials: "include", // used for Captcha
             headers: {
                 "API-KEY": import.meta.env.VITE_API_KEY,
             },

@@ -1,5 +1,5 @@
 import { AppDispatch } from "@/app/store";
-import {_todolistsApi} from "@/features/Todolists/api/_todolistApi.ts";
+import {todolistsApi} from "@/features/Todolists/api/todolistApi.ts";
 import {EntityStatus} from "@/features/Todolists/api/taskApi.types.ts";
 
 export const updateTodoListEntityStatus = (
@@ -8,7 +8,7 @@ export const updateTodoListEntityStatus = (
    status: EntityStatus
 ) => {
     dispatch(
-        _todolistsApi.util.updateQueryData('getTodolists', undefined, (state) => {
+        todolistsApi.util.updateQueryData('getTodolists', undefined, (state) => {
             const todolist = state.find((tl) => tl.id === todolistID);
             if (todolist) {
                 todolist.entityStatus = status;

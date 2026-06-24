@@ -1,18 +1,17 @@
 import {memo, useCallback, useState} from 'react';
 import {TasksList} from './Tasks';
 import {Button} from '@/common/components/Button/Button.tsx';
-import S from './Todolist.module.css';
-import {useAppSelector} from '@/app/store';
+import s from './Todolist.module.css';
 import Box from "@mui/material/Box";
 import {TodolistTitle} from "./TodolistTitle/TodolistTitle";
 import {CreateTaskItemForm} from "./Tasks/CreateTaskItemForm";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {TasksCounter} from "./Tasks/TasksCounter/TasksCounter";
-import {todolistTasksSelector} from "@/features/Todolists/model/slices";
 import {TaskDomainType} from "@/features/Todolists/api/taskApi.types.ts";
-import {TodolistDomainType} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
-import {useDeleteTodolistMutation} from "@/features/Todolists/api/_todolistApi.ts";
+import {useDeleteTodolistMutation} from "@/features/Todolists/api/todolistApi.ts";
+import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";
+import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 
 type TodolistProps = {
   todolist: TodolistDomainType;
@@ -20,13 +19,11 @@ type TodolistProps = {
 
 export const Todolist = memo(({ todolist }: TodolistProps) => {
   const [isTaskListCollapsed, setTaskListCollapsed] = useState<boolean>(true);
-  // const dispatch = useAppDispatch();
   const [deleteTodolist] = useDeleteTodolistMutation()
- // const tasks = useAppSelector<TaskType[]>((state) => state.tasks[todolist.id]);
-    const tasks = useAppSelector<TaskDomainType[]>((state) => todolistTasksSelector(state, todolist.id));
+  const { data } = useGetTasksQuery(todolist.id)
+  const tasks: TaskDomainType[] | undefined = data?.items;
 
   const onClickRemoveTodolist = useCallback(() => {
-    // dispatch(todoListsActions.removeTodoList({id: todolist.id}));
     deleteTodolist(todolist.id)
   }, [todolist.id]);
 
@@ -41,8 +38,8 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
   const toggleShowTasksListBtnName = isTaskListCollapsed ? 'Hide tasks list' : 'Show tasks list';
 
   return (
-    <Box className={S.todolist}>
-      <Box className={S.todolist__titleContent}>
+    <Box className={s.todolist}>
+      <Box className={s.todolist__titleContent}>
         <TodolistTitle todolist={todolist}/>
         <IconButton aria-label='delete'
                     onClick={onClickRemoveTodolist}
@@ -58,7 +55,7 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
         </IconButton>
       </Box>
         <CreateTaskItemForm todolist={todolist} toggleTaskListCollapsed={unCollapseTasksList}/>
-          <Box className={S.tasksShowToggle}>
+          <Box className={s.tasksShowToggle}>
             <Button
               variant={isTaskListCollapsed ? 'outlined' : 'contained'}
               color={isTaskListCollapsed ? 'warning' : 'success'}
@@ -67,9 +64,9 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
             >
               {toggleShowTasksListBtnName}
             </Button>
-              <TasksCounter tasksQuantity={tasks?.length}/>
+            {tasks && <TasksCounter tasksQuantity={tasks.length}/>}
           </Box>
-          {isTaskListCollapsed ? <TasksList todolist={todolist} /> : null}
+          {isTaskListCollapsed ? <TasksList todolist={todolist} tasks={tasks}/> : null}
     </Box>
   );
 });

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, FocusEvent, ChangeEvent } from 'react';
 import axios from 'axios';
-import { _todolistApi } from '../features/Todolists/api/_todolistApi.ts';
-import { ResponseGetTasksType, _taskApi, TaskType } from '../features/Todolists/api/_taskApi.ts';
-import { ResponseType } from '../features/Todolists/api/_todolistApi.ts';
+import { _todolistApi } from '../features/Todolists/api/todolistApi.ts';
+import { ResponseGetTasksType, taskApi, TaskType } from '../features/Todolists/api/taskApi.ts';
+import { ResponseType } from '../features/Todolists/api/todolistApi.ts';
 
 export default {
   title: 'API',
@@ -34,7 +34,7 @@ export const GetAllTasks = () => {
   };
 
   const onClickGetTaskOfTodoListHandler = () => {
-    _taskApi.getAllTasks(todoID).then((response) => setState(response.data));
+    taskApi.getAllTasks(todoID).then((response) => setState(response.data));
     setTodoID('');
   };
 
@@ -72,7 +72,7 @@ export const CreateTask = () => {
     const data = {
       title: taskTitle,
     };
-    _taskApi.createTask(todoID, data).then((response) => setState(response.data));
+    taskApi.createTask(todoID, data).then((response) => setState(response.data));
     setTaskTitle('');
     setTodoID('');
   };
@@ -136,7 +136,7 @@ export const UpdateTask = () => {
       startDate: taskStartDate,
       deadline: taskDeadline,
     };
-    _taskApi
+    taskApi
       .updateTask(todoID, taskID, model)
       .then((response) => setState(response.data))
       .catch((err) => console.log(err.message));
@@ -208,7 +208,7 @@ export const DeleteTask = () => {
   const [taskID, setTaskID] = useState<string>('');
 
   const onClickDeleteTaskHandler = () => {
-    _taskApi
+    taskApi
       .deleteTask(todoID, taskID)
       .then((response) => setState(response.data))
       .catch((err) => console.log(err.message));

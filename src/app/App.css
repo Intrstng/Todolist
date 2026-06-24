@@ -1,9 +1,3 @@
-.App {
-}
-
-.todoLists {
-}
-
 .App .inputForm {
   margin-bottom: 45px;
   gap: 10px;
@@ -27,15 +21,6 @@
   padding-left: 10px;
   max-width: 140px;
 }
-
-/*.App > div {*/
-/*  margin-right: 50px;*/
-/*}*/
-
-/*.container {*/
-/*  margin: 0 auto;*/
-/*  width: 80%;*/
-/*}*/
 
 ul {
   list-style-type: none;

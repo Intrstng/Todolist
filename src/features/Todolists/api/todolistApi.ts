@@ -1,52 +1,13 @@
-import {BaseResponse, instance} from "@/common";
-import {CreateTodolistResponse, DataType, GetTodolistsResponse} from "@/features/Todolists/api/todolistApi.types.ts";
+import {BaseResponse} from "@/common";
+import {CreateTodolistResponse, DataType} from "@/features/Todolists/api/todolistApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
-import {TodolistDomainType, TodolistType} from "@/features/Todolists/model/slices/todoListsSlice.types.ts";
-import {updateTaskStatus} from "@/utils/updateTaskStatus.ts";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
+import {TodolistDomainType, TodolistType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 
-export const _todolistApi = {
-  getTodolists() {
-    return instance.get<GetTodolistsResponse>('/todo-lists');
-  },
-  createTodolist(data: DataType) {
-    // return instance.post<BaseResponse<{ item: TodolistType }>>('/todo-lists', data);
-    return instance.post<CreateTodolistResponse>('/todo-lists', data);
-  },
-  updateTodolist(todoID: string, data: DataType) {
-    return instance.put<BaseResponse>(`/todo-lists/${todoID}`, data);
-  },
-  deleteTodolist(todoID: string) {
-    return instance.delete<BaseResponse>(`/todo-lists/${todoID}`);
-  },
-};
-
-
-export const _todolistsApi = baseApi.injectEndpoints({
-  // reducerPath: 'todolistsApi',
-  // tagTypes: ["Todolist"],
-  // baseQuery: fetchBaseQuery({
-  //   baseUrl: import.meta.env.VITE_BASE_URL,
-  //   headers: {
-  //     'API-KEY': import.meta.env.VITE_API_KEY,
-  //   },
-  //   prepareHeaders: headers => {
-  //     headers.set('Authorization', `Bearer ${localStorage.getItem(AUTH_TOKEN)}`)
-  //   },
-  // }),
+export const todolistsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // getTodolists: builder.query<Todolist[], void>({
-    //   query: (_arg) => {
-    //     return {
-    //       method: 'get',
-    //       url: "/todo-lists",
-    //     }
-    //   },
-
-    // Только для Get сокращенная запись вместо написанного выше
     getTodolists: builder.query<TodolistDomainType[], void>({
       query: () => "todo-lists",
-
       transformResponse: (todolists: TodolistType[]): TodolistDomainType[] =>
           todolists.map((todolist) => ({ ...todolist, filter: "all", entityStatus: "idle" })),
 
@@ -104,8 +65,7 @@ export const _todolistsApi = baseApi.injectEndpoints({
 
 export const {
   useGetTodolistsQuery,
-  useLazyGetTodolistsQuery,
   useAddTodolistMutation,
   useDeleteTodolistMutation,
   useChangeTodolistTitleMutation,
-} = _todolistsApi
+} = todolistsApi

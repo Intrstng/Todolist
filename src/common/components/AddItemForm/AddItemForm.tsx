@@ -18,6 +18,7 @@ export const AddItemForm = memo(
 
     const MAX_INPUT_TITLE_LENGTH = 120; // const MAX_INPUT_TITLE_LENGTH = 12
     const maxTitleLengthError = inputTitle.length > MAX_INPUT_TITLE_LENGTH;
+
     const addTask = useCallback(() => {
       if (inputTitle.trim() !== '' && !maxTitleLengthError) {
         addItem(inputTitle.trim());

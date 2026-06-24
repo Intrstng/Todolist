@@ -37,7 +37,7 @@ export const handleError = (
         api.dispatch(appActions.setAppError({ error }))
     }
 
-    if ((result.data as { resultCode: RESULT_CODE }).resultCode === RESULT_CODE.INVALID) {
+    if ((result.data as { resultCode: RESULT_CODE })?.resultCode === RESULT_CODE.INVALID) {
         const messages = (result.data as { messages: string[] }).messages
         error = messages.length ? messages[0] : error
         api.dispatch(appActions.setAppError({ error }))

@@ -1,9 +1,10 @@
 import {useCallback} from 'react';
 import Box from "@mui/material/Box";
-import S from "../TasksList.module.css";
+import s from "../TasksList.module.css";
 import {Button} from "@/common/components/Button/Button.tsx";
-import {FilterValuesType, TodolistDomainType, todoListsActions} from "@/features/Todolists/model/slices";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {FilterValuesType, TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema";
+import { useAppDispatch } from "@/common/hooks/useAppDispatch";
+import {todolistsApi} from "@/features/Todolists/api/todolistApi.ts";
 
 type TasksFilterControlsProps = {
     todolist: TodolistDomainType;
@@ -11,22 +12,30 @@ type TasksFilterControlsProps = {
 
 export const TasksFilterControls = ({todolist}: TasksFilterControlsProps) => {
     const dispatch = useAppDispatch();
+       const changeFilter = (filter: FilterValuesType) => {
+        dispatch(
+            todolistsApi.util.updateQueryData(
+                // название эндпоинта, в котором нужно обновить кэш
+                'getTodolists',
+                // аргументы для эндпоинта
+                undefined,
+                // `updateRecipe` - коллбэк для обновления закэшированного стейта мутабельным образом
+                state => {
+                    const todoListToChange = state.find(tl => tl.id === todolist.id)
+                    if (todoListToChange) {
+                        todoListToChange.filter = filter
+                    }
+                }
+            )
+        )
+    }
 
-    const changeFilter = useCallback(
-        (todolistID: string, value: FilterValuesType) => {
-            dispatch(todoListsActions.changeFilter({todolistID, value}));
-        },
-        [dispatch],
-    );
-    const onclickSetAllFilter = useCallback(() => changeFilter(todolist.id, 'all'), [changeFilter, todolist.id]);
-    const onclickSetActiveFilter = useCallback(() => changeFilter(todolist.id, 'active'), [changeFilter, todolist.id]);
-    const onclickSetCompletedFilter = useCallback(
-        () => changeFilter(todolist.id, 'completed'),
-        [changeFilter, todolist.id],
-    );
+    const onclickSetAllFilter = useCallback(() => changeFilter('all'), [changeFilter, todolist.id]);
+    const onclickSetActiveFilter = useCallback(() => changeFilter('active'), [changeFilter, todolist.id]);
+    const onclickSetCompletedFilter = useCallback(() => changeFilter('completed'), [changeFilter, todolist.id]);
 
     return (
-        <Box className={S.controls}>
+        <Box className={s.controls}>
             <Button
                 onClickCallBack={onclickSetAllFilter}
                 variant={todolist.filter === 'all' ? 'contained' : 'outlined'}

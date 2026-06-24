@@ -1,35 +1,24 @@
-import {memo, useEffect} from 'react';
+import {memo} from 'react';
 import {Grid} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import {Todolist} from './TodolistItem/Todolist';
 import {useAppSelector} from '@/app/store';
 import {Navigate} from 'react-router-dom';
 import {CreateItemForm} from "@/common/components";
-import {todoListsActions} from "@/features/Todolists/model/slices";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
-import {useGetTodolistsQuery} from "@/features/Todolists/api/_todolistApi.ts";
+import {useGetTodolistsQuery} from "@/features/Todolists/api/todolistApi.ts";
 
 export const Todolists = memo(() => {
-  const dispatch = useAppDispatch();
-  // const todoLists = useAppSelector<TodolistDomainType[]>(todoListsSelector);
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
-
-  // const { data: todoLists, refetch } = useGetTodolistsQuery()
-  const { data: todoLists } = useGetTodolistsQuery()
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      return;
-    }
-    dispatch(todoListsActions.fetchTodolists());
-  }, []);
+  const { data: todoLists } = useGetTodolistsQuery(undefined, { skip: !isLoggedIn });
 
   if (!isLoggedIn) {
     // Conditional after ALL hooks
     return <Navigate to={'/login'} />;
   }
-  // Добавить эти редиректы нужно непосредственно перед return, то есть после всех хуков, которые используются внутри компонент, иначе будет нарушено правило работы с хуками, говорящее, что нельзя использовать хуки внутри компоненты в условной логике.
+  // Добавить эти редиректы нужно непосредственно перед return, то есть после всех хуков,
+  // которые используются внутри компонент, иначе будет нарушено правило работы с хуками, говорящее,
+  // что нельзя использовать хуки внутри компоненты в условной логике.
 
   return (
     <>

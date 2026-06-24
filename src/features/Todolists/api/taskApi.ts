@@ -1,34 +1,15 @@
-import {BaseResponse, instance} from "@/common";
+import {BaseResponse} from "@/common";
 import {
   AddTaskArg,
   CreateTaskResponse,
   DeleteTaskArg,
   ResponseGetTasksType,
   UpdateTaskArg,
-  UpdateTaskResponse,
-  UpdateTaskType
+  UpdateTaskResponse
 } from "@/features/Todolists/api/taskApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
 import {updateTaskStatus} from "@/utils/updateTaskStatus";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
-
-export const _taskApi = {
-  getAllTasks(todoID: string) {
-    return instance.get<ResponseGetTasksType>(`/todo-lists/${todoID}/tasks`);
-  },
-  createTask(todoID: string, data: { title: string }) {
-    // return instance.post<BaseResponse<{ item: TaskType }>>(`/todo-lists/${todoID}/tasks`, data);
-    return instance.post<CreateTaskResponse>(`/todo-lists/${todoID}/tasks`, data);
-  },
-  updateTask(todoID: string, taskID: string, data: UpdateTaskType) {
-   // return instance.put<BaseResponse<{ item: TaskType }>>(`/todo-lists/${todoID}/tasks/${taskID}`, data);
-    return instance.put<UpdateTaskResponse>(`/todo-lists/${todoID}/tasks/${taskID}`, data);
-  },
-  deleteTask(todoID: string, taskID: string) {
-    return instance.delete<BaseResponse>(`/todo-lists/${todoID}/tasks/${taskID}`);
-  },
-};
-
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

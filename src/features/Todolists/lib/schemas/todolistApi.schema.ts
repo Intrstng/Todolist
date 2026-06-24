@@ -40,3 +40,7 @@ export const createTodolistResponseSchema = baseResponseSchema(
        item: todolistSchema,
     }),
 )
+
+export type FilterValuesType = z.infer<typeof filterValuesSchema>;
+export type TodolistType = z.infer<typeof todolistSchema>;
+export type TodolistDomainType = z.infer<typeof todolistDomainSchema>;
