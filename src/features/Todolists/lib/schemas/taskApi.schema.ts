@@ -36,6 +36,14 @@ export const responseGetTasksSchema = z.object({
     error: z.string().nullish(),
 });
 
+export const GetTasksRequestArgsSchema = z.object({
+    todolistId: z.string(),
+    params: z.object({
+        count: z.number().int().positive().optional(),
+        page: z.number().int().positive().optional()
+    })
+})
+
 export const addTaskArgSchema = z.object({
     todolistID: z.string(),
     title: z.string(),

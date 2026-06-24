@@ -1,7 +1,6 @@
 import {BaseResponse} from "@/common";
 import {CreateTodolistResponse, DataType} from "@/features/Todolists/lib/types/todolistApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
-import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
 import {TodolistDomainType, TodolistType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 
 export const todolistsApi = baseApi.injectEndpoints({
@@ -33,17 +32,38 @@ export const todolistsApi = baseApi.injectEndpoints({
         }
       },
 
-      // Todolist entity status handling
-      async onQueryStarted(todolistID, { dispatch, queryFulfilled }) {
+      // // Todolist entity status handling
+      // async onQueryStarted(todolistID, { dispatch, queryFulfilled }) {
+      //   try {
+      //     // ✅ Set todolist to loading
+      //     updateTodoListEntityStatus(dispatch, todolistID, 'loading');
+      //     await queryFulfilled;
+      //     // ✅ Set todolist to succeeded
+      //     updateTodoListEntityStatus(dispatch, todolistID, 'succeeded');
+      //   } catch (error) {
+      //     // ✅ Set todolist to failed
+      //     updateTodoListEntityStatus(dispatch, todolistID, 'failed');
+      //   }
+      // },
+
+      async onQueryStarted(todolistID: string, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+            todolistsApi.util.updateQueryData("getTodolists", undefined, (state) => {
+              const index = state.findIndex((todolist) => todolist.id === todolistID)
+              if (index !== -1) {
+                state.splice(index, 1)
+              }
+            }),
+        )
         try {
           // ✅ Set todolist to loading
-          updateTodoListEntityStatus(dispatch, todolistID, 'loading');
+          // updateTodoListEntityStatus(dispatch, todolistID, 'loading'); // удалено т.к. не дизейбл тудулиста, а сразу его удаление
           await queryFulfilled;
           // ✅ Set todolist to succeeded
-          updateTodoListEntityStatus(dispatch, todolistID, 'succeeded');
-        } catch (error) {
-          // ✅ Set todolist to failed
-          updateTodoListEntityStatus(dispatch, todolistID, 'failed');
+          // updateTodoListEntityStatus(dispatch, todolistID, 'succeeded'); // удалено т.к. не дизейбл тудулиста, а сразу его удаление
+        } catch {
+          patchResult.undo()
+          // updateTodoListEntityStatus(dispatch, todolistID, 'failed'); // удалено т.к. не дизейбл тудулиста, а сразу его удаление
         }
       },
 

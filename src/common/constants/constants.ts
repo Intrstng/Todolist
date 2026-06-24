@@ -9,3 +9,4 @@ export const PATH = {
 } as const
 
 export const SKELETON_GALLERY = 3
+export const PAGE_SIZE = 4
