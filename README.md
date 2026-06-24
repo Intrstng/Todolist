@@ -17,6 +17,7 @@
 9. Version 8 without unused slices and comments after refactoring to RTK query in commit: "refactor: delete comments and unused slices after refactoring to RTK query"
 9. Add isLoading for global LinearProgress and Todolists/Tasks Query Loading State to show TodolistSkeleton/TasksSkeleton
    in commit: "feat: add global isLoading and Todolists/Tasks Query Loading State to show TodolistSkeleton/TasksSkeleton"
+10. Advanced cache tags in commit: "feat: refactor to advanced cache tags in provideTags and invalidateTags"
    
 
     

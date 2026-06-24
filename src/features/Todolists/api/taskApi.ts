@@ -27,7 +27,20 @@ export const tasksApi = baseApi.injectEndpoints({
         };
       },
 
-      providesTags: ["Task"],
+      // Вариант 1 изначальный (запросы на обновление всех тасок)
+      // providesTags: ["Task"],
+
+      // Вариант 2 на запрос таски только измененной, а не всех
+      // providesTags: (res) => (res ? res.items.map(({ id }) => ({ type: "Task", id })) : ["Task"]),
+
+      // Вариант 3 на запрос таски только измененной, а не всех
+      // providesTags: (res, _err, todolistId) =>
+      //   res
+      //     ? [...res.items.map(({ id }) => ({ type: "Task", id }) as const), { type: "Task", id: todolistId }]
+      //     : ["Task"],
+
+      // Вариант 4 - упрощенный вариант - завязка на todolistId
+      providesTags: (_res, _err, todolistId) => [{ type: "Task", id: todolistId }],
     }),
 
     createTask: builder.mutation<CreateTaskResponse, { data: AddTaskArg }> ({
@@ -68,7 +81,10 @@ export const tasksApi = baseApi.injectEndpoints({
         }
       },
 
-      invalidatesTags: ["Task"],
+      // Для Варианта 3
+      // invalidatesTags: res => [{ type: 'Task', id: res ? res.data.item.id : 'LIST' }],
+      // Для Варианта 4
+      invalidatesTags: (_res, _err, { data }) => [{ type: "Task", id: data.todolistID }],
     }),
 
     updateTask: builder.mutation<UpdateTaskResponse, { data: UpdateTaskArg }> ({
@@ -79,7 +95,11 @@ export const tasksApi = baseApi.injectEndpoints({
           body: data.model
         }
       },
-      invalidatesTags: ["Task"],
+
+      // Для Варианта 3
+      // invalidatesTags: (_res, _err, { data }) => [{ type: "Task", id: data.taskID }],
+      // Для Варианта 4
+      invalidatesTags: (_res, _err, { data }) => [{ type: "Task", id: data.todolistID }],
     }),
 
     deleteTask: builder.mutation<BaseResponse, { data: DeleteTaskArg }> ({
@@ -104,7 +124,10 @@ export const tasksApi = baseApi.injectEndpoints({
         }
       },
 
-      invalidatesTags: ["Task"],
+      // Для Варианта 3
+      // invalidatesTags: (_res, _err, { data }) => [{ type: "Task", id: data.taskID }],
+      // Для Варианта 4
+      invalidatesTags: (_res, _err, { data }) => [{ type: "Task", id: data.todolistID }],
     }),
   }),
 })

@@ -1,5 +1,5 @@
 import {BaseResponse} from "@/common";
-import {AuthLoginResponse, AuthMeResponse, LoginParamsType} from "@/features/auth/api/authApi.types.ts";
+import {AuthLoginResponse, AuthMeResponse, LoginParamsType} from "@/features/auth/lib/types/authApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
 
 export const authApi = baseApi.injectEndpoints({

@@ -12,7 +12,7 @@ import {Navigate} from 'react-router-dom';
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {AUTH_TOKEN, PATH} from "@/common/constants";
-import {LoginParamsType} from "../api/authApi.types";
+import {LoginParamsType} from "../lib/types/authApi.types.ts";
 import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";
 import {useLoginMutation} from "@/features/auth/api/authApi.ts";
