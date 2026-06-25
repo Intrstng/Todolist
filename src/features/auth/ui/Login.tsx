@@ -14,7 +14,7 @@ import {getTheme} from "@/common";
 import {appActions, themeModeSelector} from "@/app/slices/appSlice.ts";
 import {AUTH_TOKEN} from "@/common/constants";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {useLoginMutation} from "@/features/auth/api/authApi.ts";
+import {useLazyGetCaptchaQuery, useLoginMutation} from "@/features/auth/api/authApi.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useId, useState} from "react";
@@ -29,6 +29,7 @@ export const Login = () => {
   const [login] = useLoginMutation()
   const [showPassword, setShowPassword] = useState(false)
   const outlinedPasswordId = useId()
+  const [trigger, { data: captcha }] = useLazyGetCaptchaQuery()
 
   const {
     // register, // Coontroller is used instead
@@ -38,18 +39,20 @@ export const Login = () => {
     formState: { errors },
   } = useForm<LoginInputs>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "", rememberMe: false },
+    defaultValues: { email: "", password: "", rememberMe: false, captcha: "" },
   })
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
     login(data)
         .unwrap()
         .then((data) => {
-          if (data.resultCode === RESULT_CODE.SUCCEDED) {
-            localStorage.setItem(AUTH_TOKEN, data.data.token)
-            dispatch(appActions.setIsLoggedIn({ isLoggedIn: true }))
-            reset()
-          }
+            if (data.resultCode === RESULT_CODE.SUCCEDED) {
+                localStorage.setItem(AUTH_TOKEN, data.data.token)
+                dispatch(appActions.setIsLoggedIn({ isLoggedIn: true }))
+                reset()
+            } else if (data.resultCode === RESULT_CODE.INVALID_CAPTCHA_REQUIRED) {
+                trigger()
+            }
         })
   }
 
@@ -100,11 +103,11 @@ export const Login = () => {
               {/*  {...register("email")}*/}
               {/*/>*/}
               <Controller
+                  name="email"
                   control={control}
                   render={({ field: { value, ...rest } }) => (
                       <TextField label="Email" margin="normal" error={!!errors.email} {...rest} />
                   )}
-                  name="email"
               />
               {errors.email && <span className={s.error}>{errors.email.message}</span>}
 
@@ -154,11 +157,24 @@ export const Login = () => {
                     />
                   }
               />
+                {captcha?.url && (
+                    <>
+                        <Controller
+                            name="captcha"
+                            control={control}
+                            render={({ field: { value, ...rest } }) => (
+                                <TextField label="Captcha" margin="normal" error={!!errors.captcha} {...rest} />
+                            )}
+                        />
+                        {errors.captcha && <span className={s.errorMessage}>{errors.captcha.message}</span>}
+                    </>
+                )}
 
               <Button type="submit" variant="contained" color="primary">
                 Login
               </Button>
             </FormGroup>
+              {captcha?.url && <img src={captcha?.url} width={200} height={100} alt={"captcha"} />}
           </FormControl>
         </form>
       </Grid>

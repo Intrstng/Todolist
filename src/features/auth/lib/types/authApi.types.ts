@@ -1,6 +1,6 @@
 import {z} from "zod/v4"
 import {
-    authLoginResponseSchema, authMeResponseSchema,
+    authLoginResponseSchema, authMeResponseSchema, getCaptchaResponseSchema,
     loginParamsSchema,
     loginResponseSchema,
     meDataResponseSchema
@@ -12,3 +12,4 @@ export type LoginResponse = z.infer<typeof loginResponseSchema>;
 
 export type AuthLoginResponse = z.infer<typeof authLoginResponseSchema>;
 export type AuthMeResponse = z.infer<typeof authMeResponseSchema>;
+export type GetCaptchaResponse = z.infer<typeof getCaptchaResponseSchema>;

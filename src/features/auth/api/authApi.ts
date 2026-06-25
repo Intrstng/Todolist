@@ -1,5 +1,10 @@
 import {BaseResponse} from "@/common";
-import {AuthLoginResponse, AuthMeResponse, LoginParamsType} from "@/features/auth/lib/types/authApi.types.ts";
+import {
+  AuthLoginResponse,
+  AuthMeResponse,
+  GetCaptchaResponse,
+  LoginParamsType
+} from "@/features/auth/lib/types/authApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
 
 export const authApi = baseApi.injectEndpoints({
@@ -20,7 +25,10 @@ export const authApi = baseApi.injectEndpoints({
     me: build.query<AuthMeResponse, void>({
       query: () => 'auth/me',
     }),
+    getCaptcha: build.query<GetCaptchaResponse, void>({
+      query: () => "security/get-captcha-url",
+    }),
   }),
 })
 
-export const { useMeQuery, useLoginMutation, useLogoutMutation } = authApi
+export const { useMeQuery, useLoginMutation, useLogoutMutation, useLazyGetCaptchaQuery } = authApi

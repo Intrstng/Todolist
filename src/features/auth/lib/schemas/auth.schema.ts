@@ -26,3 +26,7 @@ export const authLoginResponseSchema = baseResponseSchema(
 export const authMeResponseSchema = baseResponseSchema(
     meDataResponseSchema
 )
+
+export const getCaptchaResponseSchema = z.object({
+    url: z.url(),
+});
