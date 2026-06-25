@@ -1,12 +1,14 @@
 import {createRoot} from "react-dom/client"
 import {Provider} from 'react-redux'
 import {store} from '@/app/store'
-import {RouterProvider} from 'react-router-dom'
-import {router} from "@/common/routing";
+import {BrowserRouter} from "react-router"
 import './index.css'
+import App from "@/app/App.tsx";
 
 createRoot(document.getElementById("root")!).render(
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <BrowserRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </BrowserRouter>,
 )

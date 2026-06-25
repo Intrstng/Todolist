@@ -65,9 +65,11 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
         <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
             {listItems}
             <FilteredTasksCounter allTasksQuantity={tasks?.length || 0} filteredTasksQuantity={tasksForTodoList?.length || 0}/>
+
             {(data?.totalCount || 0) > PAGE_SIZE && (
                 <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={changePage} />
             )}
+
             {tasks?.length !== 0 && <TasksFilterControls todolist={todolist}/>}
         </Paper>
     );

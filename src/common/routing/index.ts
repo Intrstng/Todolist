@@ -1,1 +1,1 @@
-export {router} from './router.tsx';
+export {Routing} from './Routing.tsx';

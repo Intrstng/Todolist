@@ -7,11 +7,12 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import {getTheme} from "@/common/theme/theme";
 import {Header} from "@/common/components/Header/Header";
 import {ErrorSnackbar} from "@/common/components";
-import {Main} from "@/common/components/Main";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {useMeQuery} from "@/features/auth/api/authApi.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";
+import {Routing} from "@/common/routing";
+import Box from "@material-ui/core/Box"
 
 const App = () => {
   const dispatch = useAppDispatch()
@@ -29,9 +30,9 @@ const App = () => {
 
   if (!isInitialized) {
     return (
-      <div className='loaderContainer'>
+      <Box className='loaderContainer'>
         <CircularProgress color='secondary' />
-      </div>
+      </Box>
     )
   }
 
@@ -39,12 +40,12 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className='App'>
+      <Box className='App'>
         <CssBaseline /> {/*CssBaseline is used for Day & Night toggling*/}
         <Header/>
         <ErrorSnackbar />
-        <Main/>
-      </div>
+        <Routing/>
+      </Box>
     </ThemeProvider>
   )
 }

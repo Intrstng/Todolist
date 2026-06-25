@@ -1,11 +1,7 @@
 import {PATH} from "@/common/constants";
-import {Outlet} from "react-router";
-import {Navigate} from "react-router-dom";
-import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {Navigate, Outlet} from "react-router";
+import {PrivateRoutesProps} from "@/common/routing/PrivateRoutes/PrivateRoutes.types.ts";
 
-export const PrivateRoutes = () => {
-    const isLoggedIn = useAppSelector(authIsLoggedInSelector);
-
-    return isLoggedIn ? <Outlet/> : <Navigate to={PATH.LOGIN}/>
+export const PrivateRoutes = ({ isAllowed, redirectPath = PATH.ROOT }: PrivateRoutesProps) => {
+    return isAllowed ? <Outlet/> : <Navigate to={redirectPath} replace />
 };
