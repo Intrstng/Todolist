@@ -23,4 +23,4 @@
     (avoids faults in deleting of tasks on different pages from first due to changing of URI query params)
     in commit: "feat: add pagination with optimistic update and correct handling of all query Params"
 14. Refactor from **Data** to **Declarative** *mode* React Router Dom
-    in commit: "refactor: change Data to Declarative mode React Router Dom"
+    in commit: "fix: add redirect from ROOT to TODO path after change Data to Declarative mode React Router Dom"

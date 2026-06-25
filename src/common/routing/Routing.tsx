@@ -1,4 +1,4 @@
-import {Route, Routes} from "react-router"
+import {Navigate, Route, Routes} from "react-router"
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
 import {PrivateRoutes} from "@/common/routing/PrivateRoutes/PrivateRoutes.tsx";
@@ -12,8 +12,10 @@ export const Routing = () => {
 
     return (
         <Routes>
+            <Route path={PATH.ROOT} element={<Navigate to={PATH.TODO} replace />} />
+
             <Route element={<PrivateRoutes isAllowed={isLoggedIn} redirectPath={PATH.LOGIN} />}>
-                <Route path={PATH.ROOT} element={<Main />} />
+                <Route path={PATH.TODO} element={<Main />} />
             </Route>
             <Route element={<PrivateRoutes isAllowed={!isLoggedIn} />}>
                 <Route path={PATH.LOGIN} element={<Login />} />
