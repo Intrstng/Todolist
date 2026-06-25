@@ -11,23 +11,27 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import {LoginInputs, loginSchema} from "@/features/auth/lib/schemas"
 import Grid from "@mui/material/Grid"
 import {getTheme} from "@/common";
-import {appActions, authIsLoggedInSelector, themeModeSelector} from "@/app/slices/appSlice.ts";
-import {Navigate} from "react-router-dom";
-import {AUTH_TOKEN, PATH} from "@/common/constants";
+import {appActions, themeModeSelector} from "@/app/slices/appSlice.ts";
+import {AUTH_TOKEN} from "@/common/constants";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {useLoginMutation} from "@/features/auth/api/authApi.ts";
 import {RESULT_CODE} from "@/common/enums/enums.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useId, useState} from "react";
+import {InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 export const Login = () => {
   const themeMode = useAppSelector(themeModeSelector)
-  const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
   const dispatch = useAppDispatch();
   const theme = getTheme(themeMode)
   const [login] = useLoginMutation()
+  const [showPassword, setShowPassword] = useState(false)
+  const outlinedPasswordId = useId()
 
   const {
-    // register,
+    // register, // Coontroller is used instead
     handleSubmit,
     reset,
     control,
@@ -49,9 +53,13 @@ export const Login = () => {
         })
   }
 
-  if (isLoggedIn) {
-    return <Navigate to={PATH.ROOT} />;
-  } // Protected routes are used instead of this
+  const handleClickShowPassword = () => setShowPassword((show) => !show)
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+  }
+  const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+  }
 
   return (
       <Grid container justifyContent={"center"} sx={{width: '100%'}}>
@@ -102,13 +110,38 @@ export const Login = () => {
 
               {/*<TextField type="password" label="Password" margin="normal" {...register("password")} />*/}
               <Controller
+                  name="password"
                   control={control}
                   render={({ field: { value, ...rest } }) => (
-                      <TextField type="password" label="Password" margin="normal" {...rest}/>
+                      <FormControl sx={{ mt: 1 }} variant="outlined" fullWidth>
+                        <InputLabel htmlFor={`${outlinedPasswordId}-input`} error={!!errors.password}>
+                          Password
+                        </InputLabel>
+                        <OutlinedInput
+                            id={`${outlinedPasswordId}-input`}
+                            type={showPassword ? "text" : "password"}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                    aria-label={showPassword ? "hide the password" : "display the password"}
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    onMouseUp={handleMouseUpPassword}
+                                    edge="end"
+                                >
+                                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                            label="Password"
+                            error={!!errors.password}
+                            {...rest}
+                            value={value}
+                        />
+                        {errors.password && <span className={s.errorMessage}>{errors.password.message}</span>}
+                      </FormControl>
                   )}
-                  name="password"
               />
-              {errors.password && <span className={s.error}>{errors.password.message}</span>}
 
               {/*<FormControlLabel label="Remember me" control={<Checkbox {...register("rememberMe")} />} />*/}
               <FormControlLabel

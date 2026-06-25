@@ -26,3 +26,4 @@
     in commit: "fix: add redirect from ROOT to TODO path after change Data to Declarative mode React Router Dom"
 15. Fixed bug in updateTask optimistic update caused by the absence of the **count** URI query parameter in **cachedArgsForQuery** handling
     in commit -m "fix: updateTask optimistic update caused by the absence of the count URI query parameter in cachedArgsForQuery handling"
+16. Add show/hide password in Login page in commit: "feat: add show/hide password in Login page"
