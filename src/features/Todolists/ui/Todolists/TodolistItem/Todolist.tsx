@@ -8,11 +8,11 @@ import {CreateTaskItemForm} from "./Tasks/CreateTaskItemForm";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {useDeleteTodolistMutation} from "@/features/Todolists/api/todolistApi.ts";
-import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 import {Grid} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { useSortable } from "@dnd-kit/react/sortable"
 import { CollisionPriority } from "@dnd-kit/abstract"
+import { TodolistDomainType } from "@/features/Todolists/lib/types";
 
 type TodolistProps = {
   todolist: TodolistDomainType;

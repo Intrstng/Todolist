@@ -1,3 +1,5 @@
+import { SxProps } from "@mui/material"
+
 export const inputFieldStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -15,3 +17,7 @@ export const deleteTaskBtnStyle = {
     minWidth: '94px',
     minHeight: '40px',
 } as const;
+
+export const getListItemSx = (isDone: boolean): SxProps => ({
+    opacity: isDone ? 0.8 : 1,
+})

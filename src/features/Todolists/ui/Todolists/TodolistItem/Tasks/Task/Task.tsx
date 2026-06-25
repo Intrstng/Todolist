@@ -7,14 +7,24 @@ import {TaskStatuses} from "@/common/enums/enums.ts";
 import {useDeleteTaskMutation, useUpdateTaskMutation} from "@/features/Todolists/api/taskApi.ts";
 import {TaskProps} from "./Task.types";
 import {
-    deleteTaskBtnStyle,
+    deleteTaskBtnStyle, getListItemSx,
     inputFieldStyle
 } from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/Task/Task.styles.ts";
+import { useSortable } from "@dnd-kit/react/sortable"
+import ListItem from "@mui/material/ListItem";
 
-export const Task = memo(({ todolist, task }: TaskProps) => {
-  const finalTaskItemClassList = `${s.taskItem} ${task.status === TaskStatuses.Completed ? s.completed : ''}`;
+export const Task = memo(({ todolist, task, sortIndex }: TaskProps) => {
+    const isTaskCompleted = task.status === TaskStatuses.Completed
     const [updateTask] = useUpdateTaskMutation()
     const [deleteTask] = useDeleteTaskMutation()
+
+    const { ref, isDragging } = useSortable({
+        id: task.id,
+        index: sortIndex,
+        type: "taskItem",
+        accept: "taskItem",
+        group: todolist.id,
+    })
 
   const onBlur = (title: string) => {
         updateTask({data: {
@@ -48,11 +58,11 @@ export const Task = memo(({ todolist, task }: TaskProps) => {
   const isLoading = todolist.entityStatus === 'loading' || task.entityStatus === 'loading';
 
   return (
-    <li className={finalTaskItemClassList}>
+    <ListItem className={s.taskItem} ref={ref} data-dragging={isDragging} sx={getListItemSx(isTaskCompleted)}>
       <input
         id={task.id}
         type={'checkbox'}
-        checked={!!task.status}
+        checked={isTaskCompleted}
         onChange={onChangeInputStatus}
         disabled={isLoading}
       />
@@ -67,7 +77,7 @@ export const Task = memo(({ todolist, task }: TaskProps) => {
       </label>
 
       <Button
-        variant={task.status === TaskStatuses.Completed ? 'contained' : 'outlined'}
+        variant={isTaskCompleted ? 'contained' : 'outlined'}
         color={'error'}
         disabled={isLoading || !task.status}
         endIcon={<DeleteIcon />}
@@ -76,6 +86,6 @@ export const Task = memo(({ todolist, task }: TaskProps) => {
       >
         Delete
       </Button>
-    </li>
+    </ListItem>
   );
 });

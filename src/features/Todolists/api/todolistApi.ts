@@ -1,7 +1,11 @@
 import {BaseResponse} from "@/common";
-import {CreateTodolistResponse, DataType} from "@/features/Todolists/lib/types/todolistApi.types.ts";
+import {
+  CreateTodolistResponse,
+  DataType,
+  TodolistDomainType,
+  TodolistType
+} from "@/features/Todolists/lib/types/todolistApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
-import {TodolistDomainType, TodolistType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 import { UniqueIdentifier } from "@dnd-kit/abstract"
 
 export const todolistsApi = baseApi.injectEndpoints({

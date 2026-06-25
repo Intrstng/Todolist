@@ -1,6 +1,6 @@
 import {AddItemForm} from "@/common/components";
 import {useCreateTaskMutation} from "@/features/Todolists/api/taskApi.ts";
-import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
+import {TodolistDomainType} from "@/features/Todolists/lib/types";
 
 type CreateTaskItemFormProps = {
     todolist: TodolistDomainType;

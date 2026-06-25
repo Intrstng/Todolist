@@ -1,4 +1,4 @@
-import {JSX, memo, useMemo, useState} from 'react';
+import {JSX, memo, useMemo, useRef, useState} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react';
 import s from './TasksList.module.css';
 import {Task} from './Task/Task';
@@ -7,13 +7,17 @@ import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
 import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
 import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
-import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema";
-import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";
+import {useGetTasksQuery, useTasksReorderMutation} from "@/features/Todolists/api/taskApi.ts";
 import {PAGE_SIZE} from "@/common/constants";
 import {
     TasksPagination
 } from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksPagination/TasksPagination.tsx";
 import {useSearchParams} from "react-router";
+import {Data, Droppable} from "@dnd-kit/abstract";
+import {DragDropProvider, type DragEndEvent} from "@dnd-kit/react";
+import {move} from "@dnd-kit/helpers";
+import {TodolistDomainType} from "@/features/Todolists/lib/types";
+import List from "@mui/material/List";
 
 type TasksListProps = {
     todolist: TodolistDomainType;
@@ -24,6 +28,7 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
     const [page, setPage] = useState<number>(1)
     const [_searchParams, setSearchParams] = useSearchParams()
     const [listRef] = useAutoAnimate<HTMLUListElement>();
+    const [tasksReorder] = useTasksReorderMutation()
 
     const {data, isLoading} = useGetTasksQuery({
         todolistID: todolistId,
@@ -32,10 +37,45 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
 
     const tasks = data?.items
     let tasksForTodoList: TaskDomainType[] | undefined = data?.items;
+    const previousItems = useRef(data?.items || [])
 
     const changePage = (page: number) => {
         setPage(page)
         setSearchParams({page: page.toString()})
+    }
+
+    const setTasksOrder = (
+        targetTodolistId: string,
+        tasks: TaskDomainType[] | undefined,
+        event: DragEndEvent,
+        target: Droppable<Data> | null,
+    ) => {
+        if (tasks) {
+            const sortedNewTasks: TaskDomainType[] = move(tasks, event)
+
+            const targetTaskId = target?.id
+            if (!targetTaskId || !targetTodolistId) return
+
+            const targetTaskIndex = sortedNewTasks.findIndex((task) => task.id === targetTaskId)
+            console.log(targetTaskIndex)
+
+            if (targetTaskIndex === -1) return
+            if (sortedNewTasks.length === 1 || targetTaskIndex === 0) {
+                tasksReorder({
+                    todolistID: targetTodolistId,
+                    taskID: targetTaskId,
+                    putAfterItemId: null,
+                })
+            } else {
+                const taskPlacedBeforeTargetTask = sortedNewTasks[targetTaskIndex - 1]
+                const prevTaskId = taskPlacedBeforeTargetTask.id
+                tasksReorder({
+                    todolistID: targetTodolistId,
+                    taskID: targetTaskId,
+                    putAfterItemId: prevTaskId,
+                })
+            }
+        }
     }
 
     tasksForTodoList = useMemo(() => {
@@ -50,11 +90,11 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
 
     const listItems: JSX.Element =
         tasksForTodoList?.length === 0 ? noTasksContent : (
-            <ul ref={listRef}>
-                {tasksForTodoList?.map((task) => {
-                    return <Task key={task.id} todolist={todolist} task={task}/>;
+            <List ref={listRef}>
+                {tasksForTodoList?.map((task, sortIndex) => {
+                    return <Task key={task.id} todolist={todolist} task={task} sortIndex={sortIndex}/>;
                 })}
-            </ul>
+            </List>
         );
 
     if (isLoading) {
@@ -62,17 +102,32 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
     }
 
     return (
-        <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
-            {/*{isLoading ? <TasksSkeleton /> : listItems}*/}
-            {listItems}
-            <FilteredTasksCounter allTasksQuantity={tasks?.length || 0}
-                                  filteredTasksQuantity={tasksForTodoList?.length || 0}/>
+        <DragDropProvider
+            // onDragOver={(event) => {
+            //   setTodolistsOrder(todolists, event)
+            // }}
+            onDragStart={() => {
+                previousItems.current = tasksForTodoList || []
+            }}
+            onDragEnd={(event) => {
+                const {source, target} = event.operation
 
-            {(data?.totalCount || 0) > PAGE_SIZE && (
-                <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={changePage}/>
-            )}
+                if (event.canceled || source?.type !== "taskItem") return
+                setTasksOrder(todolistId, previousItems.current, event, target)
+            }}
+        >
+            <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
+                {/*{isLoading ? <TasksSkeleton /> : listItems}*/}
+                {listItems}
+                <FilteredTasksCounter allTasksQuantity={tasks?.length || 0}
+                                      filteredTasksQuantity={tasksForTodoList?.length || 0}/>
 
-            {tasks?.length !== 0 && <TasksFilterControls todolist={todolist}/>}
-        </Paper>
+                {(data?.totalCount || 0) > PAGE_SIZE && (
+                    <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={changePage}/>
+                )}
+
+                {tasks?.length !== 0 && <TasksFilterControls todolist={todolist}/>}
+            </Paper>
+        </DragDropProvider>
     );
 });

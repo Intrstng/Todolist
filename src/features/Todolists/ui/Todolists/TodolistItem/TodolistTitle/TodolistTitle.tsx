@@ -2,7 +2,7 @@ import {useCallback, useMemo} from 'react';
 import s from "../Todolist.module.css";
 import {EditableSpan} from "@/common/components";
 import {useChangeTodolistTitleMutation} from "@/features/Todolists/api/todolistApi.ts";
-import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
+import {TodolistDomainType} from "@/features/Todolists/lib/types";
 
 type TodolistTitleProps = {
     todolist: TodolistDomainType;

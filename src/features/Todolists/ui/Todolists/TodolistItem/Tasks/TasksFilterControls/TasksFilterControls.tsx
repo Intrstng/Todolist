@@ -2,9 +2,9 @@ import {useCallback} from 'react';
 import Box from "@mui/material/Box";
 import s from "../TasksList.module.css";
 import {Button} from "@/common/components/Button/Button.tsx";
-import {FilterValuesType, TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema";
 import { useAppDispatch } from "@/common/hooks/useAppDispatch";
 import {todolistsApi} from "@/features/Todolists/api/todolistApi.ts";
+import {FilterValuesType, TodolistDomainType} from "@/features/Todolists/lib/types";
 
 type TasksFilterControlsProps = {
     todolist: TodolistDomainType;

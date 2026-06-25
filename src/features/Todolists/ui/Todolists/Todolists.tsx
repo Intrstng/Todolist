@@ -6,10 +6,10 @@ import {TodolistSkeleton} from "@/features/Todolists/ui/Todolists/TodolistSkelet
 import Box from "@mui/material/Box";
 import {SKELETON_GALLERY} from "@/common/constants";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
-import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 import {move} from "@dnd-kit/helpers"
 import {Data, Droppable} from "@dnd-kit/abstract"
 import {DragDropProvider, DragEndEvent} from "@dnd-kit/react"
+import { TodolistDomainType } from "../../lib/types";
 
 export const Todolists = memo(() => {
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);

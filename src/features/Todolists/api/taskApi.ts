@@ -12,6 +12,7 @@ import {
 import {baseApi} from "@/app/baseApi.ts";
 import {updateTaskStatus} from "@/utils/updateTaskStatus";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
+import { UniqueIdentifier } from "@dnd-kit/abstract";
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -166,6 +167,18 @@ export const tasksApi = baseApi.injectEndpoints({
       // Для Варианта 4
       invalidatesTags: (_res, _err, { data }) => [{ type: "Task", id: data.todolistID }],
     }),
+
+    tasksReorder: builder.mutation<
+        BaseResponse,
+        { todolistID: string; taskID: UniqueIdentifier; putAfterItemId: string | null }
+    >({
+      query: ({ todolistID, taskID, putAfterItemId }) => ({
+        url: `todo-lists/${todolistID}/tasks/${taskID}/reorder`,
+        method: "PUT",
+        body: { putAfterItemId },
+      }),
+      invalidatesTags: (_res, _err, { todolistID }) => [{ type: "Task", id: todolistID }],
+    }),
   }),
 })
 
@@ -173,5 +186,6 @@ export const {
   useGetTasksQuery,
   useCreateTaskMutation,
   useUpdateTaskMutation,
-  useDeleteTaskMutation
+  useDeleteTaskMutation,
+  useTasksReorderMutation,
 } = tasksApi
