@@ -21,6 +21,8 @@
 12. Add optimistic update to delete TodoList in commit: "feat: add optimistic update to delete TodoList"
 13. Add pagination to TasksList with optimistic update and **cachedArgsForQuery** for correct handling of different params in URI
     (avoids faults in deleting of tasks on different pages from first due to changing of URI query params)
-    in commit: "feat: add pagination with optimistic update and correct handling of all query Params"
+    in commit: "feat: add pagination with optimistic update and correct handling of all query Params" - see **15**
 14. Refactor from **Data** to **Declarative** *mode* React Router Dom
     in commit: "fix: add redirect from ROOT to TODO path after change Data to Declarative mode React Router Dom"
+15. Fixed bug in updateTask optimistic update caused by the absence of the **count** URI query parameter in **cachedArgsForQuery** handling
+    in commit -m "fix: updateTask optimistic update caused by the absence of the count URI query parameter in cachedArgsForQuery handling"

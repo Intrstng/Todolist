@@ -2,7 +2,9 @@ import {BaseResponse} from "@/common";
 import {
   AddTaskArg,
   CreateTaskResponse,
-  DeleteTaskArg, GetTasksRequestArgs, PatchCollection,
+  DeleteTaskArg,
+  GetTasksRequestArgs,
+  PatchCollection,
   ResponseGetTasksType,
   UpdateTaskArg,
   UpdateTaskResponse
@@ -10,7 +12,6 @@ import {
 import {baseApi} from "@/app/baseApi.ts";
 import {updateTaskStatus} from "@/utils/updateTaskStatus";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
-import {PAGE_SIZE} from "@/common/constants";
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,7 +19,7 @@ export const tasksApi = baseApi.injectEndpoints({
       // query: (todolistId) => `/todo-lists/${todolistId}/tasks`,
       query: ({ todolistID, params }) => ({
         url: `todo-lists/${todolistID}/tasks`,
-        params: { ...params, count: PAGE_SIZE },
+        params,
       }),
 
       transformResponse: (response: ResponseGetTasksType, _meta, _arg) => {
@@ -105,17 +106,20 @@ export const tasksApi = baseApi.injectEndpoints({
         const cachedArgsForQuery = tasksApi.util.selectCachedArgsForQuery(getState(), "getTasks")
         const { todolistID, taskID, model } = data;
 
-        // let patchResults: any[] = []
         let patchResults: PatchCollection[] = []
         cachedArgsForQuery.forEach(({ params }) => {
           patchResults.push(
               dispatch(
-                  tasksApi.util.updateQueryData("getTasks", { todolistID, params: { page: params.page } }, (state) => {
-                    const index = state.items.findIndex((task) => task.id === taskID)
-                    if (index !== -1) {
-                      state.items[index] = { ...state.items[index], ...model }
-                    }
-                  }),
+                  tasksApi.util.updateQueryData(
+                      "getTasks",
+                      { todolistID, params: { count: params.count, page: params.page } },
+                      (state) => {
+                        const index = state.items.findIndex((task) => task.id === taskID)
+                        if (index !== -1) {
+                          state.items[index] = { ...state.items[index], ...model }
+                        }
+                      },
+                  ),
               ),
           )
         })
@@ -127,6 +131,7 @@ export const tasksApi = baseApi.injectEndpoints({
           })
         }
       },
+
 
       // Для Варианта 3
       // invalidatesTags: (_res, _err, { data }) => [{ type: "Task", id: data.taskID }],

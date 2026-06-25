@@ -8,11 +8,10 @@ export const TasksSkeleton = () => (
             .fill(null)
             .map((_, id) => (
                 <Box key={id}>
-                    <Box style={{ gap: "1rem" }}>
-                        <Skeleton width={20} height={40} />
-                        <Skeleton width={150} height={40} />
+                    <Box style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <Skeleton width={155} height={60} />
+                        <Skeleton width={95} height={65} />
                     </Box>
-                    <Skeleton width={20} height={40} />
                 </Box>
             ))}
     </Box>

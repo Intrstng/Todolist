@@ -2,7 +2,6 @@ import {memo} from 'react';
 import {Grid} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import {Todolist} from './TodolistItem/Todolist';
-import {Navigate} from 'react-router-dom';
 import {CreateItemForm} from "@/common/components";
 import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
 import {useGetTodolistsQuery} from "@/features/Todolists/api/todolistApi.ts";

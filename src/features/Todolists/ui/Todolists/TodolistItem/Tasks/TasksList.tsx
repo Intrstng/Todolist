@@ -14,6 +14,7 @@ import {PAGE_SIZE} from "@/common/constants";
 import {
     TasksPagination
 } from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksPagination/TasksPagination.tsx";
+import {useSearchParams} from "react-router";
 
 type TasksListProps = {
     todolist: TodolistDomainType;
@@ -22,10 +23,10 @@ type TasksListProps = {
 export const TasksList = memo(({todolist}: TasksListProps) => {
     const { id: todolistId, filter } = todolist
     const [page, setPage] = useState<number>(1)
-                                                                // const [_searchParams, setSearchParams] = useSearchParams()
+    const [_searchParams, setSearchParams] = useSearchParams()
     const [listRef] = useAutoAnimate<HTMLUListElement>();
 
-    const { data, isLoading, isFetching } = useGetTasksQuery({
+    const { data, isLoading } = useGetTasksQuery({
         todolistID: todolistId,
         params: { count: PAGE_SIZE, page },
     })
@@ -35,7 +36,7 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
 
     const changePage = (page: number) => {
         setPage(page)
-                                                                  // setSearchParams({ page: page.toString() })
+        setSearchParams({ page: page.toString() })
     }
 
     tasksForTodoList = useMemo(() => {
@@ -57,13 +58,9 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
             </ul>
         );
 
-    if (isLoading || isFetching) {
-        return <TasksSkeleton />
-    }
-
     return (
         <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
-            {listItems}
+            {isLoading ? <TasksSkeleton /> : listItems}
             <FilteredTasksCounter allTasksQuantity={tasks?.length || 0} filteredTasksQuantity={tasksForTodoList?.length || 0}/>
 
             {(data?.totalCount || 0) > PAGE_SIZE && (
