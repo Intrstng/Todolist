@@ -2,6 +2,7 @@ import {BaseResponse} from "@/common";
 import {CreateTodolistResponse, DataType} from "@/features/Todolists/lib/types/todolistApi.types.ts";
 import {baseApi} from "@/app/baseApi.ts";
 import {TodolistDomainType, TodolistType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
+import { UniqueIdentifier } from "@dnd-kit/abstract"
 
 export const todolistsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -80,6 +81,15 @@ export const todolistsApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["Todolist"],
     }),
+
+    todoListsReorder: builder.mutation<BaseResponse, { todolistID: UniqueIdentifier; putAfterItemId: string | null }>({
+      query: ({ todolistID, putAfterItemId }) => ({
+        url: `todo-lists/${todolistID}/reorder`,
+        method: "PUT",
+        body: { putAfterItemId },
+      }),
+      invalidatesTags: ["Todolist"],
+    }),
   }),
 })
 
@@ -88,4 +98,5 @@ export const {
   useAddTodolistMutation,
   useDeleteTodolistMutation,
   useChangeTodolistTitleMutation,
+  useTodoListsReorderMutation,
 } = todolistsApi

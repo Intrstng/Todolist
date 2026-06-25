@@ -28,3 +28,4 @@
     in commit -m "fix: updateTask optimistic update caused by the absence of the count URI query parameter in cachedArgsForQuery handling"
 16. Add show/hide password in Login page in commit: "feat: add show/hide password in Login page"
 17. A **CAPTCHA** has been added for repeated incorrect password entries in commit: "feat: add Captcha if several times the incorrect password is entered"
+18. Add *drag & drop* for Todolist component with **dnd-kit** in commit: "feat: add drag & drop Todolist component with dnd-kit"

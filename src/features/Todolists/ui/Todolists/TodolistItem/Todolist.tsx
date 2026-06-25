@@ -9,14 +9,27 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
 import {useDeleteTodolistMutation} from "@/features/Todolists/api/todolistApi.ts";
 import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
+import {Grid} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import { useSortable } from "@dnd-kit/react/sortable"
+import { CollisionPriority } from "@dnd-kit/abstract"
 
 type TodolistProps = {
   todolist: TodolistDomainType;
+  sortIndex: number;
 };
 
-export const Todolist = memo(({ todolist }: TodolistProps) => {
+export const Todolist = memo(({ todolist, sortIndex }: TodolistProps) => {
   const [isTaskListCollapsed, setTaskListCollapsed] = useState<boolean>(true);
   const [deleteTodolist] = useDeleteTodolistMutation()
+
+  const { ref } = useSortable({
+    id: todolist.id,
+    index: sortIndex,
+    type: "todolistItem",
+    collisionPriority: CollisionPriority.Low,
+    accept: ["taskItem", "todolistItem"],
+  })
 
   const onClickRemoveTodolist = useCallback(() => {
     deleteTodolist(todolist.id)
@@ -32,35 +45,42 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
 
   const toggleShowTasksListBtnName = isTaskListCollapsed ? 'Hide tasks list' : 'Show tasks list';
 
+  // const style = isDropTarget ? { background: "#00000030" } : undefined
+
   return (
-    <Box className={s.todolist}>
-      <Box className={s.todolist__titleContent}>
-        <TodolistTitle todolist={todolist}/>
-        <IconButton aria-label='delete'
-                    onClick={onClickRemoveTodolist}
-                    disabled={todolist.entityStatus === 'loading'}
-                    sx={{
-                      '&.Mui-disabled': {
-                        opacity: 0.3,
-                        cursor: 'not-allowed',
-                      }
-                    }}
-        >
-            <ClearIcon fontSize='medium' color='error'/>
-        </IconButton>
-      </Box>
-        <CreateTaskItemForm todolist={todolist} toggleTaskListCollapsed={unCollapseTasksList}/>
-          <Box className={s.tasksShowToggle}>
-            <Button
-              variant={isTaskListCollapsed ? 'outlined' : 'contained'}
-              color={isTaskListCollapsed ? 'warning' : 'success'}
-              onClickCallBack={onClickTasksListCollapseToggle}
-              disabled={todolist.entityStatus === 'loading'}
-            >
-              {toggleShowTasksListBtnName}
-            </Button>
+      // <Grid ref={ref} style={style}>
+      <Grid ref={ref}>
+        <Paper elevation={3}>
+          <Box className={s.todolist}>
+            <Box className={s.todolist__titleContent}>
+              <TodolistTitle todolist={todolist}/>
+              <IconButton aria-label='delete'
+                          onClick={onClickRemoveTodolist}
+                          disabled={todolist.entityStatus === 'loading'}
+                          sx={{
+                            '&.Mui-disabled': {
+                              opacity: 0.3,
+                              cursor: 'not-allowed',
+                            }
+                          }}
+              >
+                <ClearIcon fontSize='medium' color='error'/>
+              </IconButton>
+            </Box>
+            <CreateTaskItemForm todolist={todolist} toggleTaskListCollapsed={unCollapseTasksList}/>
+            <Box className={s.tasksShowToggle}>
+              <Button
+                  variant={isTaskListCollapsed ? 'outlined' : 'contained'}
+                  color={isTaskListCollapsed ? 'warning' : 'success'}
+                  onClickCallBack={onClickTasksListCollapseToggle}
+                  disabled={todolist.entityStatus === 'loading'}
+              >
+                {toggleShowTasksListBtnName}
+              </Button>
+            </Box>
+            {isTaskListCollapsed ? <TasksList todolist={todolist} /> : null}
           </Box>
-          {isTaskListCollapsed ? <TasksList todolist={todolist} /> : null}
-    </Box>
+        </Paper>
+      </Grid>
   );
 });
