@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import {MenuButton} from '@/common/components';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -61,7 +61,7 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
       <AppBar position="static">
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={iconStyles}>
-            <MenuIcon />
+            <FormatListNumberedIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={typographyStyles}>
             TODO

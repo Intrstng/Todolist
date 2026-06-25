@@ -9,7 +9,6 @@ import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
 import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema";
 import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";
-import {TasksSkeleton} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksSkeleton/TasksSkeleton.tsx";
 import {PAGE_SIZE} from "@/common/constants";
 import {
     TasksPagination
@@ -21,14 +20,14 @@ type TasksListProps = {
 };
 
 export const TasksList = memo(({todolist}: TasksListProps) => {
-    const { id: todolistId, filter } = todolist
+    const {id: todolistId, filter} = todolist
     const [page, setPage] = useState<number>(1)
     const [_searchParams, setSearchParams] = useSearchParams()
     const [listRef] = useAutoAnimate<HTMLUListElement>();
 
-    const { data, isLoading } = useGetTasksQuery({
+    const {data, isLoading} = useGetTasksQuery({
         todolistID: todolistId,
-        params: { count: PAGE_SIZE, page },
+        params: {count: PAGE_SIZE, page},
     })
 
     const tasks = data?.items
@@ -36,7 +35,7 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
 
     const changePage = (page: number) => {
         setPage(page)
-        setSearchParams({ page: page.toString() })
+        setSearchParams({page: page.toString()})
     }
 
     tasksForTodoList = useMemo(() => {
@@ -47,10 +46,10 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
                 : tasksForTodoList;
     }, [filter, tasksForTodoList]);
 
+    const noTasksContent: JSX.Element = <span className={s.errorMessage}>No tasks in list. Add new task...</span>
+
     const listItems: JSX.Element =
-        tasksForTodoList?.length === 0 ? (
-            <span className={s.errorMessage}>No tasks in list. Add new task...</span>
-        ) : (
+        tasksForTodoList?.length === 0 ? noTasksContent : (
             <ul ref={listRef}>
                 {tasksForTodoList?.map((task) => {
                     return <Task key={task.id} todolist={todolist} task={task}/>;
@@ -58,13 +57,19 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
             </ul>
         );
 
+    if (isLoading) {
+        return noTasksContent
+    }
+
     return (
         <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
-            {isLoading ? <TasksSkeleton /> : listItems}
-            <FilteredTasksCounter allTasksQuantity={tasks?.length || 0} filteredTasksQuantity={tasksForTodoList?.length || 0}/>
+            {/*{isLoading ? <TasksSkeleton /> : listItems}*/}
+            {listItems}
+            <FilteredTasksCounter allTasksQuantity={tasks?.length || 0}
+                                  filteredTasksQuantity={tasksForTodoList?.length || 0}/>
 
             {(data?.totalCount || 0) > PAGE_SIZE && (
-                <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={changePage} />
+                <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={changePage}/>
             )}
 
             {tasks?.length !== 0 && <TasksFilterControls todolist={todolist}/>}

@@ -36,7 +36,7 @@ export const Todolists = memo(() => {
       {todoLists?.map((tl) => (
         <Grid key={tl.id}>
           <Paper elevation={3}>
-            <Todolist todolist={tl} />
+            <Todolist todolist={tl}/>
           </Paper>
         </Grid>
       ))}

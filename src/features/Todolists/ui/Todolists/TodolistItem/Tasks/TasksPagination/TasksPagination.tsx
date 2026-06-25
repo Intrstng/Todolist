@@ -5,7 +5,7 @@ import s from "./TasksPagination.module.css"
 import {
     TasksPaginationProps
 } from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksPagination/TasksPagination.types.ts";
-import {TasksCounter} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks";
+import Typography from "@mui/material/Typography";
 
 export const TasksPagination = ({ totalCount, page, setPage }: TasksPaginationProps) => {
     const changePage = (_: ChangeEvent<unknown>, page: number) => {
@@ -22,9 +22,9 @@ export const TasksPagination = ({ totalCount, page, setPage }: TasksPaginationPr
                 color="primary"
                 className={s.pagination}
             />
-            <div className={s.totalCount}>
-                {/*<Typography variant="caption">Total: {totalCount}</Typography>*/}
-                <TasksCounter tasksQuantity={totalCount}/>
+            <div className={s.totalCountBlock}>
+                <Typography variant="caption" className={s.totalCounter}>Total: {totalCount}</Typography>
+                {/*<TasksCounter tasksQuantity={totalCount}/>*/}
             </div>
         </>
     )
