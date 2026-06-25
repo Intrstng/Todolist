@@ -19,3 +19,6 @@
    in commit: "feat: add global isLoading and Todolists/Tasks Query Loading State to show TodolistSkeleton/TasksSkeleton"
 11. Advanced cache tags in commit: "feat: refactor to advanced cache tags in provideTags and invalidateTags"
 12. Add optimistic update to delete TodoList in commit: "feat: add optimistic update to delete TodoList"
+13. Add pagination to TasksList with optimistic update and cachedArgsForQuery for correct handling of different params in URI
+    (avoids faults in deleting of tasks on different pages from first due to changing of URI query params)
+    in commit: "feat: add pagination with optimistic update and correct handling of all query Params"

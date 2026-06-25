@@ -2,7 +2,7 @@ import {BaseResponse} from "@/common";
 import {
   AddTaskArg,
   CreateTaskResponse,
-  DeleteTaskArg,
+  DeleteTaskArg, GetTasksRequestArgs, PatchCollection,
   ResponseGetTasksType,
   UpdateTaskArg,
   UpdateTaskResponse
@@ -10,11 +10,16 @@ import {
 import {baseApi} from "@/app/baseApi.ts";
 import {updateTaskStatus} from "@/utils/updateTaskStatus";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
+import {PAGE_SIZE} from "@/common/constants";
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getTasks: builder.query<ResponseGetTasksType, string>({
-      query: (todolistId) => `/todo-lists/${todolistId}/tasks`,
+    getTasks: builder.query<ResponseGetTasksType, GetTasksRequestArgs>({
+      // query: (todolistId) => `/todo-lists/${todolistId}/tasks`,
+      query: ({ todolistID, params }) => ({
+        url: `todo-lists/${todolistID}/tasks`,
+        params: { ...params, count: PAGE_SIZE },
+      }),
 
       transformResponse: (response: ResponseGetTasksType, _meta, _arg) => {
         // Transform tasks by adding entityStatus
@@ -40,7 +45,7 @@ export const tasksApi = baseApi.injectEndpoints({
       //     : ["Task"],
 
       // Вариант 4 - упрощенный вариант - завязка на todolistId
-      providesTags: (_res, _err, todolistId) => [{ type: "Task", id: todolistId }],
+      providesTags: (_res, _err, { todolistID }) => [{ type: "Task", id: todolistID }],
     }),
 
     createTask: builder.mutation<CreateTaskResponse, { data: AddTaskArg }> ({
@@ -93,6 +98,33 @@ export const tasksApi = baseApi.injectEndpoints({
           method: 'put',
           url: `/todo-lists/${data.todolistID}/tasks/${data.taskID}`,
           body: data.model
+        }
+      },
+
+      async onQueryStarted({ data }, { dispatch, queryFulfilled, getState }) {
+        const cachedArgsForQuery = tasksApi.util.selectCachedArgsForQuery(getState(), "getTasks")
+        const { todolistID, taskID, model } = data;
+
+        // let patchResults: any[] = []
+        let patchResults: PatchCollection[] = []
+        cachedArgsForQuery.forEach(({ params }) => {
+          patchResults.push(
+              dispatch(
+                  tasksApi.util.updateQueryData("getTasks", { todolistID, params: { page: params.page } }, (state) => {
+                    const index = state.items.findIndex((task) => task.id === taskID)
+                    if (index !== -1) {
+                      state.items[index] = { ...state.items[index], ...model }
+                    }
+                  }),
+              ),
+          )
+        })
+        try {
+          await queryFulfilled
+        } catch {
+          patchResults.forEach((patchResult) => {
+            patchResult.undo()
+          })
         }
       },
 

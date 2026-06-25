@@ -1,4 +1,4 @@
-import {JSX, memo, useMemo} from 'react';
+import {JSX, memo, useMemo, useState} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react';
 import s from './TasksList.module.css';
 import {Task} from './Task/Task';
@@ -7,28 +7,44 @@ import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
 import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
 import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {TaskStatuses} from "@/common/enums/enums.ts";
-import { TodolistDomainType } from "@/features/Todolists/lib/schemas/todolistApi.schema";
+import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema";
 import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";
 import {TasksSkeleton} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksSkeleton/TasksSkeleton.tsx";
+import {PAGE_SIZE} from "@/common/constants";
+import {
+    TasksPagination
+} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksPagination/TasksPagination.tsx";
 
 type TasksListProps = {
     todolist: TodolistDomainType;
 };
 
 export const TasksList = memo(({todolist}: TasksListProps) => {
+    const { id: todolistId, filter } = todolist
+    const [page, setPage] = useState<number>(1)
+                                                                // const [_searchParams, setSearchParams] = useSearchParams()
     const [listRef] = useAutoAnimate<HTMLUListElement>();
-    const { data, isLoading } = useGetTasksQuery(todolist.id)
+
+    const { data, isLoading, isFetching } = useGetTasksQuery({
+        todolistID: todolistId,
+        params: { count: PAGE_SIZE, page },
+    })
 
     const tasks = data?.items
     let tasksForTodoList: TaskDomainType[] | undefined = data?.items;
 
+    const changePage = (page: number) => {
+        setPage(page)
+                                                                  // setSearchParams({ page: page.toString() })
+    }
+
     tasksForTodoList = useMemo(() => {
-        return todolist.filter === 'active'
+        return filter === 'active'
             ? tasksForTodoList?.filter((task) => task.status === TaskStatuses.New)
-            : todolist.filter === 'completed'
+            : filter === 'completed'
                 ? tasksForTodoList?.filter((task) => task.status === TaskStatuses.Completed)
                 : tasksForTodoList;
-    }, [todolist.filter, tasksForTodoList]);
+    }, [filter, tasksForTodoList]);
 
     const listItems: JSX.Element =
         tasksForTodoList?.length === 0 ? (
@@ -41,7 +57,7 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
             </ul>
         );
 
-    if (isLoading) {
+    if (isLoading || isFetching) {
         return <TasksSkeleton />
     }
 
@@ -49,6 +65,9 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
         <Paper className={s.taskList} elevation={4} sx={{backgroundColor: 'rgba(240,239,239,0.74)'}}>
             {listItems}
             <FilteredTasksCounter allTasksQuantity={tasks?.length || 0} filteredTasksQuantity={tasksForTodoList?.length || 0}/>
+            {(data?.totalCount || 0) > PAGE_SIZE && (
+                <TasksPagination totalCount={data?.totalCount || 0} page={page} setPage={changePage} />
+            )}
             {tasks?.length !== 0 && <TasksFilterControls todolist={todolist}/>}
         </Paper>
     );

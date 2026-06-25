@@ -20,3 +20,16 @@ export type EntityStatus = z.infer<typeof StatusSchema>;
 
 export type CreateTaskResponse = z.infer<typeof createTaskResponseSchema>
 export type UpdateTaskResponse = z.infer<typeof updateTaskResponseSchema>
+
+// PatchCollection & Patch are from RTK Query docs
+export type PatchCollection = {
+    patches: Patch[]
+    inversePatches: Patch[]
+    undo: () => void
+}
+
+type Patch = {
+    op: "replace" | "remove" | "add"
+    path: (string | number)[]
+    value?: any
+}

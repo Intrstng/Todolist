@@ -7,10 +7,7 @@ import {TodolistTitle} from "./TodolistTitle/TodolistTitle";
 import {CreateTaskItemForm} from "./Tasks/CreateTaskItemForm";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from '@mui/icons-material/Clear';
-import {TasksCounter} from "./Tasks/TasksCounter/TasksCounter";
-import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
 import {useDeleteTodolistMutation} from "@/features/Todolists/api/todolistApi.ts";
-import {useGetTasksQuery} from "@/features/Todolists/api/taskApi.ts";
 import {TodolistDomainType} from "@/features/Todolists/lib/schemas/todolistApi.schema.ts";
 
 type TodolistProps = {
@@ -20,8 +17,6 @@ type TodolistProps = {
 export const Todolist = memo(({ todolist }: TodolistProps) => {
   const [isTaskListCollapsed, setTaskListCollapsed] = useState<boolean>(true);
   const [deleteTodolist] = useDeleteTodolistMutation()
-  const { data } = useGetTasksQuery(todolist.id)
-  const tasks: TaskDomainType[] | undefined = data?.items;
 
   const onClickRemoveTodolist = useCallback(() => {
     deleteTodolist(todolist.id)
@@ -64,7 +59,6 @@ export const Todolist = memo(({ todolist }: TodolistProps) => {
             >
               {toggleShowTasksListBtnName}
             </Button>
-            {tasks && <TasksCounter tasksQuantity={tasks.length}/>}
           </Box>
           {isTaskListCollapsed ? <TasksList todolist={todolist} /> : null}
     </Box>

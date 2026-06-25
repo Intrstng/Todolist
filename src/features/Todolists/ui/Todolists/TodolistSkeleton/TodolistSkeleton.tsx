@@ -16,8 +16,6 @@ export const TodolistSkeleton = () => (
         </Box>
         <Box className={s.hideTasks}>
             <Skeleton width={160} height={45}/>
-            <Skeleton width={60} height={35}/>
-            <Skeleton variant="circular" width={20} height={20}/>
         </Box>
         {Array(SKELETON_GALLERY)
             .fill(null)
