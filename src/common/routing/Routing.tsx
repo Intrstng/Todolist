@@ -6,6 +6,7 @@ import {PrivateRoutes} from "@/common/routing/PrivateRoutes/PrivateRoutes.tsx";
 import {ErrorPage} from "@/common/pages/ErrorPage/ErrorPage.tsx";
 import {Main} from "@/common/components/Main";
 import { Login } from "@/features/auth/ui/Login";
+import {AboutPage} from "@/common/pages/AboutPage/AboutPage.tsx";
 
 export const Routing = () => {
     const isLoggedIn = useAppSelector(authIsLoggedInSelector);
@@ -21,6 +22,7 @@ export const Routing = () => {
                 <Route path={PATH.LOGIN} element={<Login />} />
             </Route>
             <Route path={PATH.NOT_FOUND} element={<ErrorPage />} />
+            <Route path={PATH.ABOUT} element={<AboutPage />} />
         </Routes>
     )
 }

@@ -1,5 +1,5 @@
 import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
-import {AUTH_TOKEN} from "@/common/constants";
+import {AUTH_TOKEN, PATH} from "@/common/constants";
 import {baseApi} from "@/app/baseApi.ts";
 import {useLogoutMutation} from "@/features/auth/api/authApi.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
@@ -16,13 +16,19 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {boxStyles, iconStyles, typographyStyles} from "@/common/components/ButtonAppBar/ButtonAppBar.styles.ts";
+import {useNavigate} from "react-router";
 
 export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
   const [logout] = useLogoutMutation()
+  const navigate = useNavigate();
 
-  const logOutHandler = () => {
+  const redirectToAboutPage = () => {
+    navigate(PATH.ABOUT)
+  }
+
+  const logOut = () => {
     // Variant 1 - Clear all state
     logout().unwrap().then((data) => {
       if (data.resultCode === RESULT_CODE.SUCCEDED) {
@@ -56,11 +62,11 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
             TODO
           </Typography>
           <Box>
-            {isLoggedIn &&<MenuButton color="inherit" onClick={logOutHandler} disabled={!isLoggedIn}>
+            {isLoggedIn &&<MenuButton color="inherit" onClick={logOut} disabled={!isLoggedIn}>
               Logout
             </MenuButton>}
-            <MenuButton color="inherit" customtheme={theme} background={theme.palette.primary.dark}>
-              Faq
+            <MenuButton onClick={redirectToAboutPage} color="inherit" customtheme={theme} background={theme.palette.primary.dark}>
+              ABOUT
             </MenuButton>
             {/*Day & night*/}
             <IconButton sx={{ ml: 1 }} onClick={changeModeHandler} color="inherit">

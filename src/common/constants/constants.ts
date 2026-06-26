@@ -7,6 +7,7 @@ export const PATH = {
     TODO: "/todolists",
     LOGIN: "/login",
     ERROR: "/error",
+    ABOUT: "/about",
     NOT_FOUND: "*",
 } as const
 
