@@ -141,7 +141,7 @@ export const Login = () => {
                             {...rest}
                             value={value}
                         />
-                        {errors.password && <span className={s.errorMessage}>{errors.password.message}</span>}
+                        {errors.password && <span className={s.error}>{errors.password.message}</span>}
                       </FormControl>
                   )}
               />
@@ -166,7 +166,7 @@ export const Login = () => {
                                 <TextField label="Captcha" margin="normal" error={!!errors.captcha} {...rest} />
                             )}
                         />
-                        {errors.captcha && <span className={s.errorMessage}>{errors.captcha.message}</span>}
+                        {errors.captcha && <span className={s.error}>{errors.captcha.message}</span>}
                     </>
                 )}
 

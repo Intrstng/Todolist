@@ -24,7 +24,7 @@ To view each individual application implementation that uses a distinct approach
 
 ## Deploy 🌐
 
-*   [Deploy link](todolist-inky-rho.vercel.app)
+*   [Deploy link](https://todolist-inky-rho.vercel.app)
 
 ## Getting Started 🚀
 
