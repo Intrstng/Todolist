@@ -62,7 +62,7 @@ export const AboutPage = () => {
                         alignSelf: "flex-end",
                     }}
             >
-                To the main page
+                Back to the main page
             </Button>
             <StyledPaper elevation={2}>
                 <Typography variant="h5" component="h2" gutterBottom color="primary">

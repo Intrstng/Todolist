@@ -45,7 +45,7 @@ export const Todolist = memo(({ todolist, sortIndex }: TodolistProps) => {
   return (
       // <Grid ref={ref} style={style}>
       <Grid ref={ref}>
-        <Paper elevation={3}>
+        <Paper elevation={3} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.25)' }}>
           <Box className={s.todolist}>
             <Box className={s.todolistTitleContent}>
               <TodolistTitle todolist={todolist}/>

@@ -16,7 +16,8 @@
 }
 
 .todolistTitle {
-  color: #3f4471;
+  color: rgb(8, 126, 164);
+  margin-bottom: 2rem;
   cursor: pointer;
   transition: 0.25s opacity ease;
 }
