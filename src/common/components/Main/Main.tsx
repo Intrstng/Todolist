@@ -1,7 +1,7 @@
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import {Todolists} from "@/features/Todolists/ui/Todolists/Todolists.tsx";
 import {CreateItemForm} from "@/common/components";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 
 export const Main = () => {
     return (

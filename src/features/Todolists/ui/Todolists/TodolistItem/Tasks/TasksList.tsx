@@ -1,27 +1,23 @@
 import {JSX, memo, useMemo, useRef, useState} from 'react';
-import {useAutoAnimate} from '@formkit/auto-animate/react';
-import s from './TasksList.module.css';
-import {Task} from './Task/Task';
-import Paper from "@mui/material/Paper";
-import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
-import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
-import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
-import {TaskStatuses} from "@/common/enums/enums.ts";
-import {useGetTasksQuery, useTasksReorderMutation} from "@/features/Todolists/api/taskApi.ts";
-import {PAGE_SIZE} from "@/common/constants";
-import {
-    TasksPagination
-} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksPagination/TasksPagination.tsx";
 import {useSearchParams} from "react-router";
 import {Data, Droppable} from "@dnd-kit/abstract";
 import {DragDropProvider, type DragEndEvent} from "@dnd-kit/react";
 import {move} from "@dnd-kit/helpers";
-import {TodolistDomainType} from "@/features/Todolists/lib/types";
+import {useAutoAnimate} from '@formkit/auto-animate/react';
+import {TaskDomainType} from "@/features/Todolists/lib/types/taskApi.types.ts";
+import {TaskStatuses} from "@/common/enums/enums.ts";
+import {PAGE_SIZE} from "@/common/constants";
+import {useGetTasksQuery, useTasksReorderMutation} from "@/features/Todolists/api/taskApi.ts";
+import {TasksFilterControls} from "./TasksFilterControls/TasksFilterControls";
+import {FilteredTasksCounter} from "./FilteredTasksCounter/FilteredTasksCounter";
+import {
+    TasksPagination
+} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksPagination/TasksPagination.tsx";
 import List from "@mui/material/List";
-
-type TasksListProps = {
-    todolist: TodolistDomainType;
-};
+import {TasksListProps} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksList.types.ts";
+import {Task} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/Task";
+import Paper from "@mui/material/Paper";
+import s from './TasksList.module.css';
 
 export const TasksList = memo(({todolist}: TasksListProps) => {
     const {id: todolistId, filter} = todolist
@@ -98,7 +94,7 @@ export const TasksList = memo(({todolist}: TasksListProps) => {
         );
 
     if (isLoading) {
-        return noTasksContent
+        return noTasksContent;
     }
 
     return (

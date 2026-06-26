@@ -1,3 +1,5 @@
+import { UniqueIdentifier } from "@dnd-kit/abstract";
+import {baseApi} from "@/app/baseApi.ts";
 import {BaseResponse} from "@/common";
 import {
   AddTaskArg,
@@ -9,10 +11,8 @@ import {
   UpdateTaskArg,
   UpdateTaskResponse
 } from "@/features/Todolists/lib/types/taskApi.types.ts";
-import {baseApi} from "@/app/baseApi.ts";
-import {updateTaskStatus} from "@/utils/updateTaskStatus";
+import {updateTaskEntityStatus} from "@/utils/updateTaskEntityStatus.ts";
 import {updateTodoListEntityStatus} from "@/utils/updateTodoListEntityStatus.ts";
-import { UniqueIdentifier } from "@dnd-kit/abstract";
 
 export const tasksApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -152,13 +152,13 @@ export const tasksApi = baseApi.injectEndpoints({
         const { todolistID, taskID } = data;
         try {
           // ✅ Set task to loading
-          updateTaskStatus(dispatch, todolistID, taskID, 'loading');
+          updateTaskEntityStatus(dispatch, todolistID, taskID, 'loading');
           await queryFulfilled;
           // We can not add next line because if "succeeded" the task will be deleted
-          // updateTaskStatus(dispatch, todolistID, taskID, 'succeeded');
+          // updateTaskEntityStatus(dispatch, todolistID, taskID, 'succeeded');
         } catch (error) {
           // ✅ Set task to failed
-          updateTaskStatus(dispatch, todolistID, taskID, 'failed');
+          updateTaskEntityStatus(dispatch, todolistID, taskID, 'failed');
         }
       },
 

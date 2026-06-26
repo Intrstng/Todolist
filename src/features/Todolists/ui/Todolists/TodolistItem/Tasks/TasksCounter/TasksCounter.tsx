@@ -1,9 +1,8 @@
-import s from "../../Todolist.module.css";
+import {
+    TasksCounterProps
+} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksCounter/TasksCounter.types.ts";
 import Box from "@mui/material/Box";
-
-type TasksCounterProps = {
-    tasksQuantity: number;
-}
+import s from "../../Todolist.module.css";
 
 export const TasksCounter = ({tasksQuantity = 0}: TasksCounterProps) => {
     return (

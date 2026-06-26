@@ -1,6 +1,6 @@
+import {SKELETON_GALLERY} from "@/common/constants";
 import Box from "@mui/material/Box"
 import Skeleton from "@mui/material/Skeleton"
-import {SKELETON_GALLERY} from "@/common/constants";
 
 export const TasksSkeleton = () => (
     <Box style={{ padding: "0.5rem 0" }}>

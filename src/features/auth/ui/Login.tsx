@@ -1,3 +1,16 @@
+import {useId, useState} from "react";
+import {zodResolver} from "@hookform/resolvers/zod"
+import {AUTH_TOKEN} from "@/common/constants";
+import {Controller, SubmitHandler, useForm} from "react-hook-form"
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {LoginInputs, loginSchema} from "@/features/auth/lib/schemas"
+import {appActions, themeModeSelector} from "@/app/slices/appSlice.ts";
+import {useLazyGetCaptchaQuery, useLoginMutation} from "@/features/auth/api/authApi.ts";
+import {RESULT_CODE} from "@/common/enums/enums.ts";
+import {getTheme} from "@/common";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import Grid from "@mui/material/Grid"
 import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
 import FormControl from "@mui/material/FormControl"
@@ -5,22 +18,9 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
-import {Controller, SubmitHandler, useForm} from "react-hook-form"
-import s from "./Login.module.css"
-import {zodResolver} from "@hookform/resolvers/zod"
-import {LoginInputs, loginSchema} from "@/features/auth/lib/schemas"
-import Grid from "@mui/material/Grid"
-import {getTheme} from "@/common";
-import {appActions, themeModeSelector} from "@/app/slices/appSlice.ts";
-import {AUTH_TOKEN} from "@/common/constants";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {useLazyGetCaptchaQuery, useLoginMutation} from "@/features/auth/api/authApi.ts";
-import {RESULT_CODE} from "@/common/enums/enums.ts";
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
-import {useId, useState} from "react";
 import {InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import s from "./Login.module.css"
 
 export const Login = () => {
   const themeMode = useAppSelector(themeModeSelector)
@@ -65,7 +65,7 @@ export const Login = () => {
   }
 
   return (
-      <Grid container justifyContent={"center"} sx={{width: '100%'}}>
+      <Grid container justifyContent={"center"} sx={{width: '100%', mt: "5rem"}}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
             <FormLabel>

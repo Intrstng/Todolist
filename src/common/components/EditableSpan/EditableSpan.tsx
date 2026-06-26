@@ -1,6 +1,6 @@
 import {ChangeEvent, memo, useState} from 'react';
-import TextField from '@mui/material/TextField';
 import {EditableSpanType} from "@/common/components/EditableSpan/EditableSpan.types.ts";
+import TextField from '@mui/material/TextField';
 
 export const EditableSpan = memo(
   ({ oldTitle, style, onBlurCallBack, size, className, disabled = false }: EditableSpanType) => {

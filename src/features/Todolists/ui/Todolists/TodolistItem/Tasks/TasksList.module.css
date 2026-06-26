@@ -26,29 +26,3 @@
   flex-wrap: nowrap;
   gap: 10px;
 }
-
-
-.counterWrapper {
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-}
-
-.counterWrapper span {
-  color: #3f4471;
-  font-weight: bold;
-}
-
-.counter {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border: 1px solid #3f4471;
-  border-radius: 50%;
-  color: #3f4471;
-}

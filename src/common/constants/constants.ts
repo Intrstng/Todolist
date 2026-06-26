@@ -1,5 +1,7 @@
 export const AUTH_TOKEN = 'auth-token'
 
+export const MAX_INPUT_TITLE_LENGTH = 100;
+
 export const PATH = {
     ROOT: "/",
     TODO: "/todolists",

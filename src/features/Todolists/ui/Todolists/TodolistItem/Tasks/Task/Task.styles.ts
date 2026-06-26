@@ -19,5 +19,7 @@ export const deleteTaskBtnStyle = {
 } as const;
 
 export const getListItemSx = (isDone: boolean): SxProps => ({
+    p: 0,
+    justifyContent: 'space-between',
     opacity: isDone ? 0.8 : 1,
 })

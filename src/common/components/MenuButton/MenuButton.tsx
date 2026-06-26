@@ -1,6 +1,6 @@
-import {styled} from '@mui/material/styles';
-import Button from '@mui/material/Button';
 import {MenuButtonProps} from "@/common/components/MenuButton/MenuButton.types.ts";
+import Button from '@mui/material/Button';
+import {styled} from '@mui/material/styles';
 
 export const MenuButton = styled(Button)<MenuButtonProps>(({ customtheme, background }) => ({
   minWidth: '110px',

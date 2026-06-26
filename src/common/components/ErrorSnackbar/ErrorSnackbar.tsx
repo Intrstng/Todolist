@@ -4,6 +4,7 @@ import Alert from '@mui/material/Alert';
 import {appActions, errorSelector} from '@/app/slices/appSlice';
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import Box from "@material-ui/core/Box";
 
 export const ErrorSnackbar = () => {
   const error = useAppSelector<string | null>(errorSelector);
@@ -16,12 +17,12 @@ export const ErrorSnackbar = () => {
     dispatch(appActions.setAppError({ error: null }));
   };
   return (
-    <div>
+    <Box>
       <Snackbar open={error !== null} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" variant="filled" sx={{ width: '100%' }}>
           {error}
         </Alert>
       </Snackbar>
-    </div>
+    </Box>
   );
 };

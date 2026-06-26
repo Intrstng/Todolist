@@ -1,11 +1,11 @@
 import {Navigate, Route, Routes} from "react-router"
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
+import {PATH} from "@/common/constants";
 import {PrivateRoutes} from "@/common/routing/PrivateRoutes/PrivateRoutes.tsx";
-import {Login} from "@/features/auth/ui/Login.tsx";
 import {ErrorPage} from "@/common/pages/ErrorPage/ErrorPage.tsx";
 import {Main} from "@/common/components/Main";
-import {PATH} from "@/common/constants";
+import { Login } from "@/features/auth/ui/Login";
 
 export const Routing = () => {
     const isLoggedIn = useAppSelector(authIsLoggedInSelector);

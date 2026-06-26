@@ -1,3 +1,12 @@
+import {useFormik} from 'formik';
+import {Navigate} from 'react-router-dom';
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {AUTH_TOKEN, PATH} from "@/common/constants";
+import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
+import {useLoginMutation} from "@/features/auth/api/authApi.ts";
+import {LoginParamsType} from "@/features/auth/lib/types";
+import {RESULT_CODE} from "@/common/enums/enums.ts";
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -6,16 +15,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useFormik} from 'formik';
 import s from './Login.module.css';
-import {Navigate} from 'react-router-dom';
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {AUTH_TOKEN, PATH} from "@/common/constants";
-import {LoginParamsType} from "../lib/types/authApi.types.ts";
-import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
-import {RESULT_CODE} from "@/common/enums/enums.ts";
-import {useLoginMutation} from "@/features/auth/api/authApi.ts";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);

@@ -6,6 +6,7 @@ import {ButtonAppBar} from "@/common/components";
 import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 import {Status} from "@/app/slices/appSlice.types.ts";
+import {linearProgressStyles} from "@/common/components/Header/Header.styles.ts";
 
 export const Header = () => {
     const dispatch = useAppDispatch()
@@ -16,14 +17,6 @@ export const Header = () => {
 
     const changeModeHandler = () => {
         dispatch(appActions.changeThemeMode({theme: customThemeMode === 'light' ? 'dark' : 'light'}))
-    }
-
-    const linearProgressStyles = {
-        position: 'absolute',
-        top: 64, // fix
-        left: 0,
-        right: 0,
-        zIndex: 5
     }
 
     return (

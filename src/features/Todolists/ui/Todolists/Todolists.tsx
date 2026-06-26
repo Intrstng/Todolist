@@ -1,15 +1,15 @@
 import {memo, useEffect, useRef, useState} from 'react';
-import {Todolist} from './TodolistItem/Todolist';
-import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
-import {useGetTodolistsQuery, useTodoListsReorderMutation} from "@/features/Todolists/api/todolistApi.ts";
-import {TodolistSkeleton} from "@/features/Todolists/ui/Todolists/TodolistSkeleton/TodolistSkeleton.tsx";
-import Box from "@mui/material/Box";
-import {SKELETON_GALLERY} from "@/common/constants";
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {move} from "@dnd-kit/helpers"
 import {Data, Droppable} from "@dnd-kit/abstract"
 import {DragDropProvider, DragEndEvent} from "@dnd-kit/react"
-import { TodolistDomainType } from "../../lib/types";
+import {authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
+import {SKELETON_GALLERY} from "@/common/constants";
+import {useGetTodolistsQuery, useTodoListsReorderMutation} from "@/features/Todolists/api/todolistApi.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {TodolistDomainType} from "@/features/Todolists/lib/types";
+import {Todolist} from "@/features/Todolists/ui/Todolists/TodolistItem/Todolist.tsx";
+import {TodolistSkeleton} from "@/features/Todolists/ui/Todolists/TodolistSkeleton/TodolistSkeleton.tsx";
+import Box from "@mui/material/Box";
 
 export const Todolists = memo(() => {
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);

@@ -1,23 +1,18 @@
 import {memo, useCallback, useState} from 'react';
-import {TasksList} from './Tasks';
-import {Button} from '@/common/components/Button/Button.tsx';
-import s from './Todolist.module.css';
-import Box from "@mui/material/Box";
-import {TodolistTitle} from "./TodolistTitle/TodolistTitle";
-import {CreateTaskItemForm} from "./Tasks/CreateTaskItemForm";
-import IconButton from "@mui/material/IconButton";
-import ClearIcon from '@mui/icons-material/Clear';
-import {useDeleteTodolistMutation} from "@/features/Todolists/api/todolistApi.ts";
-import {Grid} from "@mui/material";
-import Paper from "@mui/material/Paper";
 import { useSortable } from "@dnd-kit/react/sortable"
 import { CollisionPriority } from "@dnd-kit/abstract"
-import { TodolistDomainType } from "@/features/Todolists/lib/types";
-
-type TodolistProps = {
-  todolist: TodolistDomainType;
-  sortIndex: number;
-};
+import {TodolistProps} from "@/features/Todolists/ui/Todolists/TodolistItem/Todolist.types.ts";
+import {useDeleteTodolistMutation} from "@/features/Todolists/api/todolistApi.ts";
+import {Button} from '@/common/components/Button/Button.tsx';
+import {TodolistTitle} from "@/features/Todolists/ui/Todolists/TodolistItem/TodolistTitle/TodolistTitle.tsx";
+import {CreateTaskItemForm} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/CreateTaskItemForm";
+import {TasksList} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from '@mui/icons-material/Clear';
+import s from './Todolist.module.css';
 
 export const Todolist = memo(({ todolist, sortIndex }: TodolistProps) => {
   const [isTaskListCollapsed, setTaskListCollapsed] = useState<boolean>(true);
@@ -52,7 +47,7 @@ export const Todolist = memo(({ todolist, sortIndex }: TodolistProps) => {
       <Grid ref={ref}>
         <Paper elevation={3}>
           <Box className={s.todolist}>
-            <Box className={s.todolist__titleContent}>
+            <Box className={s.todolistTitleContent}>
               <TodolistTitle todolist={todolist}/>
               <IconButton aria-label='delete'
                           onClick={onClickRemoveTodolist}

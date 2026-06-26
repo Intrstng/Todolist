@@ -1,26 +1,12 @@
-import {useCallback, useMemo} from 'react';
-import s from "../Todolist.module.css";
+import {useCallback} from 'react';
 import {EditableSpan} from "@/common/components";
 import {useChangeTodolistTitleMutation} from "@/features/Todolists/api/todolistApi.ts";
-import {TodolistDomainType} from "@/features/Todolists/lib/types";
-
-type TodolistTitleProps = {
-    todolist: TodolistDomainType;
-};
+import {inputFieldStyle} from "@/features/Todolists/ui/Todolists/TodolistItem/TodolistTitle/TodolistTitle.styles.ts";
+import {TodolistTitleProps} from "@/features/Todolists/ui/Todolists/TodolistItem/TodolistTitle/TodolistTitle.types.ts";
+import s from "../Todolist.module.css";
 
 export const TodolistTitle = ({todolist}: TodolistTitleProps) => {
     const [changeTodolistTitle] = useChangeTodolistTitleMutation()
-
-    const inputFieldStyle = useMemo(
-        () => ({
-            maxWidth: '220px',
-            maxHeight: '30px',
-            minWidth: '220px',
-            minHeight: '30px',
-            overflow: 'hidden',
-        }),
-        [],
-    );
 
     const updateTodolist = useCallback(
         (newTitle: string) => {
@@ -30,7 +16,7 @@ export const TodolistTitle = ({todolist}: TodolistTitleProps) => {
     );
 
     return (
-        <h2 className={s.todolist__title}>
+        <h2 className={s.todolistTitle}>
             <EditableSpan
                 oldTitle={todolist.title}
                 style={inputFieldStyle}

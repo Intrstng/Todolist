@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, FocusEvent } from 'react';
-import TextField from '@mui/material/TextField';
 import { InputProps } from "./Input.types";
+import TextField from '@mui/material/TextField';
 
 export const Input = (props: InputProps) => {
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => props.onChangeCallback(e);

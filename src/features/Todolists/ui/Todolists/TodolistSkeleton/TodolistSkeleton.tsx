@@ -1,8 +1,8 @@
+import {SKELETON_GALLERY} from "@/common/constants";
 import Box from "@mui/material/Box"
 import Paper from "@mui/material/Paper"
 import Skeleton from "@mui/material/Skeleton"
 import s from "./TodolistSkeleton.module.css"
-import {SKELETON_GALLERY} from "@/common/constants";
 
 export const TodolistSkeleton = () => (
     <Paper className={s.container}>

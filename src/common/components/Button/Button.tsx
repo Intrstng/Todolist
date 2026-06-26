@@ -1,6 +1,6 @@
 import {memo} from 'react';
-import {Button as MuiButton} from '@mui/material';
 import {ButtonProps} from "@/common/components/Button/Button.types.ts";
+import {Button as MuiButton} from '@mui/material';
 
 export const Button = memo(({ onClickCallBack, variant, color, children, ...rest }: ButtonProps) => {
   const onClickHandler = () => onClickCallBack();

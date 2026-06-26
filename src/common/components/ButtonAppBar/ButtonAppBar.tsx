@@ -1,40 +1,29 @@
+import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
+import {AUTH_TOKEN} from "@/common/constants";
+import {baseApi} from "@/app/baseApi.ts";
+import {useLogoutMutation} from "@/features/auth/api/authApi.ts";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
+import {ButtonAppBarProps} from "@/common/components/ButtonAppBar/ButtonAppBar.types.ts";
+import {RESULT_CODE} from "@/common/enums/enums.ts";
+import {MenuButton} from '@/common/components';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import {MenuButton} from '@/common/components';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
-import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
-import {ButtonAppBarProps} from "@/common/components/ButtonAppBar/ButtonAppBar.types.ts";
-import {useLogoutMutation} from "@/features/auth/api/authApi.ts";
-import {RESULT_CODE} from "@/common/enums/enums.ts";
-import {appActions, authIsLoggedInSelector} from "@/app/slices/appSlice.ts";
-import {AUTH_TOKEN} from "@/common/constants";
-import {baseApi} from "@/app/baseApi.ts";
+import {boxStyles, iconStyles, typographyStyles} from "@/common/components/ButtonAppBar/ButtonAppBar.styles.ts";
 
 export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector<boolean>(authIsLoggedInSelector);
   const [logout] = useLogoutMutation()
 
-  const boxStyles = {
-    flexGrow: 1,
-  };
-
-  const iconStyles = {
-    mr: 2,
-  };
-
-  const typographyStyles = {
-    flexGrow: 1,
-  };
-
   const logOutHandler = () => {
-    // // Variant 1 - Clear all state
+    // Variant 1 - Clear all state
     logout().unwrap().then((data) => {
       if (data.resultCode === RESULT_CODE.SUCCEDED) {
         dispatch(appActions.setIsLoggedIn({ isLoggedIn: false }))
@@ -43,7 +32,7 @@ export function ButtonAppBar({ theme, changeModeHandler }: ButtonAppBarProps) {
       }
     })
 
-    // Variant 2 - Clear all cash for 'Todolist', 'Task'
+    // // Variant 2 - Clear all cash for 'Todolist', 'Task'
     // logout()
     //     .then(res => {
     //       if (res.data?.resultCode === RESULT_CODE.SUCCEDED) {

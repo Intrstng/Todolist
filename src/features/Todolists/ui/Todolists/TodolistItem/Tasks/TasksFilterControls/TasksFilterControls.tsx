@@ -1,14 +1,13 @@
 import {useCallback} from 'react';
+import {todolistsApi} from "@/features/Todolists/api/todolistApi.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch";
+import {FilterValuesType} from "@/features/Todolists/lib/types";
+import {Button} from "@/common/components/Button/Button.tsx";
+import {
+    TasksFilterControlsProps
+} from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksFilterControls/TasksFilterControls.types.ts";
 import Box from "@mui/material/Box";
 import s from "../TasksList.module.css";
-import {Button} from "@/common/components/Button/Button.tsx";
-import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import {todolistsApi} from "@/features/Todolists/api/todolistApi.ts";
-import {FilterValuesType, TodolistDomainType} from "@/features/Todolists/lib/types";
-
-type TasksFilterControlsProps = {
-    todolist: TodolistDomainType;
-};
 
 export const TasksFilterControls = ({todolist}: TasksFilterControlsProps) => {
     const dispatch = useAppDispatch();

@@ -1,22 +1,22 @@
-import {ChangeEvent, FocusEvent, KeyboardEvent, memo, useCallback, useMemo, useState} from 'react';
-import {Input} from '../Input/Input.tsx';
-import {Button} from '../Button/Button.tsx';
-import SendIcon from '@mui/icons-material/Send';
-import {Grid} from '@material-ui/core';
+import {ChangeEvent, FocusEvent, KeyboardEvent, memo, useCallback, useState} from 'react';
+import {MAX_INPUT_TITLE_LENGTH} from "@/common/constants";
 import {statusSelector} from '@/app/slices/appSlice';
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 import {Status} from "@/app/slices/appSlice.types";
 import {AddItemFormProps} from "@/common/components/AddItemForm/AddItemForm.types.ts";
-import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
+import {Input} from "@/common/components/Input/Input.tsx";
+import {Button} from "@/common/components/Button/Button.tsx";
+import SendIcon from '@mui/icons-material/Send';
+import Grid from '@material-ui/core/Grid';
+import {buttonAdditionalStyles} from "@/common/components/AddItemForm/AddItemForm.styles.ts";
 
 export const AddItemForm = memo(
   ({ addItem, className, label, titleBtn, disabled = false }: AddItemFormProps) => {
     const [inputTitle, setInputTitle] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    // const [_textRef] = useAutoAnimate<HTMLParagraphElement>();
 
     const appStatus = useAppSelector<Status>(statusSelector);
 
-    const MAX_INPUT_TITLE_LENGTH = 120; // const MAX_INPUT_TITLE_LENGTH = 12
     const maxTitleLengthError = inputTitle.length > MAX_INPUT_TITLE_LENGTH;
 
     const addTask = useCallback(() => {
@@ -53,21 +53,9 @@ export const AddItemForm = memo(
       setInputTitle(e.currentTarget.value.trim());
     };
 
-    // const inputFullClassName = `${S.inputField} ${error ? S.error : ''}`;
-
-    const buttonAdditionalStyles = useMemo(
-      () => ({
-        maxWidth: '150px',
-        maxHeight: '40px',
-        minWidth: '100px',
-        minHeight: '40px',
-        fontSize: '12px',
-      }),
-      [],
-    );
     return (
       <Grid container spacing={1} className={className}>
-        <Grid item>
+        <Grid>
           <Input
             value={inputTitle}
             error={!!error}
@@ -78,12 +66,7 @@ export const AddItemForm = memo(
             onBlurCallback={onBlurHandler}
           />
         </Grid>
-        {/*or AddBox*/}
-        {/*<IconButton color={'primary'} onClick={addTask}*/}
-        {/*            disabled={!inputTitle.trim() || maxTitleLengthError}>*/}
-        {/*  <AddBox fontSize={'large'} />*/}
-        {/*</IconButton>*/}
-        <Grid item>
+        <Grid>
           <Button
             startIcon={<SendIcon />}
             variant={!inputTitle.trim() || maxTitleLengthError ? 'outlined' : 'contained'}
@@ -94,10 +77,6 @@ export const AddItemForm = memo(
             {titleBtn}
           </Button>
         </Grid>
-        {/*<Grid item>*/}
-        {/*  {error && <p className={S.errorMessage}*/}
-        {/*               ref={textRef}>{error}</p>}*/}
-        {/*</Grid>*/}
       </Grid>
     );
   },

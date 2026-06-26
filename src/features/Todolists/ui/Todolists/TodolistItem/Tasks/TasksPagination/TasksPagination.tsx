@@ -1,17 +1,16 @@
+import {ChangeEvent} from "react"
 import {PAGE_SIZE} from "@/common/constants"
 import Pagination from "@mui/material/Pagination"
-import {ChangeEvent} from "react"
-import s from "./TasksPagination.module.css"
 import {
     TasksPaginationProps
 } from "@/features/Todolists/ui/Todolists/TodolistItem/Tasks/TasksPagination/TasksPagination.types.ts";
 import Typography from "@mui/material/Typography";
+import s from "./TasksPagination.module.css"
 
 export const TasksPagination = ({ totalCount, page, setPage }: TasksPaginationProps) => {
     const changePage = (_: ChangeEvent<unknown>, page: number) => {
         setPage(page)
     }
-
     return (
         <>
             <Pagination

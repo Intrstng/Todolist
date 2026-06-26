@@ -1,6 +1,6 @@
 import {z} from "zod/v4"
-import {TaskPriorities, TaskStatuses} from "@/common/enums/enums.ts";
 import {baseResponseSchema} from "@/common/schemas/schemas.ts";
+import {TaskPriorities, TaskStatuses} from "@/common/enums/enums.ts";
 
 export const taskSchema = z.object({
     description: z.string().nullish(),
