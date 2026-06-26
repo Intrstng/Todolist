@@ -24,7 +24,7 @@ To view each individual application implementation that uses a distinct approach
 
 ## Deploy 🌐
 
-*   [Deploy link](https://intrstng.github.io/Todolist)
+*   [Deploy link](todolist-inky-rho.vercel.app)
 
 ## Getting Started 🚀
 
