@@ -25,24 +25,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
-      - name: Set up Node
+      - name: Install pnpm  # ⬅️ Install pnpm FIRST
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Set up Node  # ⬅️ Then setup Node with pnpm cache
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: lts/*
-          cache: 'pnpm'  # ✅ This works with setup-node v6
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8  # or latest
-          run_install: false
+          cache: 'pnpm'  # ✅ Now pnpm is available
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile  # Use this instead of pnpm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm run build
-
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
 
