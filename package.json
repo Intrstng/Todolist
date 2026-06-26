@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "test": "vitest",
-    "preview": "vite preview",
+    "preview": "vite preview --port 3001",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write ."
   },
