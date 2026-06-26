@@ -10,7 +10,7 @@ To view each individual application implementation that uses a distinct approach
 
 *   React
 *   Redux Toolkit
-*   RTK Query
+*   RTK Query (optimistic update)
 *   TypeScript
 *   React Router DOM
 *   Formik refactored to React Hook Form
@@ -20,7 +20,8 @@ To view each individual application implementation that uses a distinct approach
 *   Emotion / styled-components
 *   Vite
 *   Prettier
-*   dnd-kit
+*   dnd-kit - Drag&Drop
+*   Pagination
 
 ## Deploy 🌐
 
