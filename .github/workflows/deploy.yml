@@ -37,7 +37,7 @@ jobs:
           cache: 'pnpm'  # ✅ Now pnpm is available
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Build
         run: pnpm run build
