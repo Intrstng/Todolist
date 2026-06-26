@@ -6,7 +6,8 @@ import App from "@/app/App.tsx";
 import './index.css'
 
 createRoot(document.getElementById("root")!).render(
-    <BrowserRouter basename="/Todolist">
+    // <BrowserRouter basename="/Todolist"> // used for deploy to github-pages - not used for vercel deploy
+    <BrowserRouter>
         <Provider store={store}>
             <App/>
         </Provider>
