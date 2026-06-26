@@ -1,3 +1,85 @@
+# Todolist Application
+
+**Welcome to Todolist Application!**
+
+The TodoList application represents a comprehensive exploration of modern React development practices, demonstrating the evolution of state management, data handling, and application architecture.
+This application was completely rewritten several times to show each separate approach to the processing of data and storage of data in the REACT application.
+To view each individual application implementation that uses a distinct approach, you can switch to the corresponding commit in **Application development history section**
+
+## Technology Stack 💻📚
+
+*   React
+*   Redux Toolkit
+*   RTK Query
+*   TypeScript
+*   React Router DOM
+*   Formik refactored to React Hook Form
+*   Zod validation
+*   Material UI
+*   React Toastify
+*   Emotion / styled-components
+*   Vite
+*   Prettier
+*   dnd-kit
+
+## Deploy 🌐
+
+*   [Deploy link](https://intrstng.github.io/Todolist)
+
+## Getting Started 🚀
+
+Follow these steps to run the application locally:
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone https://github.com/Intrstng/Todolist.git
+    ```
+
+2.  **Navigate to the project directory:**
+
+    ```bash
+    cd Todolist
+    ```
+
+3.  **Switch to the commit featuring the React data storage approach you are interested in (see the corresponding commit name in the application's development history):**
+
+    ```bash
+    git checkout "COMMIT_NAME"
+    ```
+
+4.  **Install dependencies:**
+
+    ```bash
+    pnpm install
+    ```
+
+    If you have problems with running the script, use the following command in the CLI:
+
+    ```bash
+    pnpm install --legacy-peer-deps
+    ```
+
+5.  **Configure environment variables:**
+
+    *   Create a `.env` file in the root directory based on the `.env.local` file.
+    *   Register for an API key [TMDB API](https://social-network.samuraijs.com/) and fill in the required credentials in the `.env` file.
+
+6.  **Start the development server:**
+
+    ❗ If you are located in Belarus or Russia, be sure to use a VPN when opening the link, as this required by the TMDB API.
+
+    ```bash
+    pnpm run dev
+    ```
+
+7.  **Access the application:**
+
+    *   Open your browser and navigate to the link provided in the CLI.
+
+
+## Application development history section
+
 [TODO-list API](https://social-network.samuraijs.com/docs?type=todolist#)
 
 1. Vite added in commit: "refactor:change_CRA-to-VITE"
